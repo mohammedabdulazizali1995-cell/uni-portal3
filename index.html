@@ -1,296 +1,242 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>بوابة الطالب الجامعي</title>
-  <style>
-    :root {
-      --bg: #0b0f17;
-      --card: #131a26;
-      --border: #1f2a3d;
-      --primary: #38bdf8;
-      --accent: #f59e0b;
-      --text: #f1f5f9;
-      --muted: #94a3b8;
-    }
-    * { box-sizing: border-box; font-family: system-ui, -apple-system, sans-serif; }
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--text);
-      padding-bottom: 40px;
-    }
-    header {
-      background: linear-gradient(135deg, #0f172a, #1e293b);
-      padding: 20px 16px;
-      text-align: center;
-      border-bottom: 1px solid var(--border);
-    }
-    header h1 { margin: 0 0 6px; font-size: 1.4rem; color: var(--primary); }
-    header p { margin: 0; font-size: 0.9rem; color: var(--muted); }
+import { asc, desc, eq } from "drizzle-orm";
+import { db } from "@/db";
+import {
+  courses,
+  tasks,
+  studyNotes,
+  opportunities,
+  userApplications,
+  cvItems,
+  roadmapSteps,
+  communityPosts,
+  postLikes,
+  postComments,
+  mentorRequests,
+  notifications,
+} from "@/db/schema";
+import { getActiveUser } from "@/lib/auth";
+import { JamiatiApp } from "@/components/JamiatiApp";
+import type { BootstrapPayload } from "@/types/app";
 
-    .tabs {
-      display: flex;
-      gap: 8px;
-      padding: 12px 16px;
-      max-width: 720px;
-      margin: 0 auto;
-    }
-    .tab-btn {
-      flex: 1;
-      padding: 10px;
-      border: 1px solid var(--border);
-      background: var(--card);
-      color: var(--muted);
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: 0.2s;
-    }
-    .tab-btn.active {
-      background: var(--primary);
-      color: #0b0f17;
-      border-color: var(--primary);
-    }
+export const dynamic = "force-dynamic";
 
-    .container {
-      max-width: 720px;
-      margin: 0 auto;
-      padding: 0 16px;
-    }
-    .section { display: none; }
-    .section.active { display: block; }
+async function loadInitialData(): Promise<BootstrapPayload> {
+  const user = await getActiveUser();
 
-    .controls {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 14px;
-      flex-wrap: wrap;
-    }
-    input, select {
-      background: var(--card);
-      border: 1px solid var(--border);
-      color: var(--text);
-      padding: 10px 12px;
-      border-radius: 10px;
-      font-size: 0.95rem;
-      outline: none;
-    }
-    input { flex: 2; min-width: 180px; }
-    select { flex: 1; min-width: 120px; }
+  const [
+    userCourses,
+    userTasks,
+    userNotes,
+    allOpps,
+    userApps,
+    userCv,
+    userRoadmap,
+    posts,
+    userLikes,
+    allComments,
+    userMentors,
+    userNotifications,
+  ] = await Promise.all([
+    db
+      .select()
+      .from(courses)
+      .where(eq(courses.userId, user.id))
+      .orderBy(asc(courses.startTime), asc(courses.id)),
+    db
+      .select()
+      .from(tasks)
+      .where(eq(tasks.userId, user.id))
+      .orderBy(asc(tasks.completed), asc(tasks.dueDate), desc(tasks.id)),
+    db
+      .select()
+      .from(studyNotes)
+      .where(eq(studyNotes.userId, user.id))
+      .orderBy(desc(studyNotes.pinned), desc(studyNotes.updatedAt)),
+    db.select().from(opportunities).orderBy(desc(opportunities.id)),
+    db
+      .select()
+      .from(userApplications)
+      .where(eq(userApplications.userId, user.id)),
+    db
+      .select()
+      .from(cvItems)
+      .where(eq(cvItems.userId, user.id))
+      .orderBy(desc(cvItems.id)),
+    db
+      .select()
+      .from(roadmapSteps)
+      .where(eq(roadmapSteps.userId, user.id))
+      .orderBy(asc(roadmapSteps.sortOrder), asc(roadmapSteps.id)),
+    db.select().from(communityPosts).orderBy(desc(communityPosts.id)),
+    db.select().from(postLikes).where(eq(postLikes.userId, user.id)),
+    db.select().from(postComments).orderBy(asc(postComments.createdAt)),
+    db
+      .select()
+      .from(mentorRequests)
+      .where(eq(mentorRequests.userId, user.id))
+      .orderBy(desc(mentorRequests.id)),
+    db
+      .select()
+      .from(notifications)
+      .where(eq(notifications.userId, user.id))
+      .orderBy(desc(notifications.id)),
+  ]);
 
-    .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 14px;
-      margin-bottom: 10px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-    }
-    .card h3 { margin: 0 0 4px; font-size: 1rem; }
-    .card span { font-size: 0.82rem; color: var(--muted); }
-    .btn {
-      background: rgba(56, 189, 248, 0.15);
-      color: var(--primary);
-      border: 1px solid rgba(56, 189, 248, 0.35);
-      padding: 8px 14px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-size: 0.85rem;
-      font-weight: 600;
-      white-space: nowrap;
-      cursor: pointer;
-    }
-    .btn-primary {
-      background: var(--primary);
-      color: #0b0f17;
-      border: none;
-      width: 100%;
-      padding: 11px;
-      font-size: 0.95rem;
-      margin-top: 10px;
-    }
-
-    .gpa-row {
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr auto;
-      gap: 6px;
-      margin-bottom: 8px;
-    }
-    .gpa-row input { min-width: 0; padding: 8px; font-size: 0.88rem; }
-    .del-btn {
-      background: #ef444422;
-      color: #f87171;
-      border: 1px solid #ef444455;
-      border-radius: 8px;
-      padding: 0 10px;
-      cursor: pointer;
-    }
-    .result-box {
-      margin-top: 14px;
-      padding: 14px;
-      background: #0f172a;
-      border: 1px solid var(--accent);
-      border-radius: 12px;
-      text-align: center;
-      font-size: 1.05rem;
-      color: var(--accent);
-      font-weight: 700;
-    }
-  </style>
-</head>
-<body>
-
-<header>
-  <h1>بوابة الطالب الجامعي</h1>
-  <p>الملازم، الجدول، وحاسبة المعدل في مكان واحد</p>
-</header>
-
-<div class="tabs">
-  <button class="tab-btn active" onclick="switchTab('notes', this)">الملازم</button>
-  <button class="tab-btn" onclick="switchTab('schedule', this)">الجدول</button>
-  <button class="tab-btn" onclick="switchTab('gpa', this)">حاسبة المعدل</button>
-</div>
-
-<div class="container">
-  <!-- قسم الملازم -->
-  <div id="notes" class="section active">
-    <div class="controls">
-      <input type="text" id="searchInput" placeholder="ابحث عن اسم المادة..." oninput="renderNotes()" />
-      <select id="stageFilter" onchange="renderNotes()">
-        <option value="all">كل المراحل</option>
-        <option value="1">المرحلة الأولى</option>
-        <option value="2">المرحلة الثانية</option>
-        <option value="3">المرحلة الثالثة</option>
-        <option value="4">المرحلة الرابعة</option>
-      </select>
-    </div>
-    <div id="notesList"></div>
-  </div>
-
-  <!-- قسم الجدول -->
-  <div id="schedule" class="section">
-    <div id="scheduleList"></div>
-  </div>
-
-  <!-- قسم حاسبة المعدل -->
-  <div id="gpa" class="section">
-    <div id="gpaRows"></div>
-    <button class="btn" onclick="addGpaRow()">+ إضافة مادة</button>
-    <button class="btn btn-primary" onclick="calculateGPA()">احسب المعدل</button>
-    <div id="gpaResult" class="result-box" style="display:none;"></div>
-  </div>
-</div>
-
-<script>
-  const notesData = [
-    { title: "معمارية الحاسوب - المحاضرة 1", stage: "3", type: "PDF", link: "#" },
-    { title: "تطبيقات المعالج الدقيق", stage: "3", type: "PDF", link: "#" },
-    { title: "الرياضيات الهندسية", stage: "3", type: "ملخص", link: "#" },
-    { title: "هياكل البيانات والخوارزميات", stage: "2", type: "PDF", link: "#" },
-    { title: "أساسيات البرمجة", stage: "1", type: "PDF", link: "#" }
-  ];
-
-  const scheduleData = [
-    { day: "الأحد", info: "08:30 معمارية الحاسوب | 10:30 رياضيات هندسية" },
-    { day: "الاثنين", info: "09:00 مختبر المعالج الدقيق | 11:30 شبكات الحاسوب" },
-    { day: "الثلاثاء", info: "08:30 نظم التشغيل | 10:30 إلكترونيك رقمي" },
-    { day: "الأربعاء", info: "09:00 تطبيقات برمجية | 11:00 مناقشة مشاريع" }
-  ];
-
-  function switchTab(id, btn) {
-    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-    btn.classList.add('active');
+  const appByOpp = new Map(userApps.map((a) => [a.opportunityId, a]));
+  const likedIds = new Set(userLikes.map((l) => l.postId));
+  const commentsByPost = new Map<number, typeof allComments>();
+  for (const c of allComments) {
+    const arr = commentsByPost.get(c.postId) ?? [];
+    arr.push(c);
+    commentsByPost.set(c.postId, arr);
   }
 
-  function renderNotes() {
-    const q = document.getElementById('searchInput').value.trim().toLowerCase();
-    const stage = document.getElementById('stageFilter').value;
-    const list = document.getElementById('notesList');
+  return {
+    user: {
+      id: user.id,
+      email: user.email,
+      fullName: user.fullName,
+      studentNumber: user.studentNumber,
+      university: user.university,
+      college: user.college,
+      major: user.major,
+      academicLevel: user.academicLevel,
+      stage: user.stage,
+      graduationYear: user.graduationYear,
+      gpaScale: user.gpaScale,
+      city: user.city,
+      phone: user.phone,
+      bio: user.bio,
+      githubUrl: user.githubUrl,
+      linkedinUrl: user.linkedinUrl,
+      avatarUrl: user.avatarUrl,
+      focusMinutesTotal: user.focusMinutesTotal,
+      isDemo: user.isDemo,
+    },
+    courses: userCourses.map((c) => ({
+      id: c.id,
+      userId: c.userId,
+      code: c.code,
+      title: c.title,
+      instructor: c.instructor,
+      room: c.room,
+      dayOfWeek: c.dayOfWeek,
+      startTime: c.startTime,
+      endTime: c.endTime,
+      credits: c.credits,
+      gradePoint: c.gradePoint,
+      letterGrade: c.letterGrade,
+      attendanceRate: c.attendanceRate,
+      color: c.color,
+    })),
+    tasks: userTasks.map((t) => ({
+      id: t.id,
+      userId: t.userId,
+      courseCode: t.courseCode,
+      title: t.title,
+      category: t.category,
+      priority: t.priority,
+      dueDate: t.dueDate,
+      completed: t.completed,
+    })),
+    notes: userNotes.map((n) => ({
+      id: n.id,
+      userId: n.userId,
+      courseCode: n.courseCode,
+      title: n.title,
+      content: n.content,
+      tag: n.tag,
+      pinned: n.pinned,
+      updatedAt: n.updatedAt.toISOString(),
+    })),
+    opportunities: allOpps.map((o) => {
+      const tr = appByOpp.get(o.id);
+      return {
+        id: o.id,
+        title: o.title,
+        company: o.company,
+        location: o.location,
+        workType: o.workType,
+        category: o.category,
+        stipend: o.stipend,
+        description: o.description,
+        skills: o.skills,
+        deadline: o.deadline,
+        isVerified: o.isVerified,
+        saved: tr?.saved ?? false,
+        applicationStatus:
+          (tr?.status as "saved" | "applied" | "interview" | "offer") ?? null,
+        applicationNotes: tr?.notes ?? "",
+      };
+    }),
+    cvItems: userCv.map((cv) => ({
+      id: cv.id,
+      userId: cv.userId,
+      section: cv.section,
+      title: cv.title,
+      subtitle: cv.subtitle,
+      period: cv.period,
+      description: cv.description,
+      level: cv.level,
+    })),
+    roadmapSteps: userRoadmap.map((r) => ({
+      id: r.id,
+      userId: r.userId,
+      track: r.track,
+      title: r.title,
+      description: r.description,
+      duration: r.duration,
+      completed: r.completed,
+      sortOrder: r.sortOrder,
+    })),
+    posts: posts.map((p) => {
+      const comments = (commentsByPost.get(p.id) ?? []).map((c) => ({
+        id: c.id,
+        postId: c.postId,
+        userId: c.userId,
+        authorName: c.authorName,
+        authorRole: c.authorRole,
+        body: c.body,
+        createdAt: c.createdAt.toISOString(),
+      }));
+      return {
+        id: p.id,
+        userId: p.userId,
+        authorName: p.authorName,
+        authorRole: p.authorRole,
+        category: p.category,
+        title: p.title,
+        body: p.body,
+        likesCount: p.likesCount,
+        liked: likedIds.has(p.id),
+        commentsCount: comments.length,
+        comments,
+        createdAt: p.createdAt.toISOString(),
+      };
+    }),
+    mentorRequests: userMentors.map((m) => ({
+      id: m.id,
+      userId: m.userId,
+      mentorName: m.mentorName,
+      mentorRole: m.mentorRole,
+      topic: m.topic,
+      preferredDay: m.preferredDay,
+      status: m.status,
+      createdAt: m.createdAt.toISOString(),
+    })),
+    notifications: userNotifications.map((n) => ({
+      id: n.id,
+      userId: n.userId,
+      title: n.title,
+      body: n.body,
+      type: n.type,
+      isRead: n.isRead,
+      createdAt: n.createdAt.toISOString(),
+    })),
+  };
+}
 
-    const filtered = notesData.filter(item => {
-      const matchText = item.title.toLowerCase().includes(q);
-      const matchStage = stage === 'all' || item.stage === stage;
-      return matchText && matchStage;
-    });
-
-    if (filtered.length === 0) {
-      list.innerHTML = '<p style="color:var(--muted);text-align:center;">لا توجد نتائج مطابقة.</p>';
-      return;
-    }
-
-    list.innerHTML = filtered.map(item => `
-      <div class="card">
-        <div>
-          <h3>${item.title}</h3>
-          <span>المرحلة ${item.stage} • ${item.type}</span>
-        </div>
-        <a class="btn" href="${item.link}" target="_blank">فتح</a>
-      </div>
-    `).join('');
-  }
-
-  function renderSchedule() {
-    document.getElementById('scheduleList').innerHTML = scheduleData.map(item => `
-      <div class="card">
-        <div>
-          <h3>${item.day}</h3>
-          <span>${item.info}</span>
-        </div>
-      </div>
-    `).join('');
-  }
-
-  function addGpaRow(name = '', score = '', units = '3') {
-    const row = document.createElement('div');
-    row.className = 'gpa-row';
-    row.innerHTML = `
-      <input type="text" placeholder="اسم المادة" value="${name}">
-      <input type="number" placeholder="الدرجة" min="0" max="100" value="${score}">
-      <input type="number" placeholder="الوحدات" min="1" max="10" value="${units}">
-      <button class="del-btn" onclick="this.parentElement.remove()">×</button>
-    `;
-    document.getElementById('gpaRows').appendChild(row);
-  }
-
-  function calculateGPA() {
-    const rows = document.querySelectorAll('.gpa-row');
-    let totalPoints = 0;
-    let totalUnits = 0;
-
-    rows.forEach(r => {
-      const inputs = r.querySelectorAll('input');
-      const score = parseFloat(inputs[1].value);
-      const units = parseFloat(inputs[2].value);
-      if (!isNaN(score) && !isNaN(units) && units > 0) {
-        totalPoints += score * units;
-        totalUnits += units;
-      }
-    });
-
-    const box = document.getElementById('gpaResult');
-    if (totalUnits === 0) {
-      box.style.display = 'block';
-      box.textContent = 'أدخل درجة ووحدات مادة واحدة على الأقل.';
-      return;
-    }
-    const avg = (totalPoints / totalUnits).toFixed(2);
-    box.style.display = 'block';
-    box.textContent = `المعدل التقديري: ${avg}% (مجموع الوحدات: ${totalUnits})`;
-  }
-
-  renderNotes();
-  renderSchedule();
-  addGpaRow('معمارية الحاسوب', '', '3');
-  addGpaRow('الرياضيات الهندسية', '', '3');
-  addGpaRow('المعالج الدقيق', '', '2');
-</script>
-
-</body>
-</html>
+export default async function HomePage() {
+  const initialData = await loadInitialData();
+  return <JamiatiApp initialData={initialData} />;
+}
