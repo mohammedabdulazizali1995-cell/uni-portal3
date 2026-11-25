@@ -1,242 +1,632 @@
-import { asc, desc, eq } from "drizzle-orm";
-import { db } from "@/db";
-import {
-  courses,
-  tasks,
-  studyNotes,
-  opportunities,
-  userApplications,
-  cvItems,
-  roadmapSteps,
-  communityPosts,
-  postLikes,
-  postComments,
-  mentorRequests,
-  notifications,
-} from "@/db/schema";
-import { getActiveUser } from "@/lib/auth";
-import { JamiatiApp } from "@/components/JamiatiApp";
-import type { BootstrapPayload } from "@/types/app";
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="بوابة الطالب الجامعي — خدمات أكاديمية، حاسبة معدل تراكمي، جدول دراسي، وقائمة مهام." />
+<title>بوابة الطالب الجامعي</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
 
-export const dynamic = "force-dynamic";
-
-async function loadInitialData(): Promise<BootstrapPayload> {
-  const user = await getActiveUser();
-
-  const [
-    userCourses,
-    userTasks,
-    userNotes,
-    allOpps,
-    userApps,
-    userCv,
-    userRoadmap,
-    posts,
-    userLikes,
-    allComments,
-    userMentors,
-    userNotifications,
-  ] = await Promise.all([
-    db
-      .select()
-      .from(courses)
-      .where(eq(courses.userId, user.id))
-      .orderBy(asc(courses.startTime), asc(courses.id)),
-    db
-      .select()
-      .from(tasks)
-      .where(eq(tasks.userId, user.id))
-      .orderBy(asc(tasks.completed), asc(tasks.dueDate), desc(tasks.id)),
-    db
-      .select()
-      .from(studyNotes)
-      .where(eq(studyNotes.userId, user.id))
-      .orderBy(desc(studyNotes.pinned), desc(studyNotes.updatedAt)),
-    db.select().from(opportunities).orderBy(desc(opportunities.id)),
-    db
-      .select()
-      .from(userApplications)
-      .where(eq(userApplications.userId, user.id)),
-    db
-      .select()
-      .from(cvItems)
-      .where(eq(cvItems.userId, user.id))
-      .orderBy(desc(cvItems.id)),
-    db
-      .select()
-      .from(roadmapSteps)
-      .where(eq(roadmapSteps.userId, user.id))
-      .orderBy(asc(roadmapSteps.sortOrder), asc(roadmapSteps.id)),
-    db.select().from(communityPosts).orderBy(desc(communityPosts.id)),
-    db.select().from(postLikes).where(eq(postLikes.userId, user.id)),
-    db.select().from(postComments).orderBy(asc(postComments.createdAt)),
-    db
-      .select()
-      .from(mentorRequests)
-      .where(eq(mentorRequests.userId, user.id))
-      .orderBy(desc(mentorRequests.id)),
-    db
-      .select()
-      .from(notifications)
-      .where(eq(notifications.userId, user.id))
-      .orderBy(desc(notifications.id)),
-  ]);
-
-  const appByOpp = new Map(userApps.map((a) => [a.opportunityId, a]));
-  const likedIds = new Set(userLikes.map((l) => l.postId));
-  const commentsByPost = new Map<number, typeof allComments>();
-  for (const c of allComments) {
-    const arr = commentsByPost.get(c.postId) ?? [];
-    arr.push(c);
-    commentsByPost.set(c.postId, arr);
+  :root{
+    --primary:#4f46e5;
+    --primary-2:#7c3aed;
+    --bg:#f6f8fc;
+    --card:#ffffff;
+    --text:#0f172a;
+    --muted:#64748b;
+    --border:#e5eaf2;
+    --shadow:0 10px 30px rgba(15,23,42,.07);
+    --radius:18px;
+  }
+  [data-theme="dark"]{
+    --bg:#0b1220;
+    --card:#121b2e;
+    --text:#e6edf7;
+    --muted:#93a3bb;
+    --border:#20304d;
+    --shadow:0 10px 30px rgba(0,0,0,.4);
   }
 
-  return {
-    user: {
-      id: user.id,
-      email: user.email,
-      fullName: user.fullName,
-      studentNumber: user.studentNumber,
-      university: user.university,
-      college: user.college,
-      major: user.major,
-      academicLevel: user.academicLevel,
-      stage: user.stage,
-      graduationYear: user.graduationYear,
-      gpaScale: user.gpaScale,
-      city: user.city,
-      phone: user.phone,
-      bio: user.bio,
-      githubUrl: user.githubUrl,
-      linkedinUrl: user.linkedinUrl,
-      avatarUrl: user.avatarUrl,
-      focusMinutesTotal: user.focusMinutesTotal,
-      isDemo: user.isDemo,
-    },
-    courses: userCourses.map((c) => ({
-      id: c.id,
-      userId: c.userId,
-      code: c.code,
-      title: c.title,
-      instructor: c.instructor,
-      room: c.room,
-      dayOfWeek: c.dayOfWeek,
-      startTime: c.startTime,
-      endTime: c.endTime,
-      credits: c.credits,
-      gradePoint: c.gradePoint,
-      letterGrade: c.letterGrade,
-      attendanceRate: c.attendanceRate,
-      color: c.color,
-    })),
-    tasks: userTasks.map((t) => ({
-      id: t.id,
-      userId: t.userId,
-      courseCode: t.courseCode,
-      title: t.title,
-      category: t.category,
-      priority: t.priority,
-      dueDate: t.dueDate,
-      completed: t.completed,
-    })),
-    notes: userNotes.map((n) => ({
-      id: n.id,
-      userId: n.userId,
-      courseCode: n.courseCode,
-      title: n.title,
-      content: n.content,
-      tag: n.tag,
-      pinned: n.pinned,
-      updatedAt: n.updatedAt.toISOString(),
-    })),
-    opportunities: allOpps.map((o) => {
-      const tr = appByOpp.get(o.id);
-      return {
-        id: o.id,
-        title: o.title,
-        company: o.company,
-        location: o.location,
-        workType: o.workType,
-        category: o.category,
-        stipend: o.stipend,
-        description: o.description,
-        skills: o.skills,
-        deadline: o.deadline,
-        isVerified: o.isVerified,
-        saved: tr?.saved ?? false,
-        applicationStatus:
-          (tr?.status as "saved" | "applied" | "interview" | "offer") ?? null,
-        applicationNotes: tr?.notes ?? "",
-      };
-    }),
-    cvItems: userCv.map((cv) => ({
-      id: cv.id,
-      userId: cv.userId,
-      section: cv.section,
-      title: cv.title,
-      subtitle: cv.subtitle,
-      period: cv.period,
-      description: cv.description,
-      level: cv.level,
-    })),
-    roadmapSteps: userRoadmap.map((r) => ({
-      id: r.id,
-      userId: r.userId,
-      track: r.track,
-      title: r.title,
-      description: r.description,
-      duration: r.duration,
-      completed: r.completed,
-      sortOrder: r.sortOrder,
-    })),
-    posts: posts.map((p) => {
-      const comments = (commentsByPost.get(p.id) ?? []).map((c) => ({
-        id: c.id,
-        postId: c.postId,
-        userId: c.userId,
-        authorName: c.authorName,
-        authorRole: c.authorRole,
-        body: c.body,
-        createdAt: c.createdAt.toISOString(),
-      }));
-      return {
-        id: p.id,
-        userId: p.userId,
-        authorName: p.authorName,
-        authorRole: p.authorRole,
-        category: p.category,
-        title: p.title,
-        body: p.body,
-        likesCount: p.likesCount,
-        liked: likedIds.has(p.id),
-        commentsCount: comments.length,
-        comments,
-        createdAt: p.createdAt.toISOString(),
-      };
-    }),
-    mentorRequests: userMentors.map((m) => ({
-      id: m.id,
-      userId: m.userId,
-      mentorName: m.mentorName,
-      mentorRole: m.mentorRole,
-      topic: m.topic,
-      preferredDay: m.preferredDay,
-      status: m.status,
-      createdAt: m.createdAt.toISOString(),
-    })),
-    notifications: userNotifications.map((n) => ({
-      id: n.id,
-      userId: n.userId,
-      title: n.title,
-      body: n.body,
-      type: n.type,
-      isRead: n.isRead,
-      createdAt: n.createdAt.toISOString(),
-    })),
-  };
+  body{
+    font-family:'Cairo',system-ui,-apple-system,'Segoe UI',Tahoma,sans-serif;
+    background:var(--bg);color:var(--text);line-height:1.8;
+    transition:background .3s,color .3s;
+    -webkit-font-smoothing:antialiased;
+  }
+  .container{width:min(1140px,92%);margin-inline:auto}
+  section{padding:70px 0}
+  section[id]{scroll-margin-top:84px}
+
+  /* ============ الهيدر ============ */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:var(--card);
+    background:color-mix(in srgb, var(--card) 85%, transparent);
+    backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--border);
+  }
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:16px;height:72px}
+  .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.1rem;text-decoration:none;color:var(--text)}
+  .logo-badge{
+    width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font-size:1.05rem;
+    background:linear-gradient(135deg,var(--primary),var(--primary-2));color:#fff;
+  }
+  .nav-links{display:flex;align-items:center;gap:4px;list-style:none}
+  .nav-links a{
+    display:block;padding:8px 14px;border-radius:10px;text-decoration:none;
+    color:var(--muted);font-weight:600;font-size:.95rem;transition:.2s;
+  }
+  .nav-links a:hover,.nav-links a.active{color:var(--primary);background:rgba(79,70,229,.08)}
+  .nav-actions{display:flex;align-items:center;gap:8px}
+  .icon-btn{
+    width:42px;height:42px;border-radius:12px;border:1px solid var(--border);
+    background:var(--card);color:var(--text);font-size:1.05rem;cursor:pointer;
+    display:grid;place-items:center;transition:.2s;
+  }
+  .icon-btn:hover{border-color:var(--primary);color:var(--primary)}
+  .nav-toggle{display:none}
+
+  /* ============ الأزرار ============ */
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    padding:12px 22px;border:none;border-radius:12px;font-family:inherit;
+    font-weight:700;font-size:.95rem;cursor:pointer;text-decoration:none;transition:.2s;
+  }
+  .btn-primary{
+    background:linear-gradient(135deg,var(--primary),var(--primary-2));color:#fff;
+    box-shadow:0 8px 20px rgba(79,70,229,.3);
+  }
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(79,70,229,.4)}
+  .btn-ghost{background:transparent;color:var(--text);border:1px solid var(--border)}
+  .btn-ghost:hover{border-color:var(--primary);color:var(--primary)}
+
+  /* ============ الهيرو ============ */
+  .hero{padding:84px 0 64px;text-align:center;position:relative;overflow:hidden}
+  .hero::before{
+    content:'';position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(620px 320px at 50% 0%, rgba(79,70,229,.16), transparent 70%);
+  }
+  .hero h1{font-size:clamp(2rem,5vw,3.1rem);font-weight:800;line-height:1.35;margin-bottom:16px}
+  .gradient-text{
+    background:linear-gradient(135deg,var(--primary),var(--primary-2));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .hero p{color:var(--muted);font-size:1.08rem;max-width:640px;margin:0 auto 32px}
+  .hero-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+
+  /* ============ العناوين ============ */
+  .section-head{text-align:center;margin-bottom:44px}
+  .section-head h2{font-size:clamp(1.5rem,3.5vw,2.1rem);font-weight:800;margin-bottom:10px}
+  .section-head p{color:var(--muted)}
+
+  /* ============ الكروت ============ */
+  .grid{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(255px,1fr))}
+  .card{
+    background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+    padding:26px;box-shadow:var(--shadow);transition:.25s;
+  }
+  .card:hover{transform:translateY(-4px);border-color:rgba(79,70,229,.45)}
+  .card-icon{
+    width:52px;height:52px;border-radius:14px;display:grid;place-items:center;
+    font-size:1.45rem;background:rgba(79,70,229,.1);margin-bottom:16px;
+  }
+  .card h3{font-size:1.08rem;margin-bottom:8px}
+  .card p{color:var(--muted);font-size:.94rem}
+
+  /* ============ الحقول ============ */
+  input,select,textarea{
+    font-family:inherit;font-size:.95rem;padding:11px 14px;border-radius:11px;
+    border:1px solid var(--border);background:var(--bg);color:var(--text);
+    width:100%;transition:.2s;outline:none;
+  }
+  input:focus,select:focus,textarea:focus{
+    border-color:var(--primary);box-shadow:0 0 0 3px rgba(79,70,229,.14);
+  }
+  textarea{resize:vertical;min-height:110px}
+
+  /* ============ حاسبة المعدل ============ */
+  .panel{
+    background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+    box-shadow:var(--shadow);padding:26px;
+  }
+  .course-row{display:grid;grid-template-columns:1fr 110px 140px 44px;gap:10px;margin-bottom:10px}
+  .btn-remove{
+    border:1px solid var(--border);background:var(--bg);color:#ef4444;border-radius:11px;
+    cursor:pointer;font-size:1rem;transition:.2s;
+  }
+  .btn-remove:hover{background:rgba(239,68,68,.1);border-color:#ef4444}
+  .result{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;
+    margin-top:24px;padding-top:24px;border-top:1px dashed var(--border);
+  }
+  .result-item{text-align:center;background:var(--bg);border-radius:14px;padding:16px}
+  .result-item span{display:block;color:var(--muted);font-size:.84rem;margin-bottom:4px}
+  .result-item strong{font-size:1.45rem;color:var(--primary)}
+  #gpaValue{
+    font-size:1.9rem;
+    background:linear-gradient(135deg,var(--primary),var(--primary-2));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+
+  /* ============ الجدول ============ */
+  .table-wrap{
+    overflow-x:auto;background:var(--card);border:1px solid var(--border);
+    border-radius:var(--radius);box-shadow:var(--shadow);
+  }
+  table{width:100%;border-collapse:collapse;min-width:640px}
+  th,td{padding:14px 16px;text-align:right;border-bottom:1px solid var(--border);font-size:.94rem}
+  th{background:rgba(79,70,229,.07);font-weight:700}
+  tbody tr:last-child td{border-bottom:none}
+  tbody tr:hover{background:rgba(79,70,229,.045)}
+
+  /* ============ المهام ============ */
+  .task-form{display:flex;gap:10px;margin-bottom:18px}
+  .task-list{list-style:none;display:flex;flex-direction:column;gap:10px}
+  .task{
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+    background:var(--card);border:1px solid var(--border);border-radius:14px;
+    padding:12px 16px;transition:.2s;
+  }
+  .task:hover{border-color:rgba(79,70,229,.4)}
+  .task.done .task-text{text-decoration:line-through;color:var(--muted)}
+  .task-check{display:flex;align-items:center;gap:10px;cursor:pointer;flex:1}
+  .task-check input{width:18px;height:18px;padding:0;accent-color:var(--primary);cursor:pointer}
+  .task-del{
+    border:none;background:transparent;cursor:pointer;font-size:1rem;opacity:.6;transition:.2s;
+  }
+  .task-del:hover{opacity:1;transform:scale(1.15)}
+  .empty{color:var(--muted);text-align:center;padding:22px}
+
+  /* ============ تواصل ============ */
+  .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:start}
+  .info-item{display:flex;gap:12px;align-items:flex-start;margin-bottom:18px}
+  .info-item .card-icon{width:44px;height:44px;font-size:1.15rem;margin:0;flex-shrink:0}
+  .info-item b{display:block;margin-bottom:2px}
+  .info-item span{color:var(--muted);font-size:.92rem}
+  #formMsg{color:#16a34a;font-weight:700;margin-top:12px;display:none}
+
+  /* ============ الفوتر ============ */
+  footer{border-top:1px solid var(--border);padding:32px 0;text-align:center;color:var(--muted);font-size:.9rem}
+  footer a{color:var(--primary);text-decoration:none;font-weight:700}
+
+  /* ============ الاستجابة ============ */
+  @media(max-width:860px){
+    .nav-toggle{display:grid}
+    .nav-links{
+      position:fixed;top:72px;left:0;right:0;flex-direction:column;align-items:stretch;
+      background:var(--card);border-bottom:1px solid var(--border);padding:14px;
+      gap:4px;display:none;box-shadow:var(--shadow);z-index:49;
+    }
+    .nav-links.open{display:flex}
+    .contact-grid{grid-template-columns:1fr}
+    .hero{padding:60px 0 44px}
+  }
+  @media(max-width:640px){
+    .course-row{grid-template-columns:1fr 1fr 44px}
+    .course-name{grid-column:1/-1}
+    section{padding:52px 0}
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= الهيدر ================= -->
+<header>
+  <div class="container nav">
+    <a href="#top" class="logo">
+      <span class="logo-badge">🎓</span>
+      <span>بوابة الطالب</span>
+    </a>
+
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#services">الخدمات</a></li>
+      <li><a href="#calculator">حاسبة المعدل</a></li>
+      <li><a href="#schedule">الجدول</a></li>
+      <li><a href="#tasks">المهام</a></li>
+      <li><a href="#contact">تواصل</a></li>
+    </ul>
+
+    <div class="nav-actions">
+      <button class="icon-btn" id="themeBtn" title="تبديل الوضع الليلي" aria-label="تبديل الوضع الليلي">🌙</button>
+      <button class="icon-btn nav-toggle" id="navToggle" title="القائمة" aria-label="القائمة">☰</button>
+    </div>
+  </div>
+</header>
+
+<!-- ================= الهيرو ================= -->
+<section class="hero" id="top">
+  <div class="container">
+    <h1>كل ما يحتاجه <span class="gradient-text">الطالب الجامعي</span> في مكان واحد</h1>
+    <p>خدمات أكاديمية، حاسبة معدل تراكمي، جدول دراسي، وتنظيم مهامك اليومية — بواجهة بسيطة وسريعة.</p>
+    <div class="hero-actions">
+      <a href="#calculator" class="btn btn-primary">احسب معدلك الآن</a>
+      <a href="#services" class="btn btn-ghost">تصفح الخدمات</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= الخدمات ================= -->
+<section id="services">
+  <div class="container">
+    <div class="section-head">
+      <h2>خدمات الطالب</h2>
+      <p>أدوات صُممت لتوفير وقتك وتنظيم حياتك الجامعية</p>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <div class="card-icon">📊</div>
+        <h3>حاسبة المعدل التراكمي</h3>
+        <p>أدخل موادك وعدد ساعاتها والدرجات لتحصل على معدلك الفصلي بدقة.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🗓️</div>
+        <h3>الجدول الدراسي</h3>
+        <p>عرض منظم للمحاضرات والقاعات وأسماء الأساتذة لكل يوم.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">✅</div>
+        <h3>قائمة المهام</h3>
+        <p>سجّل واجباتك وامتحاناتك، وتُحفظ تلقائياً على جهازك.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📚</div>
+        <h3>مصادر ومراجع</h3>
+        <p>روابط للمكتبة الرقمية والمنصات التعليمية المعتمدة.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📢</div>
+        <h3>الإعلانات</h3>
+        <p>أهم مواعيد التسجيل والامتحانات والأنشطة الجامعية.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">💬</div>
+        <h3>الدعم والاستفسار</h3>
+        <p>تواصل معنا لأي سؤال يخص الدراسة أو الموقع.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= حاسبة المعدل ================= -->
+<section id="calculator">
+  <div class="container">
+    <div class="section-head">
+      <h2>حاسبة المعدل التراكمي</h2>
+      <p>أضف موادك ثم اكتب عدد الساعات واختر التقدير — النتيجة تظهر فوراً</p>
+    </div>
+
+    <div class="panel">
+      <div id="courses"></div>
+
+      <button class="btn btn-ghost" id="addRowBtn" style="margin-top:8px">➕ إضافة مادة</button>
+
+      <div class="result">
+        <div class="result-item">
+          <span>المعدل التراكمي</span>
+          <strong id="gpaValue">0.00</strong>
+        </div>
+        <div class="result-item">
+          <span>إجمالي الساعات</span>
+          <strong id="totalHours">0</strong>
+        </div>
+        <div class="result-item">
+          <span>إجمالي النقاط</span>
+          <strong id="totalPoints">0.00</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= الجدول ================= -->
+<section id="schedule">
+  <div class="container">
+    <div class="section-head">
+      <h2>الجدول الدراسي</h2>
+      <p>مثال توضيحي — عدّل البيانات في الكود لتناسب جدولك الحقيقي</p>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>اليوم</th>
+            <th>المادة</th>
+            <th>الوقت</th>
+            <th>القاعة</th>
+            <th>الأستاذ</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>الأحد</td><td>رياضيات متقطعة</td><td>08:00 – 09:30</td><td>قاعة A12</td><td>د. سامي العلي</td></tr>
+          <tr><td>الاثنين</td><td>مقدمة في البرمجة</td><td>10:00 – 11:30</td><td>مختبر C3</td><td>د. رنا خالد</td></tr>
+          <tr><td>الثلاثاء</td><td>شبكات الحاسوب</td><td>09:00 – 10:30</td><td>قاعة B7</td><td>د. محمد حسن</td></tr>
+          <tr><td>الأربعاء</td><td>قواعد البيانات</td><td>11:00 – 12:30</td><td>مختبر C1</td><td>د. ليلى أحمد</td></tr>
+          <tr><td>الخميس</td><td>هندسة البرمجيات</td><td>08:30 – 10:00</td><td>قاعة A5</td><td>د. عمر يوسف</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ================= المهام ================= -->
+<section id="tasks">
+  <div class="container">
+    <div class="section-head">
+      <h2>قائمة المهام</h2>
+      <p>مهامك تُحفظ تلقائياً في متصفحك</p>
+    </div>
+
+    <div class="panel" style="max-width:720px;margin-inline:auto">
+      <form class="task-form" id="taskForm">
+        <input type="text" id="taskInput" placeholder="مثال: تسليم واجب البرمجة قبل الخميس..." maxlength="120" />
+        <button class="btn btn-primary" type="submit">إضافة</button>
+      </form>
+      <ul class="task-list" id="taskList"></ul>
+    </div>
+  </div>
+</section>
+
+<!-- ================= تواصل ================= -->
+<section id="contact">
+  <div class="container">
+    <div class="section-head">
+      <h2>تواصل معنا</h2>
+      <p>عندك سؤال أو اقتراح؟ يسعدنا نسمعك</p>
+    </div>
+
+    <div class="contact-grid">
+      <div class="panel">
+        <form id="contactForm">
+          <div style="margin-bottom:12px">
+            <input type="text" name="name" placeholder="الاسم الكامل" required />
+          </div>
+          <div style="margin-bottom:12px">
+            <input type="email" name="email" placeholder="البريد الإلكتروني" required />
+          </div>
+          <div style="margin-bottom:12px">
+            <textarea name="message" placeholder="اكتب رسالتك هنا..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%">إرسال الرسالة</button>
+          <p id="formMsg">✅ تم استلام رسالتك، سنرد عليك قريباً!</p>
+        </form>
+      </div>
+
+      <div class="panel">
+        <div class="info-item">
+          <div class="card-icon">📍</div>
+          <div><b>الموقع</b><span>المدينة الجامعية — مبنى شؤون الطلبة</span></div>
+        </div>
+        <div class="info-item">
+          <div class="card-icon">✉️</div>
+          <div><b>البريد الإلكتروني</b><span>students@university.edu</span></div>
+        </div>
+        <div class="info-item">
+          <div class="card-icon">📞</div>
+          <div><b>الهاتف</b><span>+000 000 0000</span></div>
+        </div>
+        <div class="info-item">
+          <div class="card-icon">🕐</div>
+          <div><b>ساعات العمل</b><span>الأحد – الخميس، 8:00 ص – 3:00 م</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= الفوتر ================= -->
+<footer>
+  <div class="container">
+    <p>© <span id="year"></span> بوابة الطالب الجامعي — صُنع بـ ❤️ للطلاب</p>
+    <p style="margin-top:6px">مشروع مفتوح المصدر على <a href="https://github.com" target="_blank" rel="noopener">GitHub</a></p>
+  </div>
+</footer>
+
+<script>
+/* ================= الوضع الليلي ================= */
+const root = document.documentElement;
+const themeBtn = document.getElementById('themeBtn');
+
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme) {
+  root.setAttribute('data-theme', savedTheme);
+} else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+  root.setAttribute('data-theme', 'dark');
 }
 
-export default async function HomePage() {
-  const initialData = await loadInitialData();
-  return <JamiatiApp initialData={initialData} />;
+function updateThemeIcon() {
+  themeBtn.textContent = root.getAttribute('data-theme') === 'dark' ? '☀️' : '🌙';
 }
+updateThemeIcon();
+
+themeBtn.addEventListener('click', () => {
+  const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  root.setAttribute('data-theme', next);
+  localStorage.setItem('theme', next);
+  updateThemeIcon();
+});
+
+/* ================= قائمة الموبايل ================= */
+const navToggle = document.getElementById('navToggle');
+const navLinks = document.getElementById('navLinks');
+
+navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+navLinks.querySelectorAll('a').forEach(a =>
+  a.addEventListener('click', () => navLinks.classList.remove('open'))
+);
+
+/* ================= تمييز رابط القسم النشط ================= */
+const sections = document.querySelectorAll('section[id]');
+const linkMap = {};
+navLinks.querySelectorAll('a').forEach(a => {
+  linkMap[a.getAttribute('href').slice(1)] = a;
+});
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    const link = linkMap[entry.target.id];
+    if (!link) return;
+    if (entry.isIntersecting) {
+      Object.values(linkMap).forEach(l => l.classList.remove('active'));
+      link.classList.add('active');
+    }
+  });
+}, { rootMargin: '-45% 0px -50% 0px' });
+
+sections.forEach(s => observer.observe(s));
+
+/* ================= حاسبة المعدل ================= */
+const GRADES = [
+  { label: 'A+', point: 4.0 },
+  { label: 'A',  point: 4.0 },
+  { label: 'A-', point: 3.7 },
+  { label: 'B+', point: 3.3 },
+  { label: 'B',  point: 3.0 },
+  { label: 'B-', point: 2.7 },
+  { label: 'C+', point: 2.3 },
+  { label: 'C',  point: 2.0 },
+  { label: 'C-', point: 1.7 },
+  { label: 'D+', point: 1.3 },
+  { label: 'D',  point: 1.0 },
+  { label: 'F',  point: 0.0 }
+];
+
+const coursesBox = document.getElementById('courses');
+
+function gradeOptions() {
+  return GRADES.map(g => `<option value="${g.point}">${g.label} (${g.point})</option>`).join('');
+}
+
+function addCourseRow(name = '', hours = 3, grade = 4.0) {
+  const row = document.createElement('div');
+  row.className = 'course-row';
+  row.innerHTML = `
+    <input type="text" class="course-name" placeholder="اسم المادة" value="${name}" maxlength="40" />
+    <input type="number" class="course-hours" min="0" max="12" step="1" value="${hours}" placeholder="الساعات" />
+    <select class="course-grade">${gradeOptions()}</select>
+    <button type="button" class="btn-remove" title="حذف المادة">✕</button>
+  `;
+  row.querySelector('.course-grade').value = String(grade);
+  row.querySelector('.btn-remove').addEventListener('click', () => {
+    row.remove();
+    calcGPA();
+  });
+  row.querySelectorAll('input, select').forEach(el => el.addEventListener('input', calcGPA));
+  coursesBox.appendChild(row);
+  calcGPA();
+}
+
+function calcGPA() {
+  let hours = 0, points = 0;
+  coursesBox.querySelectorAll('.course-row').forEach(row => {
+    const h = parseFloat(row.querySelector('.course-hours').value) || 0;
+    const g = parseFloat(row.querySelector('.course-grade').value) || 0;
+    hours += h;
+    points += h * g;
+  });
+  const gpa = hours > 0 ? points / hours : 0;
+
+  document.getElementById('gpaValue').textContent = gpa.toFixed(2);
+  document.getElementById('totalHours').textContent = hours;
+  document.getElementById('totalPoints').textContent = points.toFixed(2);
+}
+
+document.getElementById('addRowBtn').addEventListener('click', () => addCourseRow());
+
+/* مواد مبدئية */
+addCourseRow('رياضيات متقطعة', 3, 4.0);
+addCourseRow('مقدمة في البرمجة', 3, 3.7);
+addCourseRow('شبكات الحاسوب', 2, 3.0);
+
+/* ================= قائمة المهام ================= */
+const TASKS_KEY = 'student_tasks_v1';
+let tasks = [];
+
+try {
+  tasks = JSON.parse(localStorage.getItem(TASKS_KEY) || '[]');
+} catch (e) {
+  tasks = [];
+}
+
+const taskForm = document.getElementById('taskForm');
+const taskInput = document.getElementById('taskInput');
+const taskList = document.getElementById('taskList');
+
+function saveTasks() {
+  localStorage.setItem(TASKS_KEY, JSON.stringify(tasks));
+}
+
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+function renderTasks() {
+  taskList.innerHTML = '';
+
+  if (!tasks.length) {
+    taskList.innerHTML = '<li class="empty">لا توجد مهام بعد — أضف مهمتك الأولى 🎯</li>';
+    return;
+  }
+
+  tasks.forEach(task => {
+    const li = document.createElement('li');
+    li.className = 'task' + (task.done ? ' done' : '');
+    li.innerHTML = `
+      <label class="task-check">
+        <input type="checkbox" ${task.done ? 'checked' : ''} />
+        <span class="task-text">${escapeHtml(task.text)}</span>
+      </label>
+      <button class="task-del" title="حذف">🗑️</button>
+    `;
+
+    li.querySelector('input').addEventListener('change', () => {
+      task.done = !task.done;
+      saveTasks();
+      renderTasks();
+    });
+
+    li.querySelector('.task-del').addEventListener('click', () => {
+      tasks = tasks.filter(t => t.id !== task.id);
+      saveTasks();
+      renderTasks();
+    });
+
+    taskList.appendChild(li);
+  });
+}
+
+taskForm.addEventListener('submit', e => {
+  e.preventDefault();
+  const text = taskInput.value.trim();
+  if (!text) return;
+
+  tasks.push({ id: Date.now(), text, done: false });
+  taskInput.value = '';
+  saveTasks();
+  renderTasks();
+});
+
+renderTasks();
+
+/* ================= نموذج التواصل ================= */
+document.getElementById('contactForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const msg = document.getElementById('formMsg');
+  msg.style.display = 'block';
+  e.target.reset();
+  setTimeout(() => { msg.style.display = 'none'; }, 4000);
+});
+
+/* ================= السنة في الفوتر ================= */
+document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
