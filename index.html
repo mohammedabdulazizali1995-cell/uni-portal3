@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="description" content="بوابة الطالب الجامعي — خدمات أكاديمية، حاسبة معدل تراكمي، جدول دراسي، وقائمة مهام." />
+<meta name="description" content="بوابة الطالب الجامعي — مناهج، أدوات، جدول، مهام، إرشاد ما بعد التخرج، وأخبار التليجرام." />
 <title>بوابة الطالب الجامعي</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -15,6 +15,7 @@
   :root{
     --primary:#4f46e5;
     --primary-2:#7c3aed;
+    --tg:#229ED9;
     --bg:#f6f8fc;
     --card:#ffffff;
     --text:#0f172a;
@@ -41,31 +42,31 @@
   .container{width:min(1140px,92%);margin-inline:auto}
   section{padding:70px 0}
   section[id]{scroll-margin-top:84px}
+  .muted{color:var(--muted)}
 
   /* ============ الهيدر ============ */
   header{
     position:sticky;top:0;z-index:50;
-    background:var(--card);
-    background:color-mix(in srgb, var(--card) 85%, transparent);
+    background:color-mix(in srgb, var(--card) 88%, transparent);
     backdrop-filter:blur(12px);
     border-bottom:1px solid var(--border);
   }
-  .nav{display:flex;align-items:center;justify-content:space-between;gap:16px;height:72px}
-  .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.1rem;text-decoration:none;color:var(--text)}
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:12px;height:70px}
+  .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.05rem;text-decoration:none;color:var(--text);flex-shrink:0}
   .logo-badge{
     width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font-size:1.05rem;
     background:linear-gradient(135deg,var(--primary),var(--primary-2));color:#fff;
   }
-  .nav-links{display:flex;align-items:center;gap:4px;list-style:none}
+  .nav-links{display:flex;align-items:center;gap:2px;list-style:none}
   .nav-links a{
-    display:block;padding:8px 14px;border-radius:10px;text-decoration:none;
-    color:var(--muted);font-weight:600;font-size:.95rem;transition:.2s;
+    display:block;padding:8px 11px;border-radius:10px;text-decoration:none;
+    color:var(--muted);font-weight:600;font-size:.86rem;transition:.2s;white-space:nowrap;
   }
   .nav-links a:hover,.nav-links a.active{color:var(--primary);background:rgba(79,70,229,.08)}
-  .nav-actions{display:flex;align-items:center;gap:8px}
+  .nav-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}
   .icon-btn{
-    width:42px;height:42px;border-radius:12px;border:1px solid var(--border);
-    background:var(--card);color:var(--text);font-size:1.05rem;cursor:pointer;
+    width:40px;height:40px;border-radius:12px;border:1px solid var(--border);
+    background:var(--card);color:var(--text);font-size:1rem;cursor:pointer;
     display:grid;place-items:center;transition:.2s;
   }
   .icon-btn:hover{border-color:var(--primary);color:var(--primary)}
@@ -84,6 +85,8 @@
   .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(79,70,229,.4)}
   .btn-ghost{background:transparent;color:var(--text);border:1px solid var(--border)}
   .btn-ghost:hover{border-color:var(--primary);color:var(--primary)}
+  .btn-tg{background:linear-gradient(135deg,#229ED9,#1c8ab8);color:#fff;box-shadow:0 8px 20px rgba(34,158,217,.3)}
+  .btn-tg:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(34,158,217,.4)}
 
   /* ============ الهيرو ============ */
   .hero{padding:84px 0 64px;text-align:center;position:relative;overflow:hidden}
@@ -96,8 +99,12 @@
     background:linear-gradient(135deg,var(--primary),var(--primary-2));
     -webkit-background-clip:text;background-clip:text;color:transparent;
   }
-  .hero p{color:var(--muted);font-size:1.08rem;max-width:640px;margin:0 auto 32px}
+  .hero p{color:var(--muted);font-size:1.08rem;max-width:660px;margin:0 auto 32px}
   .hero-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+  .hero-stats{display:flex;justify-content:center;gap:38px;margin-top:44px;flex-wrap:wrap}
+  .hero-stats div{text-align:center}
+  .hero-stats b{display:block;font-size:1.6rem;color:var(--primary)}
+  .hero-stats span{color:var(--muted);font-size:.86rem}
 
   /* ============ العناوين ============ */
   .section-head{text-align:center;margin-bottom:44px}
@@ -128,6 +135,54 @@
     border-color:var(--primary);box-shadow:0 0 0 3px rgba(79,70,229,.14);
   }
   textarea{resize:vertical;min-height:110px}
+
+  /* ============ التبويبات (المناهج) ============ */
+  .tabs{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:32px}
+  .tab{
+    padding:11px 22px;border-radius:12px;border:1px solid var(--border);
+    background:var(--card);color:var(--muted);font-family:inherit;
+    font-weight:700;font-size:.92rem;cursor:pointer;transition:.2s;
+  }
+  .tab:hover{border-color:var(--primary);color:var(--primary)}
+  .tab.active{
+    background:linear-gradient(135deg,var(--primary),var(--primary-2));
+    color:#fff;border-color:transparent;box-shadow:0 8px 20px rgba(79,70,229,.3);
+  }
+  .tab-panel{display:none}
+  .tab-panel.active{display:block;animation:fadeUp .35s ease}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+  .stage-head{text-align:center;margin-bottom:26px}
+  .stage-head h3{font-size:1.35rem;font-weight:800;margin-bottom:8px}
+  .stage-head p{color:var(--muted);font-size:.95rem;max-width:640px;margin-inline:auto}
+
+  .courses-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+  .course-chip{
+    background:var(--card);border:1px solid var(--border);border-radius:14px;
+    padding:14px 16px;display:flex;justify-content:space-between;gap:12px;
+    align-items:center;transition:.2s;
+  }
+  .course-chip:hover{border-color:rgba(79,70,229,.5);transform:translateY(-2px)}
+  .course-chip .name{font-weight:700;font-size:.92rem}
+  .course-chip .code{color:var(--muted);font-size:.76rem;display:block;margin-top:2px}
+  .badge{
+    background:rgba(79,70,229,.1);color:var(--primary);padding:4px 11px;
+    border-radius:20px;font-size:.75rem;font-weight:700;white-space:nowrap;
+  }
+
+  /* ============ الأدوات ============ */
+  .tool-box{
+    background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+    padding:24px;box-shadow:var(--shadow);
+  }
+  .tool-box h4{margin-bottom:16px;font-size:1.05rem;display:flex;align-items:center;gap:8px}
+  .timer-display{
+    font-size:3rem;font-weight:800;text-align:center;font-variant-numeric:tabular-nums;
+    background:linear-gradient(135deg,var(--primary),var(--primary-2));
+    -webkit-background-clip:text;background-clip:text;color:transparent;margin:6px 0 18px;
+  }
+  .timer-actions{display:flex;gap:8px;justify-content:center}
+  .timer-actions .btn{flex:1;padding:10px 14px;font-size:.88rem}
 
   /* ============ حاسبة المعدل ============ */
   .panel{
@@ -176,11 +231,60 @@
   .task.done .task-text{text-decoration:line-through;color:var(--muted)}
   .task-check{display:flex;align-items:center;gap:10px;cursor:pointer;flex:1}
   .task-check input{width:18px;height:18px;padding:0;accent-color:var(--primary);cursor:pointer}
-  .task-del{
-    border:none;background:transparent;cursor:pointer;font-size:1rem;opacity:.6;transition:.2s;
-  }
+  .task-del{border:none;background:transparent;cursor:pointer;font-size:1rem;opacity:.6;transition:.2s}
   .task-del:hover{opacity:1;transform:scale(1.15)}
   .empty{color:var(--muted);text-align:center;padding:22px}
+
+  /* ============ ما بعد التخرج ============ */
+  .grad-card{
+    background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+    padding:26px;box-shadow:var(--shadow);transition:.25s;
+  }
+  .grad-card:hover{transform:translateY(-4px);border-color:rgba(79,70,229,.45)}
+  .grad-card .card-icon{margin-bottom:14px}
+  .grad-card h3{font-size:1.08rem;margin-bottom:10px}
+  .grad-card ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+  .grad-card li{
+    font-size:.9rem;color:var(--muted);padding-right:20px;position:relative;
+  }
+  .grad-card li::before{
+    content:'✓';position:absolute;right:0;top:0;color:var(--primary);font-weight:800;
+  }
+
+  /* ============ أخبار التليجرام ============ */
+  .tg-banner{
+    background:linear-gradient(135deg,#229ED9,#1c8ab8);
+    border-radius:var(--radius);padding:32px;color:#fff;
+    display:flex;align-items:center;justify-content:space-between;gap:22px;
+    flex-wrap:wrap;margin-bottom:28px;box-shadow:0 14px 34px rgba(34,158,217,.35);
+  }
+  .tg-banner-left{display:flex;align-items:center;gap:16px}
+  .tg-icon{
+    width:60px;height:60px;border-radius:16px;background:rgba(255,255,255,.2);
+    display:grid;place-items:center;font-size:1.8rem;flex-shrink:0;
+  }
+  .tg-banner h3{font-size:1.35rem;margin-bottom:4px}
+  .tg-banner p{opacity:.92;font-size:.92rem}
+  .tg-banner .btn{background:#fff;color:#229ED9;padding:12px 24px}
+  .tg-banner .btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,.2)}
+
+  .news-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px}
+  .news-card{
+    background:var(--card);border:1px solid var(--border);border-radius:16px;
+    padding:22px;box-shadow:var(--shadow);transition:.2s;
+    display:flex;flex-direction:column;
+  }
+  .news-card:hover{transform:translateY(-3px);border-color:rgba(34,158,217,.55)}
+  .news-date{color:var(--muted);font-size:.8rem;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+  .news-card h4{font-size:1.02rem;margin-bottom:10px;line-height:1.5}
+  .news-card p{color:var(--muted);font-size:.9rem;flex:1;margin-bottom:14px}
+  .news-link{color:var(--tg);font-weight:700;font-size:.88rem;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+  .news-link:hover{text-decoration:underline}
+  .tg-note{
+    margin-top:22px;padding:14px 18px;border-radius:12px;
+    background:rgba(34,158,217,.08);border:1px dashed rgba(34,158,217,.4);
+    color:var(--muted);font-size:.86rem;
+  }
 
   /* ============ تواصل ============ */
   .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:start}
@@ -195,14 +299,18 @@
   footer a{color:var(--primary);text-decoration:none;font-weight:700}
 
   /* ============ الاستجابة ============ */
+  @media(max-width:980px){
+    .nav-links a{font-size:.82rem;padding:8px 8px}
+  }
   @media(max-width:860px){
     .nav-toggle{display:grid}
     .nav-links{
-      position:fixed;top:72px;left:0;right:0;flex-direction:column;align-items:stretch;
+      position:fixed;top:70px;left:0;right:0;flex-direction:column;align-items:stretch;
       background:var(--card);border-bottom:1px solid var(--border);padding:14px;
       gap:4px;display:none;box-shadow:var(--shadow);z-index:49;
     }
     .nav-links.open{display:flex}
+    .nav-links a{font-size:.95rem;padding:10px 14px}
     .contact-grid{grid-template-columns:1fr}
     .hero{padding:60px 0 44px}
   }
@@ -210,6 +318,8 @@
     .course-row{grid-template-columns:1fr 1fr 44px}
     .course-name{grid-column:1/-1}
     section{padding:52px 0}
+    .tg-banner{flex-direction:column;text-align:center}
+    .tg-banner-left{flex-direction:column;text-align:center}
   }
 </style>
 </head>
@@ -225,9 +335,13 @@
 
     <ul class="nav-links" id="navLinks">
       <li><a href="#services">الخدمات</a></li>
-      <li><a href="#calculator">حاسبة المعدل</a></li>
+      <li><a href="#curriculum">المناهج</a></li>
+      <li><a href="#tools">الأدوات</a></li>
+      <li><a href="#calculator">المعدل</a></li>
       <li><a href="#schedule">الجدول</a></li>
       <li><a href="#tasks">المهام</a></li>
+      <li><a href="#aftergrad">التخرج</a></li>
+      <li><a href="#news">الأخبار</a></li>
       <li><a href="#contact">تواصل</a></li>
     </ul>
 
@@ -242,10 +356,16 @@
 <section class="hero" id="top">
   <div class="container">
     <h1>كل ما يحتاجه <span class="gradient-text">الطالب الجامعي</span> في مكان واحد</h1>
-    <p>خدمات أكاديمية، حاسبة معدل تراكمي، جدول دراسي، وتنظيم مهامك اليومية — بواجهة بسيطة وسريعة.</p>
+    <p>مناهج دراسية لكل مرحلة، أدوات تفاعلية، حاسبة معدل، جدول دراسي، تنظيم مهام، إرشاد لما بعد التخرج، وأهم أخبار الجامعة عبر قناة التليجرام.</p>
     <div class="hero-actions">
-      <a href="#calculator" class="btn btn-primary">احسب معدلك الآن</a>
-      <a href="#services" class="btn btn-ghost">تصفح الخدمات</a>
+      <a href="#curriculum" class="btn btn-primary">تصفح المناهج</a>
+      <a href="#news" class="btn btn-tg">📢 أخبار التليجرام</a>
+    </div>
+    <div class="hero-stats">
+      <div><b>+30</b><span>مادة دراسية</span></div>
+      <div><b>4</b><span>مراحل تعليمية</span></div>
+      <div><b>4</b><span>أدوات تفاعلية</span></div>
+      <div><b>+6</b><span>مسارات ما بعد التخرج</span></div>
     </div>
   </div>
 </section>
@@ -257,37 +377,80 @@
       <h2>خدمات الطالب</h2>
       <p>أدوات صُممت لتوفير وقتك وتنظيم حياتك الجامعية</p>
     </div>
+    <div class="grid">
+      <div class="card"><div class="card-icon">📚</div><h3>المناهج الدراسية</h3><p>استعرض مواد كل سنة دراسية مع رمز المادة وعدد الساعات المعتمدة.</p></div>
+      <div class="card"><div class="card-icon">🛠️</div><h3>أدوات تفاعلية</h3><p>مؤقت بومودورو، محول وحدات، محول تقديرات، وحاسبة معدل تراكمي.</p></div>
+      <div class="card"><div class="card-icon">🗓️</div><h3>الجدول الدراسي</h3><p>عرض منظم للمحاضرات والقاعات وأسماء الأساتذة لكل يوم.</p></div>
+      <div class="card"><div class="card-icon">✅</div><h3>قائمة المهام</h3><p>سجّل واجباتك وامتحاناتك، وتُحفظ تلقائياً على جهازك.</p></div>
+      <div class="card"><div class="card-icon">🚀</div><h3>ما بعد التخرج</h3><p>إرشادات للدراسات العليا، سوق العمل، الشهادات والمنح.</p></div>
+      <div class="card"><div class="card-icon">📢</div><h3>أخبار التليجرام</h3><p>أهم إعلانات الجامعة ومواعيد التسجيل مباشرة من قناتنا.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= المناهج ================= -->
+<section id="curriculum">
+  <div class="container">
+    <div class="section-head">
+      <h2>المناهج الدراسية</h2>
+      <p>مثال توضيحي لتخصص "علوم الحاسوب" — عدّل المواد من مصفوفة <code>CURRICULUM</code> في الكود</p>
+    </div>
+
+    <div class="tabs" id="curriculumTabs"></div>
+    <div id="curriculumPanels"></div>
+  </div>
+</section>
+
+<!-- ================= الأدوات ================= -->
+<section id="tools">
+  <div class="container">
+    <div class="section-head">
+      <h2>أدوات الطالب التفاعلية</h2>
+      <p>أدوات تساعدك على التركيز والتحويل والحساب بسرعة</p>
+    </div>
 
     <div class="grid">
-      <div class="card">
-        <div class="card-icon">📊</div>
-        <h3>حاسبة المعدل التراكمي</h3>
-        <p>أدخل موادك وعدد ساعاتها والدرجات لتحصل على معدلك الفصلي بدقة.</p>
+      <!-- بومودورو -->
+      <div class="tool-box">
+        <h4>⏱️ مؤقت بومودورو</h4>
+        <div class="timer-display" id="pomoDisplay">25:00</div>
+        <div class="timer-actions">
+          <button class="btn btn-primary" id="pomoStart">بدء</button>
+          <button class="btn btn-ghost" id="pomoReset">إعادة</button>
+        </div>
+        <p style="text-align:center;color:var(--muted);font-size:.82rem;margin-top:14px" id="pomoMode">وقت التركيز — 25 دقيقة</p>
       </div>
-      <div class="card">
-        <div class="card-icon">🗓️</div>
-        <h3>الجدول الدراسي</h3>
-        <p>عرض منظم للمحاضرات والقاعات وأسماء الأساتذة لكل يوم.</p>
+
+      <!-- محول الوحدات -->
+      <div class="tool-box">
+        <h4>📏 محول الوحدات</h4>
+        <select id="unitCategory" style="margin-bottom:10px">
+          <option value="length">الطول</option>
+          <option value="weight">الوزن</option>
+          <option value="temp">درجة الحرارة</option>
+        </select>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
+          <input type="number" id="unitValue" value="1" />
+          <input type="number" id="unitResult" readonly />
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <select id="unitFrom"></select>
+          <select id="unitTo"></select>
+        </div>
       </div>
-      <div class="card">
-        <div class="card-icon">✅</div>
-        <h3>قائمة المهام</h3>
-        <p>سجّل واجباتك وامتحاناتك، وتُحفظ تلقائياً على جهازك.</p>
-      </div>
-      <div class="card">
-        <div class="card-icon">📚</div>
-        <h3>مصادر ومراجع</h3>
-        <p>روابط للمكتبة الرقمية والمنصات التعليمية المعتمدة.</p>
-      </div>
-      <div class="card">
-        <div class="card-icon">📢</div>
-        <h3>الإعلانات</h3>
-        <p>أهم مواعيد التسجيل والامتحانات والأنشطة الجامعية.</p>
-      </div>
-      <div class="card">
-        <div class="card-icon">💬</div>
-        <h3>الدعم والاستفسار</h3>
-        <p>تواصل معنا لأي سؤال يخص الدراسة أو الموقع.</p>
+
+      <!-- محول النسبة إلى تقدير -->
+      <div class="tool-box">
+        <h4>🎯 محول النسبة إلى تقدير</h4>
+        <input type="number" id="pctInput" min="0" max="100" placeholder="أدخل النسبة (0 – 100)" style="margin-bottom:14px" />
+        <div class="result-item" style="text-align:center;margin-bottom:8px">
+          <span>التقدير</span>
+          <strong id="pctGrade" style="font-size:1.6rem">—</strong>
+        </div>
+        <div class="result-item" style="text-align:center">
+          <span>نقاط GPA (من 4)</span>
+          <strong id="pctGpa" style="font-size:1.6rem">—</strong>
+        </div>
       </div>
     </div>
   </div>
@@ -300,25 +463,13 @@
       <h2>حاسبة المعدل التراكمي</h2>
       <p>أضف موادك ثم اكتب عدد الساعات واختر التقدير — النتيجة تظهر فوراً</p>
     </div>
-
     <div class="panel">
       <div id="courses"></div>
-
       <button class="btn btn-ghost" id="addRowBtn" style="margin-top:8px">➕ إضافة مادة</button>
-
       <div class="result">
-        <div class="result-item">
-          <span>المعدل التراكمي</span>
-          <strong id="gpaValue">0.00</strong>
-        </div>
-        <div class="result-item">
-          <span>إجمالي الساعات</span>
-          <strong id="totalHours">0</strong>
-        </div>
-        <div class="result-item">
-          <span>إجمالي النقاط</span>
-          <strong id="totalPoints">0.00</strong>
-        </div>
+        <div class="result-item"><span>المعدل التراكمي</span><strong id="gpaValue">0.00</strong></div>
+        <div class="result-item"><span>إجمالي الساعات</span><strong id="totalHours">0</strong></div>
+        <div class="result-item"><span>إجمالي النقاط</span><strong id="totalPoints">0.00</strong></div>
       </div>
     </div>
   </div>
@@ -331,17 +482,10 @@
       <h2>الجدول الدراسي</h2>
       <p>مثال توضيحي — عدّل البيانات في الكود لتناسب جدولك الحقيقي</p>
     </div>
-
     <div class="table-wrap">
       <table>
         <thead>
-          <tr>
-            <th>اليوم</th>
-            <th>المادة</th>
-            <th>الوقت</th>
-            <th>القاعة</th>
-            <th>الأستاذ</th>
-          </tr>
+          <tr><th>اليوم</th><th>المادة</th><th>الوقت</th><th>القاعة</th><th>الأستاذ</th></tr>
         </thead>
         <tbody>
           <tr><td>الأحد</td><td>رياضيات متقطعة</td><td>08:00 – 09:30</td><td>قاعة A12</td><td>د. سامي العلي</td></tr>
@@ -362,13 +506,125 @@
       <h2>قائمة المهام</h2>
       <p>مهامك تُحفظ تلقائياً في متصفحك</p>
     </div>
-
     <div class="panel" style="max-width:720px;margin-inline:auto">
       <form class="task-form" id="taskForm">
         <input type="text" id="taskInput" placeholder="مثال: تسليم واجب البرمجة قبل الخميس..." maxlength="120" />
         <button class="btn btn-primary" type="submit">إضافة</button>
       </form>
       <ul class="task-list" id="taskList"></ul>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ما بعد التخرج ================= -->
+<section id="aftergrad">
+  <div class="container">
+    <div class="section-head">
+      <h2>ما بعد التخرج</h2>
+      <p>خطواتك الأولى بعد الجامعة — من الدراسات العليا إلى سوق العمل</p>
+    </div>
+
+    <div class="grid">
+      <div class="grad-card">
+        <div class="card-icon">🎓</div>
+        <h3>الدراسات العليا</h3>
+        <ul>
+          <li>حدد تخصصك الماجستير مبكراً</li>
+          <li>اهتم بمعدلك التراكمي وسجلك</li>
+          <li>ابحث عن مشرف أكاديمي مناسب</li>
+          <li>حضّر خطة بحث مقترحة</li>
+        </ul>
+      </div>
+
+      <div class="grad-card">
+        <div class="card-icon">💼</div>
+        <h3>سوق العمل</h3>
+        <ul>
+          <li>أنشئ حساب LinkedIn احترافي</li>
+          <li>جهّز سيرة ذاتية بصفحة واحدة</li>
+          <li>ابنِ معرض أعمال (Portfolio)</li>
+          <li>تدرّب على المقابلات التقنية</li>
+        </ul>
+      </div>
+
+      <div class="grad-card">
+        <div class="card-icon">🏅</div>
+        <h3>الشهادات المهنية</h3>
+        <ul>
+          <li>شهادات في مجالك (CCNA, AWS, PMP...)</li>
+          <li>دورات عبر Coursera و Udemy</li>
+          <li>شارك في هاكاثونات ومسابقات</li>
+          <li>احصل على شهادات تطوعية</li>
+        </ul>
+      </div>
+
+      <div class="grad-card">
+        <div class="card-icon">🌍</div>
+        <h3>المنح والابتعاث</h3>
+        <ul>
+          <li>تابع منصات المنح الرسمية</li>
+          <li>جهّز IELTS / TOEFL مبكراً</li>
+          <li>احصل على توصيات أكاديمية</li>
+          <li>اهتم بخطاب الدافع (SOP)</li>
+        </ul>
+      </div>
+
+      <div class="grad-card">
+        <div class="card-icon">🚀</div>
+        <h3>ريادة الأعمال</h3>
+        <ul>
+          <li>حوّل مشروع تخرجك لمنتج</li>
+          <li>استفد من حاضنات الأعمال</li>
+          <li>تعلّم أساسيات إدارة المشاريع</li>
+          <li>ابحث عن تمويل أولي</li>
+        </ul>
+      </div>
+
+      <div class="grad-card">
+        <div class="card-icon">📄</div>
+        <h3>السيرة الذاتية</h3>
+        <ul>
+          <li>صفحة واحدة، خط واضح، خالٍ من الأخطاء</li>
+          <li>أبرز المشاريع والخبرات العملية</li>
+          <li>أضف روابط GitHub و LinkedIn</li>
+          <li>خصّصها لكل وظيفة تتقدم لها</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= أخبار التليجرام ================= -->
+<section id="news">
+  <div class="container">
+    <div class="section-head">
+      <h2>أخبار قناة التليجرام</h2>
+      <p>تابع أهم إعلانات الجامعة، مواعيد التسجيل، والنتائج لحظة بلحظة</p>
+    </div>
+
+    <!-- بانر القناة -->
+    <div class="tg-banner">
+      <div class="tg-banner-left">
+        <div class="tg-icon">✈️</div>
+        <div>
+          <h3 id="tgChannelName">قناة الجامعة الرسمية</h3>
+          <p>انضم إلينا على تليجرام ليصلك كل جديد فوراً</p>
+        </div>
+      </div>
+      <a class="btn" id="tgSubscribeBtn" href="https://t.me/university_news" target="_blank" rel="noopener">
+        اشترك في القناة
+      </a>
+    </div>
+
+    <!-- شبكة الأخبار -->
+    <div class="news-grid" id="newsGrid"></div>
+
+    <div class="tg-note">
+      💡 <b>ملاحظة للمطور:</b> لتحديث الأخبار، عدّل المصفوفة <code>NEWS</code> في الكود، أو استبدل القسم بـ
+      <code>iframe</code> الخاص بـ Telegram من خلال الرابط
+      <code>https://t.me/s/CHANNEL_NAME?embed=1</code> (للقنوات العامة فقط).
+      <br>
+      ✏️ غيّر اسم القناة من المتغير <code>TG_CHANNEL</code> في أعلى قسم الجافاسكريبت.
     </div>
   </div>
 </section>
@@ -380,41 +636,21 @@
       <h2>تواصل معنا</h2>
       <p>عندك سؤال أو اقتراح؟ يسعدنا نسمعك</p>
     </div>
-
     <div class="contact-grid">
       <div class="panel">
         <form id="contactForm">
-          <div style="margin-bottom:12px">
-            <input type="text" name="name" placeholder="الاسم الكامل" required />
-          </div>
-          <div style="margin-bottom:12px">
-            <input type="email" name="email" placeholder="البريد الإلكتروني" required />
-          </div>
-          <div style="margin-bottom:12px">
-            <textarea name="message" placeholder="اكتب رسالتك هنا..." required></textarea>
-          </div>
+          <div style="margin-bottom:12px"><input type="text" name="name" placeholder="الاسم الكامل" required /></div>
+          <div style="margin-bottom:12px"><input type="email" name="email" placeholder="البريد الإلكتروني" required /></div>
+          <div style="margin-bottom:12px"><textarea name="message" placeholder="اكتب رسالتك هنا..." required></textarea></div>
           <button type="submit" class="btn btn-primary" style="width:100%">إرسال الرسالة</button>
           <p id="formMsg">✅ تم استلام رسالتك، سنرد عليك قريباً!</p>
         </form>
       </div>
-
       <div class="panel">
-        <div class="info-item">
-          <div class="card-icon">📍</div>
-          <div><b>الموقع</b><span>المدينة الجامعية — مبنى شؤون الطلبة</span></div>
-        </div>
-        <div class="info-item">
-          <div class="card-icon">✉️</div>
-          <div><b>البريد الإلكتروني</b><span>students@university.edu</span></div>
-        </div>
-        <div class="info-item">
-          <div class="card-icon">📞</div>
-          <div><b>الهاتف</b><span>+000 000 0000</span></div>
-        </div>
-        <div class="info-item">
-          <div class="card-icon">🕐</div>
-          <div><b>ساعات العمل</b><span>الأحد – الخميس، 8:00 ص – 3:00 م</span></div>
-        </div>
+        <div class="info-item"><div class="card-icon">📍</div><div><b>الموقع</b><span>المدينة الجامعية — مبنى شؤون الطلبة</span></div></div>
+        <div class="info-item"><div class="card-icon">✉️</div><div><b>البريد الإلكتروني</b><span>students@university.edu</span></div></div>
+        <div class="info-item"><div class="card-icon">📞</div><div><b>الهاتف</b><span>+000 000 0000</span></div></div>
+        <div class="info-item"><div class="card-icon">✈️</div><div><b>قناة التليجرام</b><span id="tgContactLink">t.me/university_news</span></div></div>
       </div>
     </div>
   </div>
@@ -429,7 +665,101 @@
 </footer>
 
 <script>
-/* ================= الوضع الليلي ================= */
+/* ============================================================
+   ⚙️ الإعدادات العامة
+   ============================================================ */
+
+// ✏️ غيّر اسم قناة التليجرام هنا (بدون @ وبدون https://t.me/)
+const TG_CHANNEL = 'university_news';
+const TG_URL = `https://t.me/${TG_CHANNEL}`;
+
+// ✏️ أخبار القناة (حدّثها دورياً — الأحدث أولاً)
+const NEWS = [
+  {
+    date: 'منذ يومين',
+    title: 'فتح باب التسجيل للفصل الدراسي القادم',
+    text: 'يبدأ التسجيل المبكر لجميع المراحل اعتباراً من الأسبوع القادم. تأكد من مراجعة خطتك الدراسية قبل التسجيل.',
+    link: TG_URL
+  },
+  {
+    date: 'منذ 4 أيام',
+    title: 'إعلان موعد الامتحانات النهائية',
+    text: 'تم نشر جدول الامتحانات النهائية للفصل الحالي على بوابة الجامعة الإلكترونية. يرجى الالتزام بالمواعيد.',
+    link: TG_URL
+  },
+  {
+    date: 'منذ أسبوع',
+    title: 'ورشة عمل: كيف تبني سيرة ذاتية احترافية',
+    text: 'تقيم عمادة شؤون الطلبة ورشة عمل مجانية حول كتابة السيرة الذاتية ومهارات المقابلات. التسجيل مفتوح.',
+    link: TG_URL
+  },
+  {
+    date: 'منذ أسبوعين',
+    title: 'نتائج القبول في برامج الدراسات العليا',
+    text: 'تم إعلان نتائج القبول الأولي لبرامج الماجستير. يرجى مراجعة بريدك الإلكتروني الجامعي.',
+    link: TG_URL
+  }
+];
+
+// ✏️ مناهج المراحل الدراسية — عدّل بحرية
+const CURRICULUM = {
+  1: {
+    title: 'السنة الأولى',
+    desc: 'الأسس الرياضية والبرمجية — مدخل إلى عالم الحاسوب.',
+    courses: [
+      { name: 'تفاضل وتكامل 1', code: 'MATH101', hours: 3 },
+      { name: 'جبر خطي', code: 'MATH102', hours: 3 },
+      { name: 'مقدمة في البرمجة', code: 'CS101', hours: 3 },
+      { name: 'مقدمة في الحاسوب', code: 'CS100', hours: 2 },
+      { name: 'فيزياء عامة', code: 'PHYS101', hours: 3 },
+      { name: 'كيمياء عامة', code: 'CHEM101', hours: 3 },
+      { name: 'لغة إنجليزية 1', code: 'ENG101', hours: 2 }
+    ]
+  },
+  2: {
+    title: 'السنة الثانية',
+    desc: 'بناء الأساسيات في هياكل البيانات والخوارزميات والشبكات.',
+    courses: [
+      { name: 'هياكل البيانات', code: 'CS201', hours: 3 },
+      { name: 'البرمجة الكائنية', code: 'CS202', hours: 3 },
+      { name: 'رياضيات متقطعة', code: 'MATH201', hours: 3 },
+      { name: 'معمارية الحاسوب', code: 'CS203', hours: 3 },
+      { name: 'قواعد البيانات', code: 'CS204', hours: 3 },
+      { name: 'شبكات الحاسوب', code: 'CS205', hours: 3 },
+      { name: 'إحصاء واحتمال', code: 'STAT201', hours: 3 }
+    ]
+  },
+  3: {
+    title: 'السنة الثالثة',
+    desc: 'الخوارزميات المتقدمة، نظم التشغيل، والذكاء الاصطناعي.',
+    courses: [
+      { name: 'تحليل الخوارزميات', code: 'CS301', hours: 3 },
+      { name: 'نظم التشغيل', code: 'CS302', hours: 3 },
+      { name: 'هندسة البرمجيات', code: 'CS303', hours: 3 },
+      { name: 'الذكاء الاصطناعي', code: 'CS304', hours: 3 },
+      { name: 'أمن المعلومات', code: 'CS305', hours: 3 },
+      { name: 'برمجة الويب', code: 'CS306', hours: 3 },
+      { name: 'مشروع 1', code: 'CS307', hours: 2 }
+    ]
+  },
+  4: {
+    title: 'السنة الرابعة',
+    desc: 'التخصصات المتقدمة، مشروع التخرج، والتدريب الميداني.',
+    courses: [
+      { name: 'تعلم الآلة', code: 'CS401', hours: 3 },
+      { name: 'الحوسبة السحابية', code: 'CS402', hours: 3 },
+      { name: 'تطوير تطبيقات الجوال', code: 'CS403', hours: 3 },
+      { name: 'البيانات الضخمة', code: 'CS404', hours: 3 },
+      { name: 'مشروع التخرج 2', code: 'CS405', hours: 3 },
+      { name: 'تدريب ميداني', code: 'CS406', hours: 3 },
+      { name: 'ريادة أعمال', code: 'BUS401', hours: 2 }
+    ]
+  }
+};
+
+/* ============================================================
+   الوضع الليلي
+   ============================================================ */
 const root = document.documentElement;
 const themeBtn = document.getElementById('themeBtn');
 
@@ -439,7 +769,6 @@ if (savedTheme) {
 } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
   root.setAttribute('data-theme', 'dark');
 }
-
 function updateThemeIcon() {
   themeBtn.textContent = root.getAttribute('data-theme') === 'dark' ? '☀️' : '🌙';
 }
@@ -452,22 +781,24 @@ themeBtn.addEventListener('click', () => {
   updateThemeIcon();
 });
 
-/* ================= قائمة الموبايل ================= */
+/* ============================================================
+   قائمة الموبايل
+   ============================================================ */
 const navToggle = document.getElementById('navToggle');
 const navLinks = document.getElementById('navLinks');
-
 navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
 navLinks.querySelectorAll('a').forEach(a =>
   a.addEventListener('click', () => navLinks.classList.remove('open'))
 );
 
-/* ================= تمييز رابط القسم النشط ================= */
+/* ============================================================
+   تمييز رابط القسم النشط
+   ============================================================ */
 const sections = document.querySelectorAll('section[id]');
 const linkMap = {};
 navLinks.querySelectorAll('a').forEach(a => {
   linkMap[a.getAttribute('href').slice(1)] = a;
 });
-
 const observer = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     const link = linkMap[entry.target.id];
@@ -478,31 +809,241 @@ const observer = new IntersectionObserver(entries => {
     }
   });
 }, { rootMargin: '-45% 0px -50% 0px' });
-
 sections.forEach(s => observer.observe(s));
 
-/* ================= حاسبة المعدل ================= */
+/* ============================================================
+   المناهج الدراسية (تبويبات)
+   ============================================================ */
+const tabsBox = document.getElementById('curriculumTabs');
+const panelsBox = document.getElementById('curriculumPanels');
+
+Object.entries(CURRICULUM).forEach(([stage, data], idx) => {
+  // التاب
+  const tab = document.createElement('button');
+  tab.className = 'tab' + (idx === 0 ? ' active' : '');
+  tab.dataset.stage = stage;
+  tab.textContent = data.title;
+  tabsBox.appendChild(tab);
+
+  // اللوحة
+  const panel = document.createElement('div');
+  panel.className = 'tab-panel' + (idx === 0 ? ' active' : '');
+  panel.id = 'stage-' + stage;
+
+  const chips = data.courses.map(c => `
+    <div class="course-chip">
+      <div>
+        <div class="name">${c.name}</div>
+        <span class="code">${c.code}</span>
+      </div>
+      <span class="badge">${c.hours} ساعات</span>
+    </div>
+  `).join('');
+
+  panel.innerHTML = `
+    <div class="stage-head">
+      <h3>${data.title}</h3>
+      <p>${data.desc}</p>
+    </div>
+    <div class="courses-grid">${chips}</div>
+  `;
+  panelsBox.appendChild(panel);
+});
+
+tabsBox.addEventListener('click', e => {
+  const btn = e.target.closest('.tab');
+  if (!btn) return;
+  tabsBox.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  panelsBox.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('stage-' + btn.dataset.stage).classList.add('active');
+});
+
+/* ============================================================
+   مؤقت بومودورو
+   ============================================================ */
+let pomoInterval = null;
+let pomoSeconds = 25 * 60;
+let pomoRunning = false;
+let pomoMode = 'work'; // work | break
+const pomoDisplay = document.getElementById('pomoDisplay');
+const pomoModeEl = document.getElementById('pomoMode');
+const pomoStartBtn = document.getElementById('pomoStart');
+
+function updatePomoDisplay() {
+  const m = Math.floor(pomoSeconds / 60).toString().padStart(2, '0');
+  const s = (pomoSeconds % 60).toString().padStart(2, '0');
+  pomoDisplay.textContent = `${m}:${s}`;
+  document.title = pomoRunning ? `${m}:${s} — بوابة الطالب` : 'بوابة الطالب الجامعي';
+}
+
+function startPomo() {
+  if (pomoRunning) {
+    // إيقاف مؤقت
+    clearInterval(pomoInterval);
+    pomoRunning = false;
+    pomoStartBtn.textContent = 'استئناف';
+    return;
+  }
+  pomoRunning = true;
+  pomoStartBtn.textContent = 'إيقاف مؤقت';
+  pomoInterval = setInterval(() => {
+    pomoSeconds--;
+    if (pomoSeconds <= 0) {
+      clearInterval(pomoInterval);
+      pomoRunning = false;
+      if (pomoMode === 'work') {
+        alert('🎉 انتهى وقت التركيز! خذ استراحة 5 دقائق.');
+        pomoMode = 'break';
+        pomoSeconds = 5 * 60;
+        pomoModeEl.textContent = 'وقت الاستراحة — 5 دقائق';
+      } else {
+        alert('✅ انتهت الاستراحة! هيّا نعود للتركيز.');
+        pomoMode = 'work';
+        pomoSeconds = 25 * 60;
+        pomoModeEl.textContent = 'وقت التركيز — 25 دقيقة';
+      }
+      pomoStartBtn.textContent = 'بدء';
+    }
+    updatePomoDisplay();
+  }, 1000);
+}
+
+pomoStartBtn.addEventListener('click', startPomo);
+
+document.getElementById('pomoReset').addEventListener('click', () => {
+  clearInterval(pomoInterval);
+  pomoRunning = false;
+  pomoMode = 'work';
+  pomoSeconds = 25 * 60;
+  pomoStartBtn.textContent = 'بدء';
+  pomoModeEl.textContent = 'وقت التركيز — 25 دقيقة';
+  updatePomoDisplay();
+});
+updatePomoDisplay();
+
+/* ============================================================
+   محول الوحدات
+   ============================================================ */
+const UNITS = {
+  length: {
+    m:  { name: 'متر',      factor: 1 },
+    km: { name: 'كيلومتر',  factor: 1000 },
+    cm: { name: 'سنتيمتر',  factor: 0.01 },
+    mm: { name: 'مليمتر',   factor: 0.001 },
+    mi: { name: 'ميل',      factor: 1609.344 },
+    ft: { name: 'قدم',      factor: 0.3048 },
+    in: { name: 'بوصة',     factor: 0.0254 }
+  },
+  weight: {
+    kg: { name: 'كيلوغرام', factor: 1 },
+    g:  { name: 'غرام',     factor: 0.001 },
+    mg: { name: 'مليغرام',  factor: 0.000001 },
+    lb: { name: 'باوند',    factor: 0.453592 },
+    oz: { name: 'أونصة',    factor: 0.0283495 }
+  },
+  temp: {
+    C: { name: 'مئوية' },
+    F: { name: 'فهرنهايت' },
+    K: { name: 'كلفن' }
+  }
+};
+
+const unitCategory = document.getElementById('unitCategory');
+const unitFrom = document.getElementById('unitFrom');
+const unitTo = document.getElementById('unitTo');
+const unitValue = document.getElementById('unitValue');
+const unitResult = document.getElementById('unitResult');
+
+function populateUnits() {
+  const cat = unitCategory.value;
+  const list = UNITS[cat];
+  const opts = Object.entries(list).map(([k, v]) =>
+    `<option value="${k}">${v.name}</option>`
+  ).join('');
+  unitFrom.innerHTML = opts;
+  unitTo.innerHTML = opts;
+  if (cat === 'temp') unitTo.value = 'F';
+  else unitTo.selectedIndex = 1;
+  convertUnit();
+}
+
+function convertUnit() {
+  const cat = unitCategory.value;
+  const val = parseFloat(unitValue.value) || 0;
+  const from = unitFrom.value;
+  const to = unitTo.value;
+  let out = 0;
+
+  if (cat === 'temp') {
+    // تحويل أولاً إلى مئوية
+    let celsius;
+    if (from === 'C') celsius = val;
+    else if (from === 'F') celsius = (val - 32) * 5 / 9;
+    else celsius = val - 273.15;
+
+    if (to === 'C') out = celsius;
+    else if (to === 'F') out = celsius * 9 / 5 + 32;
+    else out = celsius + 273.15;
+  } else {
+    const fromF = UNITS[cat][from].factor;
+    const toF = UNITS[cat][to].factor;
+    out = val * fromF / toF;
+  }
+
+  unitResult.value = +out.toFixed(4);
+}
+
+unitCategory.addEventListener('change', populateUnits);
+[unitFrom, unitTo, unitValue].forEach(el =>
+  el.addEventListener('input', convertUnit)
+);
+populateUnits();
+
+/* ============================================================
+   محول النسبة إلى تقدير و GPA
+   ============================================================ */
+const pctInput = document.getElementById('pctInput');
+const pctGrade = document.getElementById('pctGrade');
+const pctGpa = document.getElementById('pctGpa');
+
+pctInput.addEventListener('input', () => {
+  const p = parseFloat(pctInput.value);
+  if (isNaN(p) || p < 0 || p > 100) {
+    pctGrade.textContent = '—';
+    pctGpa.textContent = '—';
+    return;
+  }
+  let letter = 'F', gpa = 0;
+  if (p >= 95)      { letter = 'A+'; gpa = 4.0; }
+  else if (p >= 90) { letter = 'A';  gpa = 4.0; }
+  else if (p >= 85) { letter = 'B+'; gpa = 3.5; }
+  else if (p >= 80) { letter = 'B';  gpa = 3.0; }
+  else if (p >= 75) { letter = 'C+'; gpa = 2.5; }
+  else if (p >= 70) { letter = 'C';  gpa = 2.0; }
+  else if (p >= 65) { letter = 'D+'; gpa = 1.5; }
+  else if (p >= 60) { letter = 'D';  gpa = 1.0; }
+  else              { letter = 'F';  gpa = 0.0; }
+  pctGrade.textContent = letter;
+  pctGpa.textContent = gpa.toFixed(2);
+});
+
+/* ============================================================
+   حاسبة المعدل
+   ============================================================ */
 const GRADES = [
-  { label: 'A+', point: 4.0 },
-  { label: 'A',  point: 4.0 },
-  { label: 'A-', point: 3.7 },
-  { label: 'B+', point: 3.3 },
-  { label: 'B',  point: 3.0 },
-  { label: 'B-', point: 2.7 },
-  { label: 'C+', point: 2.3 },
-  { label: 'C',  point: 2.0 },
-  { label: 'C-', point: 1.7 },
-  { label: 'D+', point: 1.3 },
-  { label: 'D',  point: 1.0 },
-  { label: 'F',  point: 0.0 }
+  { label: 'A+', point: 4.0 }, { label: 'A',  point: 4.0 },
+  { label: 'A-', point: 3.7 }, { label: 'B+', point: 3.3 },
+  { label: 'B',  point: 3.0 }, { label: 'B-', point: 2.7 },
+  { label: 'C+', point: 2.3 }, { label: 'C',  point: 2.0 },
+  { label: 'C-', point: 1.7 }, { label: 'D+', point: 1.3 },
+  { label: 'D',  point: 1.0 }, { label: 'F',  point: 0.0 }
 ];
 
 const coursesBox = document.getElementById('courses');
-
 function gradeOptions() {
   return GRADES.map(g => `<option value="${g.point}">${g.label} (${g.point})</option>`).join('');
 }
-
 function addCourseRow(name = '', hours = 3, grade = 4.0) {
   const row = document.createElement('div');
   row.className = 'course-row';
@@ -514,54 +1055,41 @@ function addCourseRow(name = '', hours = 3, grade = 4.0) {
   `;
   row.querySelector('.course-grade').value = String(grade);
   row.querySelector('.btn-remove').addEventListener('click', () => {
-    row.remove();
-    calcGPA();
+    row.remove(); calcGPA();
   });
   row.querySelectorAll('input, select').forEach(el => el.addEventListener('input', calcGPA));
   coursesBox.appendChild(row);
   calcGPA();
 }
-
 function calcGPA() {
   let hours = 0, points = 0;
   coursesBox.querySelectorAll('.course-row').forEach(row => {
     const h = parseFloat(row.querySelector('.course-hours').value) || 0;
     const g = parseFloat(row.querySelector('.course-grade').value) || 0;
-    hours += h;
-    points += h * g;
+    hours += h; points += h * g;
   });
   const gpa = hours > 0 ? points / hours : 0;
-
   document.getElementById('gpaValue').textContent = gpa.toFixed(2);
   document.getElementById('totalHours').textContent = hours;
   document.getElementById('totalPoints').textContent = points.toFixed(2);
 }
-
 document.getElementById('addRowBtn').addEventListener('click', () => addCourseRow());
-
-/* مواد مبدئية */
 addCourseRow('رياضيات متقطعة', 3, 4.0);
 addCourseRow('مقدمة في البرمجة', 3, 3.7);
 addCourseRow('شبكات الحاسوب', 2, 3.0);
 
-/* ================= قائمة المهام ================= */
+/* ============================================================
+   قائمة المهام
+   ============================================================ */
 const TASKS_KEY = 'student_tasks_v1';
 let tasks = [];
-
-try {
-  tasks = JSON.parse(localStorage.getItem(TASKS_KEY) || '[]');
-} catch (e) {
-  tasks = [];
-}
+try { tasks = JSON.parse(localStorage.getItem(TASKS_KEY) || '[]'); } catch (e) { tasks = []; }
 
 const taskForm = document.getElementById('taskForm');
 const taskInput = document.getElementById('taskInput');
 const taskList = document.getElementById('taskList');
 
-function saveTasks() {
-  localStorage.setItem(TASKS_KEY, JSON.stringify(tasks));
-}
-
+function saveTasks() { localStorage.setItem(TASKS_KEY, JSON.stringify(tasks)); }
 function escapeHtml(str) {
   const div = document.createElement('div');
   div.textContent = str;
@@ -570,12 +1098,10 @@ function escapeHtml(str) {
 
 function renderTasks() {
   taskList.innerHTML = '';
-
   if (!tasks.length) {
     taskList.innerHTML = '<li class="empty">لا توجد مهام بعد — أضف مهمتك الأولى 🎯</li>';
     return;
   }
-
   tasks.forEach(task => {
     const li = document.createElement('li');
     li.className = 'task' + (task.done ? ' done' : '');
@@ -586,37 +1112,44 @@ function renderTasks() {
       </label>
       <button class="task-del" title="حذف">🗑️</button>
     `;
-
     li.querySelector('input').addEventListener('change', () => {
-      task.done = !task.done;
-      saveTasks();
-      renderTasks();
+      task.done = !task.done; saveTasks(); renderTasks();
     });
-
     li.querySelector('.task-del').addEventListener('click', () => {
-      tasks = tasks.filter(t => t.id !== task.id);
-      saveTasks();
-      renderTasks();
+      tasks = tasks.filter(t => t.id !== task.id); saveTasks(); renderTasks();
     });
-
     taskList.appendChild(li);
   });
 }
-
 taskForm.addEventListener('submit', e => {
   e.preventDefault();
   const text = taskInput.value.trim();
   if (!text) return;
-
   tasks.push({ id: Date.now(), text, done: false });
-  taskInput.value = '';
-  saveTasks();
-  renderTasks();
+  taskInput.value = ''; saveTasks(); renderTasks();
 });
-
 renderTasks();
 
-/* ================= نموذج التواصل ================= */
+/* ============================================================
+   أخبار التليجرام — عرض ديناميكي
+   ============================================================ */
+const newsGrid = document.getElementById('newsGrid');
+document.getElementById('tgSubscribeBtn').href = TG_URL;
+document.getElementById('tgContactLink').textContent = `t.me/${TG_CHANNEL}`;
+document.getElementById('tgChannelName').textContent = 'قناة الجامعة الرسمية على تليجرام';
+
+newsGrid.innerHTML = NEWS.map(n => `
+  <article class="news-card">
+    <div class="news-date">🕐 ${n.date}</div>
+    <h4>${escapeHtml(n.title)}</h4>
+    <p>${escapeHtml(n.text)}</p>
+    <a class="news-link" href="${n.link}" target="_blank" rel="noopener">اقرأ المزيد على تليجرام ←</a>
+  </article>
+`).join('');
+
+/* ============================================================
+   نموذج التواصل
+   ============================================================ */
 document.getElementById('contactForm').addEventListener('submit', e => {
   e.preventDefault();
   const msg = document.getElementById('formMsg');
@@ -625,7 +1158,9 @@ document.getElementById('contactForm').addEventListener('submit', e => {
   setTimeout(() => { msg.style.display = 'none'; }, 4000);
 });
 
-/* ================= السنة في الفوتر ================= */
+/* ============================================================
+   السنة في الفوتر
+   ============================================================ */
 document.getElementById('year').textContent = new Date().getFullYear();
 </script>
 </body>
