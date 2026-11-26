@@ -3,249 +3,558 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>منصة هندسة الحاسوب | CE Hub</title>
+<title>EngiCore | نواة الهندسة — EngiCore</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.6/dist/JsBarcode.all.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
-:root{--bg:#0f172a;--card:#1e293b;--acc:#38bdf8;--acc2:#a78bfa;--txt:#e2e8f0}
-*{box-sizing:border-box;margin:0;padding:0;font-family:Tahoma,Segoe UI,sans-serif}
-body{background:var(--bg);color:var(--txt);line-height:1.7}
-nav{position:sticky;top:0;background:#020617ee;display:flex;flex-wrap:wrap;gap:6px;padding:12px;justify-content:center;z-index:10}
-nav a{color:var(--txt);text-decoration:none;padding:6px 12px;border-radius:8px}
-nav a:hover{background:var(--acc);color:#000}
-header{text-align:center;padding:60px 20px;background:linear-gradient(135deg,#0ea5e9,#7c3aed)}
-header h1{font-size:2.4rem}
-section{max-width:1100px;margin:auto;padding:50px 20px}
-h2{color:var(--acc);margin-bottom:20px;border-right:4px solid var(--acc2);padding-right:10px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
-.card{background:var(--card);padding:18px;border-radius:14px;transition:.2s}
-.card:hover{transform:translateY(-4px);box-shadow:0 8px 20px #0006}
-.card h3{color:var(--acc2);margin-bottom:8px}
-.card a,.btn{display:inline-block;margin-top:10px;background:var(--acc);color:#000;padding:6px 14px;border-radius:8px;text-decoration:none;border:0;cursor:pointer;font-weight:bold}
-input,select{width:100%;padding:8px;margin:5px 0;border-radius:8px;border:0;background:#334155;color:#fff}
-#timer{font-size:2.5rem;text-align:center}
-#board{display:grid;grid-template-columns:repeat(8,1fr);width:min(90vw,440px);aspect-ratio:1;margin:auto;direction:ltr;border:4px solid var(--acc2)}
-.sq{display:flex;align-items:center;justify-content:center;font-size:min(8vw,38px);cursor:pointer;user-select:none}
-.l{background:#eeeed2;color:#000}.d{background:#769656;color:#000}
-.sel{background:#f6f669!important}.hint{box-shadow:inset 0 0 0 4px #38bdf8}
-.social{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
-.social a{padding:10px 18px;border-radius:30px;color:#fff;text-decoration:none;font-weight:bold}
-footer{text-align:center;padding:30px;background:#020617}
+:root{--bg:#070b14;--panel:#0d1424;--panel2:#111a2e;--line:#1c2a45;
+  --neon:#22d3ee;--neon2:#a78bfa;--accent:#f472b6;
+  --txt:#e2e8f0;--mut:#8ea0bd;--ok:#34d399;--bad:#f87171;
+  --glow:0 0 12px rgba(34,211,238,.35)}
+body.mode-overdrive{--glow:0 0 22px rgba(34,211,238,.75),0 0 44px rgba(167,139,250,.4)}
+body.mode-pulse{--glow:0 0 12px rgba(34,211,238,.35)}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Tahoma,'Noto Sans Arabic',sans-serif}
+body{background:var(--bg);color:var(--txt);line-height:1.65}
+::selection{background:var(--neon);color:#000}
+header{position:sticky;top:0;z-index:500;background:rgba(7,11,20,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.hwrap{max-width:1280px;margin:auto;display:flex;align-items:center;gap:14px;padding:10px 18px;flex-wrap:wrap}
+.logo{font-weight:900;font-size:1.25rem;background:linear-gradient(90deg,var(--neon),var(--neon2));-webkit-background-clip:text;background-clip:text;color:transparent;white-space:nowrap}
+nav{display:flex;gap:2px;flex-wrap:wrap;flex:1}
+nav a{color:var(--mut);text-decoration:none;padding:7px 12px;border-radius:8px;font-size:.86rem;transition:.2s}
+nav a:hover,nav a.on{color:#fff;background:rgba(34,211,238,.12);box-shadow:inset 0 0 0 1px rgba(34,211,238,.3)}
+.kbtn{background:var(--panel2);border:1px solid var(--line);color:var(--mut);border-radius:8px;padding:7px 14px;cursor:pointer;font-size:.82rem;display:flex;gap:8px;align-items:center}
+.kbtn:hover{border-color:var(--neon);color:#fff}
+select{background:var(--panel2);color:var(--txt);border:1px solid var(--line);border-radius:8px;padding:7px 10px;font-size:.85rem;cursor:pointer}
+.wrap{max-width:1280px;margin:auto;padding:26px 18px}
+.hero{padding:56px 18px 30px;text-align:center}
+.hero h1{font-size:clamp(1.7rem,4.5vw,3rem);background:linear-gradient(90deg,var(--neon),var(--neon2),var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:var(--mut);max-width:720px;margin:14px auto 0}
+.chips{display:flex;gap:10px;justify-content:center;margin-top:20px;flex-wrap:wrap}
+.chip{background:var(--panel);border:1px solid var(--line);border-radius:30px;padding:8px 18px;font-size:.82rem;color:var(--mut)}
+.chip b{color:var(--neon)}
+section{margin:34px 0;scroll-margin-top:90px}
+.stitle{font-size:1.5rem;margin-bottom:4px}
+.stitle span{color:var(--neon)}
+.ssub{color:var(--mut);font-size:.9rem;margin-bottom:20px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:var(--glow)}
+.controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:18px}
+input[type=text],input[type=number],input[type=date]{width:100%;background:var(--panel2);border:1px solid var(--line);color:var(--txt);border-radius:10px;padding:10px 13px;font-size:.9rem}
+input:focus,select:focus{outline:none;border-color:var(--neon);box-shadow:0 0 0 3px rgba(34,211,238,.15)}
+label{font-size:.75rem;color:var(--mut);display:block;margin-bottom:4px;font-weight:700}
+.cats{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.cat{background:var(--panel2);border:1px solid var(--line);color:var(--mut);border-radius:20px;padding:6px 16px;font-size:.82rem;cursor:pointer;transition:.2s}
+.cat.on{background:linear-gradient(90deg,rgba(34,211,238,.2),rgba(167,139,250,.2));border-color:var(--neon);color:#fff}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px}
+.card{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:18px;transition:.25s;position:relative}
+.card:hover{transform:translateY(-4px);border-color:var(--neon);box-shadow:var(--glow)}
+.bkm{position:absolute;top:12px;inset-inline-end:12px;background:none;border:none;font-size:1.15rem;cursor:pointer;opacity:.45;transition:.2s}
+.bkm.on{opacity:1;filter:drop-shadow(0 0 6px var(--accent))}
+.cicon{font-size:1.7rem;margin-bottom:8px}
+.card h4{font-size:1rem;margin-bottom:6px;padding-inline-end:26px}
+.meta{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.tag{font-size:.68rem;background:rgba(34,211,238,.1);color:var(--neon);border-radius:12px;padding:2px 10px;font-weight:700}
+.tag.v{background:rgba(52,211,153,.12);color:var(--ok)}
+.card a{color:var(--neon2);text-decoration:none;font-size:.82rem;font-weight:700}
+.card a:hover{text-decoration:underline}
+.empty{color:var(--mut);text-align:center;padding:30px;grid-column:1/-1}
+table{width:100%;border-collapse:collapse;font-size:.82rem}
+th{color:var(--neon);padding:8px 6px;border-bottom:2px solid var(--line);text-align:start;font-size:.75rem;white-space:nowrap}
+td{padding:6px;border-bottom:1px solid var(--line)}
+td input{width:64px;padding:5px 7px;font-size:.82rem;background:var(--bg)}
+td input.wide{width:130px}
+.btn{background:linear-gradient(90deg,var(--neon),var(--neon2));color:#04121a;font-weight:800;border:none;border-radius:10px;padding:10px 22px;cursor:pointer;font-size:.9rem;transition:.2s}
+.btn:hover{transform:translateY(-2px);box-shadow:var(--glow)}
+.btn.ghost{background:var(--panel2);color:var(--txt);border:1px solid var(--line)}
+.btn.danger{background:transparent;color:var(--bad);border:1px solid var(--bad)}
+.stat{display:flex;gap:14px;flex-wrap:wrap;margin:14px 0}
+.stat .box{flex:1;min-width:130px;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:12px;text-align:center}
+.stat .box b{font-size:1.4rem;display:block}
+.stat .box small{color:var(--mut)}
+.pill{display:inline-block;border-radius:20px;padding:3px 14px;font-size:.75rem;font-weight:800}
+.pill.ok{background:rgba(52,211,153,.15);color:var(--ok)}
+.pill.bad{background:rgba(248,113,113,.15);color:var(--bad)}
+.pill.warn{background:rgba(244,114,182,.15);color:var(--accent)}
+.calc-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.calcs{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.calc{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:18px;display:none}
+.calc.on{display:block}
+.calc h4{color:var(--neon);margin-bottom:10px}
+.calc .res{background:rgba(34,211,238,.07);border:1px dashed rgba(34,211,238,.4);border-radius:10px;padding:12px;margin-top:12px;min-height:44px;font-weight:700;display:flex;align-items:center;flex-wrap:wrap;gap:8px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.check{display:flex;gap:10px;align-items:center;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin-bottom:8px;cursor:pointer;transition:.2s}
+.check:hover{border-color:var(--neon)}
+.check input{width:18px;height:18px;accent-color:var(--neon)}
+.check.done{opacity:.55;text-decoration:line-through}
+.idwrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px}
+.idcard{background:linear-gradient(135deg,#0e1a30,#152238 55%,#0b1220);border:2px solid var(--neon);border-radius:18px;padding:22px;position:relative;overflow:hidden;box-shadow:var(--glow)}
+.idcard::before{content:'';position:absolute;top:-60px;inset-inline-start:-60px;width:200px;height:200px;background:radial-gradient(circle,rgba(34,211,238,.25),transparent 70%)}
+.idcard .uni{color:var(--neon);font-weight:800;font-size:.85rem;letter-spacing:1px}
+.idcard .photo{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--neon),var(--neon2));display:flex;align-items:center;justify-content:center;font-size:1.7rem;font-weight:900;color:#04121a;float:inline-start;margin-inline-end:14px}
+[dir="ltr"] .idcard .photo{float:left;margin-right:14px}
+[dir="rtl"] .idcard .photo{float:right;margin-left:14px}
+.idcard .nm{font-size:1.25rem;font-weight:800;margin-top:8px}
+.idcard .info{font-size:.8rem;color:var(--mut);margin-top:4px}
+.idcard .codes{display:flex;gap:16px;align-items:center;margin-top:16px;flex-wrap:wrap}
+.idcard svg,.idcard img{background:#fff;border-radius:6px;padding:4px}
+#qrbox{width:92px;height:92px;background:#fff;border-radius:8px;padding:5px;display:flex;align-items:center;justify-content:center}
+#qrbox img,#qrbox canvas{width:100%!important;height:100%!important}
+.neon-modes{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.nmode{background:var(--panel2);border:1px solid var(--line);color:var(--mut);border-radius:12px;padding:14px 22px;cursor:pointer;text-align:center;transition:.25s;flex:1;min-width:130px}
+.nmode.on{border-color:var(--neon);color:#fff}
+.nmode .dot{width:14px;height:14px;border-radius:50%;margin:0 auto 6px}
+.palette{position:fixed;inset:0;background:rgba(3,6,12,.75);backdrop-filter:blur(6px);z-index:2000;display:none;align-items:flex-start;justify-content:center;padding-top:12vh}
+.palette.on{display:flex}
+.pbox{width:min(560px,92vw);background:var(--panel);border:1px solid var(--neon);border-radius:16px;overflow:hidden;box-shadow:0 0 60px rgba(34,211,238,.35)}
+.pbox input{border:none;background:var(--panel2);border-radius:0;font-size:1rem;padding:16px 18px;border-bottom:1px solid var(--line)}
+.plist{max-height:320px;overflow:auto}
+.pitem{padding:12px 18px;cursor:pointer;font-size:.9rem;display:flex;justify-content:space-between;color:var(--txt)}
+.pitem:hover,.pitem.sel{background:rgba(34,211,238,.1)}
+.pitem small{color:var(--mut)}
+body.mode-pulse .card{animation:pl 2.6s ease-in-out infinite}
+@keyframes pl{0%,100%{box-shadow:var(--glow)}50%{box-shadow:0 0 26px rgba(167,139,250,.55)}}
+body.mode-overdrive .card:hover{box-shadow:0 0 30px rgba(34,211,238,.8),0 0 60px rgba(167,139,250,.5)}
+.foot{text-align:center;color:var(--mut);font-size:.8rem;padding:34px 18px;border-top:1px solid var(--line);margin-top:40px}
+.toast{position:fixed;bottom:24px;inset-inline-start:24px;background:var(--panel);border:1px solid var(--ok);color:var(--ok);padding:12px 24px;border-radius:30px;font-weight:700;z-index:3000;display:none}
+@media(max-width:640px){.row2{grid-template-columns:1fr}nav{display:none}}
 </style>
+<base target="_blank">
 </head>
 <body>
+<header><div class="hwrap">
+  <div class="logo">⚡ EngiCore</div>
+  <nav id="mainNav"></nav>
+  <button class="kbtn" onclick="togglePalette(true)">⌘ <span data-i18n="palette">Command Palette</span> <b>Ctrl+K</b></button>
+  <select id="langSel" onchange="setLang(this.value)">
+    <option value="ar">العربية</option><option value="ku">کوردی</option><option value="en">English</option>
+  </select>
+</div></header>
 
-<nav>
-  <a href="#tools">أدوات الدراسة</a><a href="#courses">الكورسات</a>
-  <a href="#certs">الشهادات</a><a href="#awards">الجوائز</a>
-  <a href="#games">ألعاب الذكاء</a><a href="#master">المنح والماستر</a>
-  <a href="#social">تواصل معنا</a>
-</nav>
-
-<header>
-  <h1>💻 منصة طلاب هندسة الحاسوب</h1>
-  <p>ادرس، تدرّب، احصل على شهادات، ونافس عالمياً</p>
-</header>
-
-<!-- أدوات الدراسة -->
-<section id="tools">
-  <h2>🛠️ أدوات الدراسة</h2>
-  <div class="grid">
-    <div class="card">
-      <h3>⏱️ مؤقت بومودورو</h3>
-      <div id="timer">25:00</div>
-      <button class="btn" onclick="startT()">ابدأ</button>
-      <button class="btn" onclick="resetT()">إعادة</button>
-    </div>
-    <div class="card">
-      <h3>🔢 محوّل الأنظمة العددية</h3>
-      <input id="num" placeholder="اكتب رقماً عشرياً" oninput="conv()">
-      <p id="convOut">Binary: - <br>Hex: - <br>Octal: -</p>
-    </div>
-    <div class="card">
-      <h3>🎓 حاسبة المعدل</h3>
-      <input id="grades" placeholder="الدرجات: 90,85,70">
-      <input id="units" placeholder="الوحدات: 3,2,4">
-      <button class="btn" onclick="gpa()">احسب</button>
-      <p id="gpaOut"></p>
-    </div>
-    <div class="card">
-      <h3>⚡ بوابات منطقية</h3>
-      <select id="gate"><option>AND</option><option>OR</option><option>XOR</option><option>NAND</option><option>NOR</option></select>
-      <select id="a"><option>0</option><option>1</option></select>
-      <select id="b"><option>0</option><option>1</option></select>
-      <button class="btn" onclick="logic()">النتيجة</button>
-      <p id="logicOut"></p>
-    </div>
+<div class="hero wrap">
+  <h1 data-i18n="hero_t">نواة طالب الهندسة الحاسوبية</h1>
+  <p data-i18n="hero_p">ثلاثة أقسام أكاديمية، مدير درجات بولونيا، حاسبات هندسية تفاعلية، بطاقة هوية رقمية، وأوضاع نيون — كل شيء في مكان واحد.</p>
+  <div class="chips">
+    <div class="chip">🎓 <b data-i18n="n1">3 Academic Divisions</b></div>
+    <div class="chip">🇪🇺 <b>Bologna / ECTS</b></div>
+    <div class="chip">🧮 <b data-i18n="n2">7 Interactive Tools</b></div>
+    <div class="chip">🪪 <b data-i18n="n3">Digital ID + QR</b></div>
+    <div class="chip">🌈 <b>Neon ×3</b></div>
   </div>
-</section>
+</div>
 
-<!-- الكورسات -->
-<section id="courses">
-  <h2>📚 الكورسات</h2>
-  <div class="grid">
-    <div class="card"><h3>CS50 – Harvard</h3><p>أساسيات علوم الحاسوب والبرمجة.</p><a href="[cs50.harvard.edu](https://cs50.harvard.edu/x/)" target="_blank">ابدأ</a></div>
-    <div class="card"><h3>Nand2Tetris</h3><p>بناء حاسوب من البوابات المنطقية إلى نظام التشغيل.</p><a href="[nand2tetris.org](https://www.nand2tetris.org/)" target="_blank">ابدأ</a></div>
-    <div class="card"><h3>MIT OpenCourseWare</h3><p>مواد هندسة الحاسوب والكهرباء من MIT.</p><a href="[ocw.mit.edu](https://ocw.mit.edu/)" target="_blank">ابدأ</a></div>
-    <div class="card"><h3>Cisco Networking Academy</h3><p>الشبكات والأمن السيبراني.</p><a href="[netacad.com](https://www.netacad.com/)" target="_blank">ابدأ</a></div>
-    <div class="card"><h3>freeCodeCamp</h3><p>تطوير الويب والخوارزميات.</p><a href="[freecodecamp.org](https://www.freecodecamp.org/)" target="_blank">ابدأ</a></div>
-    <div class="card"><h3>إدراك</h3><p>كورسات عربية مجانية.</p><a href="[edraak.org](https://www.edraak.org/)" target="_blank">ابدأ</a></div>
+<div class="wrap" id="app"></div>
+
+<div class="palette" id="palette" onclick="if(event.target===this)togglePalette(false)">
+  <div class="pbox">
+    <input id="pinput" placeholder="⌘ …" oninput="renderPalette()" autocomplete="off">
+    <div class="plist" id="plist"></div>
   </div>
-</section>
-
-<!-- الشهادات -->
-<section id="certs">
-  <h2>📜 شهادات حقيقية</h2>
-  <div class="grid">
-    <div class="card"><h3>CS50 Certificate</h3><p>شهادة مجانية من Harvard عبر edX.</p><a href="[cs50.harvard.edu](https://cs50.harvard.edu/x/)" target="_blank">التفاصيل</a></div>
-    <div class="card"><h3>Cisco CCNA</h3><p>شهادة احترافية في الشبكات.</p><a href="[netacad.com](https://www.netacad.com/)" target="_blank">التفاصيل</a></div>
-    <div class="card"><h3>Google Career Certificates</h3><p>دعم تقني، تحليل بيانات، أمن سيبراني.</p><a href="[grow.google](https://grow.google/certificates/)" target="_blank">التفاصيل</a></div>
-    <div class="card"><h3>freeCodeCamp</h3><p>شهادات مجانية بعد إنجاز المشاريع.</p><a href="[freecodecamp.org](https://www.freecodecamp.org/learn)" target="_blank">التفاصيل</a></div>
-    <div class="card"><h3>Microsoft Learn</h3><p>Azure وشهادات سحابية.</p><a href="[learn.microsoft.com](https://learn.microsoft.com/credentials/)" target="_blank">التفاصيل</a></div>
-    <div class="card"><h3>AWS Certifications</h3><p>شهادات الحوسبة السحابية.</p><a href="[aws.amazon.com](https://aws.amazon.com/certification/)" target="_blank">التفاصيل</a></div>
-  </div>
-</section>
-
-<!-- الجوائز -->
-<section id="awards">
-  <h2>🏆 مسابقات وجوائز حقيقية</h2>
-  <div class="grid">
-    <div class="card"><h3>ICPC</h3><p>أكبر مسابقة برمجة جامعية في العالم.</p><a href="[icpc.global](https://icpc.global/)" target="_blank">سجّل</a></div>
-    <div class="card"><h3>Huawei ICT Competition</h3><p>مسابقة عالمية في الشبكات والسحابة والذكاء الاصطناعي.</p><a href="[e.huawei.com](https://e.huawei.com/en/talent/ict-academy/)" target="_blank">سجّل</a></div>
-    <div class="card"><h3>Codeforces</h3><p>مسابقات أسبوعية وتصنيف عالمي.</p><a href="[codeforces.com](https://codeforces.com/)" target="_blank">شارك</a></div>
-    <div class="card"><h3>Kaggle</h3><p>مسابقات ذكاء اصطناعي بجوائز مالية.</p><a href="[kaggle.com](https://www.kaggle.com/competitions)" target="_blank">شارك</a></div>
-    <div class="card"><h3>Google Summer of Code</h3><p>مساهمة بالمصادر المفتوحة مع مكافأة مالية.</p><a href="[summerofcode.withgoogle.com](https://summerofcode.withgoogle.com/)" target="_blank">التفاصيل</a></div>
-    <div class="card"><h3>MLH Hackathons</h3><p>هاكاثونات عالمية بجوائز.</p><a href="[mlh.io](https://mlh.io/)" target="_blank">التفاصيل</a></div>
-  </div>
-</section>
-
-<!-- ألعاب الذكاء -->
-<section id="games">
-  <h2>♟️ ألعاب الذكاء – شطرنج ضد الحاسوب</h2>
-  <p style="text-align:center">أنت تلعب بالأبيض. اضغط على قطعة ثم على المربع المطلوب.</p>
-  <div id="board"></div>
-  <p id="status" style="text-align:center;margin-top:10px"></p>
-  <div style="text-align:center"><button class="btn" onclick="newGame()">لعبة جديدة</button></div>
-</section>
-
-<!-- المنح والماستر -->
-<section id="master">
-  <h2>🎓 المنح ودراسة الماستر</h2>
-  <div class="grid">
-    <div class="card"><h3>🇬🇧 Chevening</h3><p>ماستر لمدة سنة في بريطانيا، ممولة بالكامل.</p><a href="[chevening.org](https://www.chevening.org/)" target="_blank">قدّم</a></div>
-    <div class="card"><h3>🇺🇸 Fulbright</h3><p>ماستر في الولايات المتحدة.</p><a href="[foreign.fulbrightonline.org](https://foreign.fulbrightonline.org/)" target="_blank">قدّم</a></div>
-    <div class="card"><h3>🇩🇪 DAAD</h3><p>منح ألمانية للماستر والدكتوراه.</p><a href="[daad.de](https://www.daad.de/en/)" target="_blank">قدّم</a></div>
-    <div class="card"><h3>🇪🇺 Erasmus Mundus</h3><p>ماستر مشترك في عدة دول أوروبية.</p><a href="[eacea.ec.europa.eu](https://www.eacea.ec.europa.eu/scholarships/erasmus-mundus-catalogue_en)" target="_blank">قدّم</a></div>
-    <div class="card"><h3>🇹🇷 Türkiye Burslari</h3><p>منح الحكومة التركية.</p><a href="[turkiyeburslari.gov.tr](https://www.turkiyeburslari.gov.tr/)" target="_blank">قدّم</a></div>
-    <div class="card"><h3>🇭🇺 Stipendium Hungaricum</h3><p>منح هنغارية بتمويل كامل.</p><a href="[stipendiumhungaricum.hu](https://stipendiumhungaricum.hu/)" target="_blank">قدّم</a></div>
-    <div class="card"><h3>🇯🇵 MEXT</h3><p>منح الحكومة اليابانية.</p><a href="[studyinjapan.go.jp](https://www.studyinjapan.go.jp/en/)" target="_blank">قدّم</a></div>
-    <div class="card"><h3>🇰🇷 GKS</h3><p>منح الحكومة الكورية.</p><a href="[studyinkorea.go.kr](https://www.studyinkorea.go.kr/)" target="_blank">قدّم</a></div>
-  </div>
-  <div class="card" style="margin-top:20px">
-    <h3>📝 خطوات التقديم على الماستر</h3>
-    <p>1. اختر التخصص (ذكاء اصطناعي، شبكات، أمن سيبراني، أنظمة مدمجة).<br>
-    2. جهّز شهادة لغة (IELTS أو TOEFL).<br>
-    3. اكتب السيرة الذاتية ورسالة الدافع (Motivation Letter).<br>
-    4. اطلب رسائل توصية من أساتذتك.<br>
-    5. قدّم قبل الموعد النهائي بفترة كافية.</p>
-  </div>
-</section>
-
-<!-- التواصل الاجتماعي -->
-<section id="social">
-  <h2>🌐 تابعنا</h2>
-  <div class="social">
-    <a href="[facebook.com](https://facebook.com/)" target="_blank" style="background:#1877f2">Facebook</a>
-    <a href="[instagram.com](https://instagram.com/)" target="_blank" style="background:#e1306c">Instagram</a>
-    <a href="[t.me](https://t.me/)" target="_blank" style="background:#229ed9">Telegram</a>
-    <a href="[youtube.com](https://youtube.com/)" target="_blank" style="background:#ff0000">YouTube</a>
-    <a href="[x.com](https://x.com/)" target="_blank" style="background:#000">X</a>
-    <a href="[linkedin.com](https://linkedin.com/)" target="_blank" style="background:#0a66c2">LinkedIn</a>
-    <a href="[tiktok.com](https://tiktok.com/)" target="_blank" style="background:#111">TikTok</a>
-    <a href="[discord.com](https://discord.com/)" target="_blank" style="background:#5865f2">Discord</a>
-    <a href="[wa.me](https://wa.me/)" target="_blank" style="background:#25d366">WhatsApp</a>
-  </div>
-</section>
-
-<footer>© 2026 منصة طلاب هندسة الحاسوب – جميع الحقوق محفوظة</footer>
+</div>
+<div class="toast" id="toast"></div>
 
 <script>
-// ===== بومودورو =====
-let t=1500,iv=null;
-function show(){timer.textContent=String(Math.floor(t/60)).padStart(2,'0')+':'+String(t%60).padStart(2,'0')}
-function startT(){if(iv)return;iv=setInterval(()=>{if(t>0){t--;show()}else{clearInterval(iv);iv=null;alert('انتهى الوقت! خذ استراحة ☕')}},1000)}
-function resetT(){clearInterval(iv);iv=null;t=1500;show()}
+/* ================= I18N ================= */
+const T={
+en:{home:'Home',bsc:'B.Sc. Undergraduate',msc:"M.Sc. Master's",phd:'Ph.D. Doctoral',hub:'ID • Calculators • Lab',bologna:'Bologna Manager',
+palette:'Command',hero_t:'The Computer Engineering Student Core',hero_p:'Three academic divisions, a Bologna grade manager, interactive engineering calculators, a digital student ID, and neon modes — everything in one place.',
+n1:'3 Academic Divisions',n2:'7 Interactive Tools',n3:'Digital ID + QR',
+search:'Live search…',stage:'Stage / Year',track:'Track',semester:'Semester',all:'All',tr_all:'All Tracks',
+t_soft:'Software',t_hard:'Hardware',t_net:'Networks',t_ai:'AI & Data',
+cat_all:'All',cat_courses:'Courses',cat_certs:'Certifications',cat_scholarships:'Scholarships',cat_tools:'Tools & Labs',
+verified:'✓ Verified official link',stage_s:'Stage',sem_s:'Sem',bookmark:'Bookmarked',empty:'No items match your filters.',
+bologna_t:'🇪🇺 Bologna Process Manager',bologna_p:'Enter assessments and weights — totals, pass/fail, and the final-exam score you need update live.',
+ects:'ECTS',course:'Course',quizzes:'Quizzes %',midterm:'Midterm %',cont:'Continuous/Lab/Research %',fw:'Final weight %',cur:'Final exam %',
+total:'Weighted total',status:'Status',pass:'PASS',fail:'FAIL',needed:'Final needed for target',target:'Target %',add_course:'+ Add course',overall:'Overall avg',del:'✕',
+whatif:'What-If: score required in the final exam',secured:'Already secured ✓',
+calc_t:'🧮 Interactive Engineering Calculators',calc_p:'Ohm & voltage divider, number bases, dBm/W, length — built for CE coursework.',
+ohm:'Ohm\'s Law & Voltage Divider',base:'Base Converter DEC/BIN/OCT/HEX',power:'Power dBm ↔ Watt',length:'Length Converter',gpa:'GPA Calculator',checklist:'Scholarship / Master Readiness Checklist',
+v:'Voltage (V)',i:'Current (A)',r:'Resistance (Ω)',vin:'Input V',r1:'R1 (Ω)',r2:'R2 (Ω)',calc:'Calculate',vout:'Vout',dec:'Decimal',bin:'Binary',oct:'Octal',hex:'Hex',
+dbm:'dBm',watt:'Watt',m:'Meters',km:'Kilometers',cm:'Centimeters',mm:'Millimeters',mi:'Miles',ft:'Feet',
+course_g:'Course',grade:'Grade %',cred:'Credits',add_row:'+ Row',gpa_res:'Your GPA',
+ck1:'Passport valid 12+ months',ck2:'CV / Resume ( Europass )',ck3:'Motivation letter drafted',ck4:'2 recommendation letters',ck5:'IELTS ≥ 6.0 or TOEFL',ck6:'Transcripts + grading system doc',ck7:'GitHub portfolio with 3+ projects',ck8:'University shortlist (5+ programs)',
+ready:'Readiness',
+id_t:'🪪 Digital Student ID',id_p:'Live-rendered card with Barcode & QR — export it as PNG.',
+full_name:'Full name',student_id:'Student ID',university:'University',division:'Division',valid:'Valid until',download_id:'⬇ Download ID (PNG)',
+st_bsc:'B.Sc.',st_msc:'M.Sc.',st_phd:'Ph.D.',
+neon_t:'🌈 Neon Glow Modes',neon_p:'Pick your energy level.',studio:'Studio',overdrive:'Overdrive',pulse:'Pulse',
+export_t:'💾 Data Portability',export_p:'Your bookmarks, grades, checklist and ID live in the browser (localStorage). Export anytime as JSON or import back.',
+export:'⬇ Export state (JSON)',import_l:'⬆ Import state',lang:'Language',saved:'State saved ✓',imported:'State imported ✓',
+goto:'Go',act:'Action',footer:'EngiCore — built for CE students. Data stays in your browser.',},
+ar:{home:'الرئيسية',bsc:'بكالوريوس B.Sc.',msc:'ماجستير M.Sc.',phd:'دكتوراه Ph.D.',hub:'الهوية • الحاسبات • المختبر',bologna:'مدير بولونيا',
+palette:'الأوامر',hero_t:'نواة طالب الهندسة الحاسوبية',hero_p:'ثلاثة أقسام أكاديمية، مدير درجات بولونيا، حاسبات هندسية تفاعلية، بطاقة هوية رقمية، وأوضاع نيون — كل شيء في مكان واحد.',
+n1:'٣ أقسام أكاديمية',n2:'٧ أدوات تفاعلية',n3:'هوية رقمية + QR',
+search:'بحث فوري…',stage:'المرحلة / السنة',track:'المسار',semester:'الفصل',all:'الكل',tr_all:'كل المسارات',
+t_soft:'البرمجيات',t_hard:'العتاد',t_net:'الشبكات',t_ai:'الذكاء والبيانات',
+cat_all:'الكل',cat_courses:'مقررات',cat_certs:'شهادات',cat_scholarships:'منح',cat_tools:'أدوات ومختبرات',
+verified:'✓ رابط رسمي موثق',stage_s:'مرحلة',sem_s:'فصل',bookmark:'محفوظ',empty:'لا توجد عناصر مطابقة للفلاتر.',
+bologna_t:'🇪🇺 مدير عملية بولونيا للدرجات',bologna_p:'أدخل التقييمات والأوزان — الإجمالي، النجاح/الرسوب، والدرجة المطلوبة في الامتحان النهائي تُحدَّث مباشرة.',
+ects:'ECTS',course:'المادة',quizzes:'كويز %',midterm:'نصفي %',cont:'مستمر/مختبر/بحث %',fw:'وزن النهائي %',cur:'درجة النهائي %',
+total:'المجموع المرجح',status:'الحالة',pass:'ناجح',fail:'راسب',needed:'درجة النهائي المطلوبة',target:'الهدف %',add_course:'+ إضافة مادة',overall:'المعدل العام',del:'✕',
+whatif:'ماذا لو: الدرجة المطلوبة في الامتحان النهائي',secured:'مؤمَّنة بالفعل ✓',
+calc_t:'🧮 حاسبات هندسية تفاعلية',calc_p:'قانون أوم وموزع الجهد، تحويل أنظمة الأرقام، dBm/W، والأطوال — مصممة لمواد الهندسة الحاسوبية.',
+ohm:'قانون أوم وموزع الجهد',base:'محول الأنظمة DEC/BIN/OCT/HEX',power:'القدرة dBm ↔ واط',length:'محول الأطوال',gpa:'حاسبة المعدل GPA',checklist:'قائمة الجاهزية للمنح والماستر',
+v:'الجهد (فولت)',i:'التيار (أمبير)',r:'المقاومة (أوم)',vin:'الجهد الداخل',r1:'R1 (أوم)',r2:'R2 (أوم)',calc:'احسب',vout:'الجهد الخارج',dec:'عشري',bin:'ثنائي',oct:'ثماني',hex:'ست عشري',
+dbm:'dBm',watt:'واط',m:'متر',km:'كيلومتر',cm:'سنتيمتر',mm:'مليمتر',mi:'ميل',ft:'قدم',
+course_g:'المادة',grade:'العلامة %',cred:'الساعات',add_row:'+ صف',gpa_res:'معدلك',
+ck1:'جواز سفر ساري ١٢+ شهراً',ck2:'سيرة ذاتية (Europass)',ck3:'مسودة رسالة الدافع',ck4:'رسالتا توصية',ck5:'IELTS ≥ 6.0 أو TOEFL',ck6:'الكشوف الدراسية + نظام التقييم',ck7:'حساب GitHub بثلاثة مشاريع+',ck8:'قائمة جامعات (٥ برامج+)',
+ready:'الجاهزية',
+id_t:'🪪 بطاقة الهوية الجامعية الرقمية',id_p:'بطاقة تُرسم مباشرة مع باركود و QR — صدّرها PNG.',
+full_name:'الاسم الكامل',student_id:'الرقم الجامعي',university:'الجامعة',division:'القسم',valid:'سارية حتى',download_id:'⬇ تحميل البطاقة PNG',
+st_bsc:'بكالوريوس',st_msc:'ماجستير',st_phd:'دكتوراه',
+neon_t:'🌈 أوضاع توهج النيون',neon_p:'اختر مستوى طاقتك.',studio:'استوديو',overdrive:'توريد',pulse:'نبض',
+export_t:'💾 قابلية نقل البيانات',export_p:'إشاراتك المرجعية ودرجاتك وقائمتك وبطاقتك محفوظة في المتصفح (localStorage). صدّرها JSON أو استوردها متى شئت.',
+export:'⬇ تصدير الحالة JSON',import_l:'⬆ استيراد حالة',lang:'اللغة',saved:'تم الحفظ ✓',imported:'تم الاستيراد ✓',
+goto:'انتقال',act:'إجراء',footer:'EngiCore — مبني لطلاب الهندسة الحاسوبية. بياناتك تبقى في متصفحك.',},
+ku:{home:'Destpêk',bsc:'Bakalorî B.Sc.',msc:'Master M.Sc.',phd:'Doktor Ph.D.',hub:'Nasname • Hesab • Laboratwar',bologna:'Birêvebirê Bolonyayê',
+palette:'Ferman',hero_t:'Navenda Xwendekarê Endezyariya Komputerê',hero_p:'Sê beşên akademîk, birêvebirê notên Bolonyayê, hesabkerên înteraktîf, nasnameya xwendekarî û modên neon — her tişt li cîhekê.',
+n1:'3 Beşên Akademîk',n2:'7 Amûrên Înteraktîf',n3:'Nasnameya Dîjîtal + QR',
+search:'Lêgerîna zindî…',stage:'Asta / Sal',track:'Rêk',semester:'Nîvsal',all:'Hemû',tr_all:'Hemû Rêk',
+t_soft:'Nivîsbarî',t_hard:'Cihaz',t_net:'Tor',t_ai:'AI & Daney',
+cat_all:'Hemû',cat_courses:'Kurs',cat_certs:'Sertîfîk',cat_scholarships:'Burs',cat_tools:'Amûr & Laboratwar',
+verified:'✓ Girêdana fermî ya verastkirî',stage_s:'Asta',sem_s:'Nîvsal',bookmark:'Hat tomarkirin',empty:'Ti tişt bi vê pîlterê nayê dîtin.',
+bologna_t:'🇪🇺 Birêvebirê Pêvajoya Bolonyayê',boglona_p:'',bologna_p:'Notan û giraniyan binivîse — kom, derbas/venegirtin û nota pêwîst a ezmnana dawîn zindî tê nûkirin.',
+ects:'ECTS',course:'Kurs',quizzes:'Pirsok %',midterm:'Navîn %',cont:'Berdewam/Laboratwar/Lêkolîn %',fw:'Giraniya dawî %',cur:'Nota dawîn %',
+total:'Komika giranîdar',status:'Rewş',pass:'DERBAS',fail:'TÊKÇÛ',needed:'Nota dawî ya pêwîst',target:'Hedef %',add_course:'+ Kursê tevlî bike',overall:'Navorta giştî',del:'✕',
+whatif:'Heke: nota pêwîst a ezmnana dawîn',secured:'Jixwe hatiye temamkirin ✓',
+calc_t:'🧮 Hesabkerên Înteraktîf',calc_p:'Qanûna Ohm, guherbarên hejmarî, dBm/W, dirêjî — ji bo kursên endezyariyê.',
+ohm:"Qanûna Ohm & Veqetandera Voltajê",base:'Guherbar DEC/BIN/OCT/HEX',power:'Hêz dBm ↔ Watt',length:'Guherbara Dirêjiyê',gpa:'Hesabkara GPA',checklist:'Lîsteya Amadehiyê ji bo Burs & Master',
+v:'Voltaj (V)',i:'Veger (A)',r:'Berxwedan (Ω)',vin:'Voltaja hundir',r1:'R1 (Ω)',r2:'R2 (Ω)',calc:'Bipirse',vout:'Voltaja derve',dec:'Dehemî',bin:'Duhendî',oct:'Heştanî',hex:'Şeşdehî',
+dbm:'dBm',watt:'Watt',m:'Mêtre',km:'Kîlomêtre',cm:'Santîmêtre',mm:'Mîlîmêtre',mi:'Mîl',ft:'Pî',
+course_g:'Kurs',grade:'Not %',cred:'Xwedkirin',add_row:'+ Rêz',gpa_res:'GPA te',
+ck1:'Pasaporta 12+ mehan',ck2:'CV (Europass)',ck3:'Nameya motîvasyonê',ck4:'2 nameyên pêşniyarê',ck5:'IELTS ≥ 6.0 an TOEFL',ck6:'Transkrîpt + pergala notan',ck7:'Hesaba GitHub bi 3+ projeyan',ck8:'Lîsteya zanîngehan (5+ bername)',
+ready:'Amadehî',
+id_t:'🪪 Nasnameya Xwendekarî ya Dîjîtal',id_p:'Kart bi barkod û QR zindî tê çêkirin — wek PNG derxe.',
+full_name:'Navê tevde',student_id:'Jimara xwendekarî',university:'Zanîngeh',division:'Beş',valid:'Derbasdare heta',download_id:'⬇ Kartê dakêş (PNG)',
+st_bsc:'Bakalorî',st_msc:'Master',st_phd:'Doktor',
+neon_t:'🌈 Modên Neon',neon_p:'Asta xweya xwedayî hilbijêre.',studio:'Studyo',overdrive:'Overdrive',pulse:'Pulse',
+export_t:'💾 Veguhastina Daneyan',export_p:'Barkirina te, not, lîste û nasname di gerokê de tên tomarkirin (localStorage). Wan wek JSON derxe an jî têxe nav.',
+export:'⬇ Daneyan derxe (JSON)',import_l:'⬆ Daneyan têxe nav',lang:'Ziman',saved:'Hat tomarkirin ✓',imported:'Hat têxist nav ✓',
+goto:'Biçe',act:'Kiryar',footer:'EngiCore — ji bo xwendekarên endezyariyê hat çêkirin. Daney di geroka te de dimînin.',}
+};
+const TRACKS=['tr_all','t_soft','t_hard','t_net','t_ai'];
+const CATS=['cat_all','cat_courses','cat_certs','cat_scholarships','cat_tools'];
+const CAT_ICON={cat_courses:'📘',cat_certs:'🎖️',cat_scholarships:'🌍',cat_tools:'🧪'};
 
-// ===== محوّل الأنظمة =====
-function conv(){const n=parseInt(num.value);convOut.innerHTML=isNaN(n)?'Binary: - <br>Hex: - <br>Octal: -':
-`Binary: ${n.toString(2)}<br>Hex: ${n.toString(16).toUpperCase()}<br>Octal: ${n.toString(8)}`}
+/* ================= CATALOG (verified official links) ================= */
+const CATALOG=[
+/* ---- B.Sc. (div 0) : st=year 1..4, sem 1..2, tr ---- */
+{d:0,cat:'cat_courses',st:1,sem:1,tr:1,en:'CS50 — Intro to Computer Science',ar:'CS50 — مدخل علوم الحاسوب',ku:'CS50 — Zanistên Komputerê',url:'https://cs50.harvard.edu/x/'},
+{d:0,cat:'cat_courses',st:1,sem:0,tr:1,en:'Programming in C (Neso Academy)',ar:'البرمجة بلغة C (Neso)',ku:'Bernamekirin bi C (Neso)',url:'https://www.youtube.com/@nesoacademy'},
+{d:0,cat:'cat_courses',st:2,sem:1,tr:1,en:'Data Structures (freeCodeCamp)',ar:'هياكل البيانات',ku:'Sazûmanên Daneyê',url:'https://www.freecodecamp.org/learn/data-structures-and-algorithms/'},
+{d:0,cat:'cat_courses',st:2,sem:2,tr:2,en:'Digital Logic & Circuits (Neso)',ar:'المنطق الرقمي والدوائر',ku:'Lojîka Dîjîtal',url:'https://www.youtube.com/playlist?list=PLBlnK6fEyqRjMH3mWf6kwqiTbT798eAOm'},
+{d:0,cat:'cat_tools',st:0,sem:0,tr:2,en:'CircuitVerse — Digital Circuits Lab',ar:'CircuitVerse — مختبر الدوائر',ku:'CircuitVerse — Laboratwara Toran',url:'https://circuitverse.org'},
+{d:0,cat:'cat_tools',st:0,sem:0,tr:2,en:'Falstad Circuit Simulator',ar:'Falstad — محاكي الدوائر',ku:'Falstad — Simülatorea Toran',url:'https://www.falstad.com/circuit/'},
+{d:0,cat:'cat_tools',st:3,sem:0,tr:2,en:'Wokwi — Verilog/Arduino Simulator',ar:'Wokwi — محاكي Verilog',ku:'Wokwi — Simülatore',url:'https://wokwi.com'},
+{d:0,cat:'cat_courses',st:3,sem:1,tr:4,en:'Machine Learning Crash Course (Google)',ar:'دورة التعلم الآلي (Google)',ku:'Kursa Fêrbûna Makîne (Google)',url:'https://developers.google.com/machine-learning/crash-course'},
+{d:0,cat:'cat_courses',st:3,sem:1,tr:3,en:'Computer Networking (Khan Academy)',ar:'شبكات الحاسوب',ku:'Torên Komputerê',url:'https://www.khanacademy.org/computing/computer-science'},
+{d:0,cat:'cat_certs',st:0,sem:0,tr:0,en:'freeCodeCamp Certifications (free)',ar:'شهادات freeCodeCamp المجانية',ku:'Sertîfîkên freeCodeCamp (belaş)',url:'https://www.freecodecamp.org/learn/'},
+{d:0,cat:'cat_certs',st:3,sem:0,tr:3,en:'Cisco Networking Academy',ar:'أكاديمية سيسكو للشبكات',ku:'Akademiya Torê ya Cisco',url:'https://www.netacad.com'},
+{d:0,cat:'cat_certs',st:4,sem:0,tr:0,en:'AWS Academy',ar:'أكاديمية AWS السحابية',ku:'Akademiya AWS',url:'https://aws.amazon.com/education/awsacademy/'},
+{d:0,cat:'cat_scholarships',st:0,sem:0,tr:0,en:'Erasmus+ Exchange',ar:'منحة إيراسموس+ للتبادل',ku:'Bursa Erasmus+',url:'https://erasmus-plus.ec.europa.eu'},
+{d:0,cat:'cat_scholarships',st:4,sem:0,tr:0,en:'DAAD Undergraduate Support',ar:'منح DAAD للبكالوريوس',ku:'Piştgiriya DAAD',url:'https://www.daad.de/en/'},
+/* ---- M.Sc. (div 1) : st=year 1..2 ---- */
+{d:1,cat:'cat_courses',st:1,sem:1,tr:4,en:'Machine Learning Specialization (DeepLearning.AI)',ar:'تخصص التعلم الآلي',ku:'Tekaya Fêrbûna Makîne',url:'https://www.coursera.org/specializations/machine-learning-introduction'},
+{d:1,cat:'cat_courses',st:1,sem:1,tr:4,en:'fast.ai — Practical Deep Learning',ar:'fast.ai — التعلم العميق العملي',ku:'fast.ai — Fêrbûna Kûr',url:'https://course.fast.ai'},
+{d:1,cat:'cat_courses',st:1,sem:2,tr:1,en:'MIT 6.824 — Distributed Systems',ar:'MIT — الأنظمة الموزعة',ku:'MIT — Pergalên Belavkirî',url:'https://pdos.csail.mit.edu/6.824/'},
+{d:1,cat:'cat_courses',st:1,sem:2,tr:3,en:'Stanford CS144 — Computer Networking',ar:'ستانفورد — شبكات الحاسوب',ku:'Stanford — Torên Komputerê',url:'https://cs144.github.io'},
+{d:1,cat:'cat_courses',st:2,sem:0,tr:2,en:'MIT 6.375 — Complex Digital Systems',ar:'MIT — الأنظمة الرقمية المعقدة',ku:'MIT — Pergalên Dîjîtal',url:'https://ocw.mit.edu/courses/6-375-complex-digital-systems-spring-2008/'},
+{d:1,cat:'cat_tools',st:0,sem:0,tr:0,en:'Papers With Code',ar:'Papers With Code — الأبحاث والأكواد',ku:'Papers With Code',url:'https://paperswithcode.com'},
+{d:1,cat:'cat_tools',st:0,sem:0,tr:0,en:'arXiv — CS Preprints',ar:'arXiv — أحدث الأبحاث',ku:'arXiv — Lêkolînan',url:'https://arxiv.org/list/cs/recent'},
+{d:1,cat:'cat_certs',st:2,sem:0,tr:0,en:'Google Data Analytics Certificate',ar:'شهادة Google لتحليل البيانات',ku:'Sertîfîka Google',url:'https://grow.google/certificates/data-analytics/'},
+{d:1,cat:'cat_certs',st:2,sem:0,tr:3,en:'CCNA — Cisco Certified',ar:'CCNA — شهادة سيسكو',ku:'CCNA',url:'https://www.cisco.com/site/us/en/learn/training-certifications/certifications/enterprise/ccna/index.html'},
+{d:1,cat:'cat_scholarships',st:0,sem:0,tr:0,en:'Erasmus Mundus Joint Masters',ar:'إيراسموس مندوس للماجستير المشترك',ku:'Erasmus Mundus Master',url:'https://erasmus-plus.ec.europa.eu/opportunities/individuals/students/erasmus-mundus-joint-masters'},
+{d:1,cat:'cat_scholarships',st:0,sem:0,tr:0,en:'DAAD EPOS — Postgraduate',ar:'DAAD EPOS — للدراسات العليا',ku:'DAAD EPOS',url:'https://www.daad.de/en/studying-in-germany/scholarships/daad-epos/'},
+{d:1,cat:'cat_scholarships',st:0,sem:0,tr:0,en:'Fulbright Foreign Student Program',ar:'فولبرايت للطلبة الأجانب',ku:'Bernameya Fulbright',url:'https://foreign.fulbrightonline.org'},
+{d:1,cat:'cat_scholarships',st:0,sem:0,tr:0,en:'Campus France / Eiffel',ar:'كامبوس فرانس / منحة إيفل',ku:'Campus France / Eiffel',url:'https://www.campusfrance.org/en'},
+{d:1,cat:'cat_scholarships',st:0,sem:0,tr:0,en:'Türkiye Bursları',ar:'منح تركيا الحكومية',ku:'Bursên Tirkiyeyê',url:'https://www.turkiyeburslari.gov.tr'},
+/* ---- Ph.D. (div 2) : st=1 coursework, 2 comprehensive, 3 dissertation ---- */
+{d:2,cat:'cat_courses',st:1,sem:0,tr:0,en:'MIT OCW — Graduate CS Courses',ar:'MIT OCW — مقررات الدراسات العليا',ku:'MIT OCW — Kursên Masterê',url:'https://ocw.mit.edu/search/?t=Computer%20Science'},
+{d:2,cat:'cat_tools',st:0,sem:0,tr:0,en:'Google Scholar',ar:'Google Scholar — البحث العلمي',ku:'Google Scholar',url:'https://scholar.google.com'},
+{d:2,cat:'cat_tools',st:0,sem:0,tr:0,en:'Connected Papers',ar:'Connected Papers — خرائط الأبحاث',ku:'Connected Papers',url:'https://www.connectedpapers.com'},
+{d:2,cat:'cat_tools',st:0,sem:0,tr:0,en:'Zotero — Reference Manager',ar:'Zotero — إدارة المراجع',ku:'Zotero — Rêvebiriya Çavkaniyan',url:'https://www.zotero.org'},
+{d:2,cat:'cat_certs',st:0,sem:0,tr:0,en:'IEEE Membership & Xplore',ar:'عضوية IEEE ومكتبة Xplore',ku:'Endamiya IEEE',url:'https://www.ieee.org/membership/index.html'},
+{d:2,cat:'cat_scholarships',st:0,sem:0,tr:0,en:'Marie Skłodowska-Curie Actions',ar:'منح ماري كوري الأوروبية',ku:'Bursên Marie Curie',url:'https://marie-sklodowska-curie-actions.ec.europa.eu'},
+{d:2,cat:'cat_scholarships',st:0,sem:0,tr:0,en:'DAAD Research Grants PhD',ar:'DAAD — منح الدكتوراه البحثية',ku:'DAAD — Bursên Lêkolînê',url:'https://www.daad.de/en/study-and-research-in-germany/scholarships/'},
+{d:2,cat:'cat_scholarships',st:0,sem:0,tr:0,en:'KAUST Graduate Fellowship',ar:'زمالة KAUST (السعودية)',ku:'Perêlên KAUST',url:'https://www.kaust.edu.sa/en/study/programs'},
+{d:2,cat:'cat_scholarships',st:0,sem:0,tr:0,en:'CSC — Chinese Government Scholarship',ar:'منحة الحكومة الصينية CSC',ku:'Bursa Hikûmeta Çînê',url:'https://www.campuschina.org'},
+];
 
-// ===== المعدل =====
-function gpa(){const g=grades.value.split(',').map(Number),u=units.value.split(',').map(Number);
-if(g.length!==u.length||g.some(isNaN)||u.some(isNaN)){gpaOut.textContent='تأكد أن عدد الدرجات يساوي عدد الوحدات';return}
-let s=0,su=0;g.forEach((x,i)=>{s+=x*u[i];su+=u[i]});gpaOut.textContent='المعدل: '+(s/su).toFixed(2)}
+/* ================= STATE ================= */
+const DEF={lang:'ar',neon:'studio',bkm:[],bologna:[],gpa:[],checklist:[],id:{name:'',sid:'',uni:'',div:'bsc',valid:''}};
+let S; try{S=Object.assign({},DEF,JSON.parse(localStorage.getItem('engiCore')||'{}'));}catch(e){S=Object.assign({},DEF);}
+S.id=Object.assign({},DEF.id,S.id);
+function save(){localStorage.setItem('engiCore',JSON.stringify(S));}
+const $=q=>document.querySelector(q);
+const t=k=>T[S.lang][k]||T.en[k]||k;
 
-// ===== البوابات =====
-function logic(){const A=+a.value,B=+b.value,G=gate.value;
-const r={AND:A&B,OR:A|B,XOR:A^B,NAND:1-(A&B),NOR:1-(A|B)}[G];logicOut.textContent=`${G}(${A},${B}) = ${r}`}
+/* ================= NAV & LANGUAGE ================= */
+function setLang(l){S.lang=l;save();buildNav();buildApp();renderID();toast(t('saved'));}
+function buildNav(){const n=$('#mainNav');n.innerHTML='';
+ [['home','#top'],['bsc','#bsc'],['msc','#msc'],['phd','#phd'],['bologna','#bologna'],['hub','#hub']]
+ .forEach(([k,h])=>{const a=document.createElement('a');a.href=h;a.textContent=t(k);n.appendChild(a);});}
 
-// ===== الشطرنج =====
-const P={K:'♔',Q:'♕',R:'♖',B:'♗',N:'♘',P:'♙',k:'♚',q:'♛',r:'♜',b:'♝',n:'♞',p:'♟'};
-const V={p:1,n:3,b:3,r:5,q:9,k:100};
-let B,sel=null,over=false;
-function newGame(){
-  B=["rnbqkbnr","pppppppp","........","........","........","........","PPPPPPPP","RNBQKBNR"].map(r=>r.split(''));
-  sel=null;over=false;status.textContent='دورك';draw();
-}
-const isW=p=>p!=='.'&&p===p.toUpperCase();
-const isB=p=>p!=='.'&&p===p.toLowerCase();
-function moves(r,c){
-  const p=B[r][c],w=isW(p),t=p.toLowerCase(),out=[];
-  const enemy=x=>w?isB(x):isW(x);
-  const add=(R,C)=>{if(R<0||R>7||C<0||C>7)return false;const x=B[R][C];
-    if(x==='.'){out.push([R,C]);return true}if(enemy(x))out.push([R,C]);return false};
-  const slide=d=>d.forEach(([dr,dc])=>{let R=r+dr,C=c+dc;while(add(R,C)){R+=dr;C+=dc}});
-  if(t==='p'){const d=w?-1:1,s=w?6:1;
-    if(B[r+d]&&B[r+d][c]==='.'){out.push([r+d,c]);if(r===s&&B[r+2*d][c]==='.')out.push([r+2*d,c])}
-    [-1,1].forEach(dc=>{const x=B[r+d]?.[c+dc];if(x&&enemy(x))out.push([r+d,c+dc])})}
-  if(t==='n')[[1,2],[2,1],[-1,2],[-2,1],[1,-2],[2,-1],[-1,-2],[-2,-1]].forEach(([a,b])=>add(r+a,c+b));
-  if(t==='k')[[1,0],[-1,0],[0,1],[0,-1],[1,1],[1,-1],[-1,1],[-1,-1]].forEach(([a,b])=>add(r+a,c+b));
-  if(t==='r'||t==='q')slide([[1,0],[-1,0],[0,1],[0,-1]]);
-  if(t==='b'||t==='q')slide([[1,1],[1,-1],[-1,1],[-1,-1]]);
-  return out;
-}
-function move(r,c,R,C){
-  const cap=B[R][C];B[R][C]=B[r][c];B[r][c]='.';
-  if(B[R][C]==='P'&&R===0)B[R][C]='Q';
-  if(B[R][C]==='p'&&R===7)B[R][C]='q';
-  if(cap==='k'){over=true;status.textContent='🎉 فزت!'}
-  if(cap==='K'){over=true;status.textContent='💀 الحاسوب فاز'}
-}
-function ai(){
-  let all=[];
-  for(let r=0;r<8;r++)for(let c=0;c<8;c++)if(isB(B[r][c]))
-    moves(r,c).forEach(([R,C])=>{const x=B[R][C];
-      all.push({r,c,R,C,s:(x==='.'?0:V[x.toLowerCase()]*10)-V[B[r][c]]*0.1+Math.random()})});
-  if(!all.length){over=true;status.textContent='تعادل';return}
-  all.sort((a,b)=>b.s-a.s);const m=all[0];move(m.r,m.c,m.R,m.C);
-  if(!over)status.textContent='دورك';draw();
-}
-function draw(){
-  board.innerHTML='';const h=sel?moves(...sel).map(x=>x.join()):[];
-  for(let r=0;r<8;r++)for(let c=0;c<8;c++){
-    const d=document.createElement('div');
-    d.className='sq '+((r+c)%2?'d':'l')+(sel&&sel[0]===r&&sel[1]===c?' sel':'')+(h.includes(r+','+c)?' hint':'');
-    d.textContent=B[r][c]==='.'?'':P[B[r][c]];
-    d.onclick=()=>click(r,c);board.appendChild(d);
-  }
-}
-function click(r,c){
-  if(over)return;
-  if(sel&&moves(...sel).some(([R,C])=>R===r&&C===c)){
-    move(sel[0],sel[1],r,c);sel=null;draw();
-    if(!over){status.textContent='الحاسوب يفكر...';setTimeout(ai,400)}return;
-  }
-  sel=isW(B[r][c])?[r,c]:null;draw();
-}
-newGame();
+/* ================= APP BUILD ================= */
+const SEL={}; // per-division filter state
+function buildApp(){document.documentElement.lang=S.lang;
+ document.documentElement.dir=(S.lang==='en')?'ltr':'rtl';
+ $('#langSel').value=S.lang;document.body.className='mode-'+S.neon;
+ const A=$('#app');A.innerHTML='';
+ [['bsc',4,'bscSub'],['msc',2,'mscSub'],['phd',3,'phdSub']].forEach(([id,stages])=>{
+  if(!SEL[id])SEL[id]={st:0,tr:0,sem:0,cat:'cat_all',q:''};
+  A.innerHTML+=`<section id="${id}"><div class="stitle">${id==='bsc'?'🎓':id==='msc'?'🧑‍🔬':'🔬'} ${t(id)}</div>
+  <div class="ssub">${t('verified')}</div>
+  <div class="panel"><div class="controls">
+    <div><label>${t('search')}</label><input type="text" placeholder="🔍 ${t('search')}" value="${SEL[id].q}" oninput="SEL['${id}'].q=this.value;renderCat('${id}')"></div>
+    <div><label>${t('stage')}</label><select onchange="SEL['${id}'].st=+this.value;renderCat('${id}')">${[0,1,2,3,4].filter(x=>x<=stages).map(s=>`<option value="${s}" ${SEL[id].st===s?'selected':''}>${s===0?t('all'):t('stage_s')+' '+s}</option>`).join('')}</select></div>
+    <div><label>${t('track')}</label><select onchange="SEL['${id}'].tr=+this.value;renderCat('${id}')">${TRACKS.map((k,i)=>`<option value="${i}" ${SEL[id].tr===i?'selected':''}>${t(k)}</option>`).join('')}</select></div>
+    <div><label>${t('semester')}</label><select onchange="SEL['${id}'].sem=+this.value;renderCat('${id}')">${[0,1,2].map(s=>`<option value="${s}" ${SEL[id].sem===s?'selected':''}>${s===0?t('all'):t('sem_s')+' '+s}</option>`).join('')}</select></div>
+  </div>
+  <div class="cats">${CATS.map(c=>`<button class="cat ${SEL[id].cat===c?'on':''}" onclick="SEL['${id}'].cat='${c}';buildApp();renderCat('${id}')">${CAT_ICON[c]||''} ${t(c)}</button>`).join('')}</div>
+  <div class="grid" id="grid-${id}"></div></div></section>`;});
+ A.innerHTML+=bolognaHTML()+hubHTML();
+ ['bsc','msc','phd'].forEach(renderCat);
+ renderBologna();updateGPA();renderChecks();}
+
+function renderCat(id){const g=$('#grid-'+id);if(!g)return;const s=SEL[id];g.innerHTML='';
+ const items=CATALOG.filter(x=>x.d===['bsc','msc','phd'].indexOf(id))
+  .filter(x=>(s.cat==='cat_all'||x.cat===s.cat)&&(s.st===0||x.st===s.st||x.st===0)
+   &&(s.tr===0||x.tr===s.tr||x.tr===0)&&(s.sem===0||x.sem===s.sem||x.sem===0))
+  .filter(x=>{if(!s.q)return true;const q=s.q.toLowerCase();
+   return x.en.toLowerCase().includes(q)||x.ar.includes(s.q)||x.ku.toLowerCase().includes(q);});
+ if(!items.length){g.innerHTML=`<div class="empty">🔍 ${t('empty')}</div>`;return;}
+ items.forEach(x=>{const key=x.url;const on=S.bkm.includes(key);
+  const title=S.lang==='ar'?x.ar:S.lang==='ku'?x.ku:x.en;
+  g.innerHTML+=`<div class="card"><button class="bkm ${on?'on':''}" onclick="toggleBkm('${key}',this)" title="${t('bookmark')}">${on?'🔖':'📑'}</button>
+  <div class="cicon">${CAT_ICON[x.cat]||'📘'}</div><h4>${title}</h4>
+  <div class="meta">${x.st?`<span class="tag">${t('stage_s')} ${x.st}</span>`:''}${x.sem?`<span class="tag">${t('sem_s')} ${x.sem}</span>`:''}${x.tr?`<span class="tag">${t(TRACKS[x.tr])}</span>`:''}<span class="tag v">${t('verified')}</span></div>
+  <a href="${x.url}" target="_blank" rel="noopener">🔗 ${t('goto')}</a></div>`;});}
+
+function toggleBkm(k,el){const i=S.bkm.indexOf(k);
+ if(i>=0)S.bkm.splice(i,1);else S.bkm.push(k);
+ el.classList.toggle('on');el.textContent=el.classList.contains('on')?'🔖':'📑';save();}
+
+/* ================= BOLOGNA ================= */
+function bolognaHTML(){return `<section id="bologna"><div class="stitle">🇪🇺 <span>${t('bologna_t').replace('🇪🇺 ','')}</span></div>
+ <div class="ssub">${t('bologna_p')}</div><div class="panel">
+ <div class="controls" style="grid-template-columns:200px 1fr auto;align-items:end">
+   <div><label>${t('target')}</label><input type="number" id="bTarget" value="60" min="0" max="100" oninput="renderBologna()"></div>
+   <div class="ssub" style="margin:0">${t('whatif')}</div>
+   <button class="btn" onclick="addBologna()">${t('add_course')}</button></div>
+ <div style="overflow-x:auto"><table id="bTable"><thead><tr>
+   <th>${t('course')}</th><th>${t('ects')}</th><th>${t('quizzes')}</th><th>${t('midterm')}</th><th>${t('cont')}</th><th>${t('fw')}</th><th>${t('cur')}</th><th>${t('total')}</th><th>${t('status')}</th><th>${t('needed')}</th><th></th>
+ </tr></thead><tbody id="bBody"></tbody></table></div>
+ <div class="stat"><div class="box"><b id="bOver">—</b><small>${t('overall')}</small></div>
+ <div class="box"><b id="bEcts">—</b><small>${t('ects')}</small></div>
+ <div class="box"><b id="bCnt">—</b><small>${t('pass')}/${t('fail')}</small></div></div>
+</div></section>`;}
+
+function addBologna(){S.bologna.push({n:'',e:6,q:0,m:0,c:0,f:40,u:0});save();renderBologna();}
+function delBologna(i){S.bologna.splice(i,1);save();renderBologna();}
+function bField(i,f,v){S.bologna[i][f]=parseFloat(v)||0;save();renderBologna();}
+
+function renderBologna(){const tb=$('#bBody');if(!tb)return;tb.innerHTML='';
+ const target=parseFloat($('#bTarget')?.value)||60;let tot=0,w=0,p=0;
+ S.bologna.forEach((r,i)=>{const cw=100-Math.min(r.f,100);
+  const now=((r.q+r.m+r.c)/3)*(cw/100);
+  const totR=Math.min(100,now+Math.min(r.f,100)*(r.u? r.u:0)/100);
+  const need=(target-now)/(r.f/100);
+  const passNow=totR>=target;
+  tot+=totR*(r.e||0);w+=(r.e||0);if(passNow)p++;
+  tb.innerHTML+=`<tr><td><input class="wide" value="${r.n}" placeholder="CE-101" oninput="S.bologna[${i}].n=this.value;save()"></td>
+  <td><input type="number" value="${r.e}" min="1" max="30" oninput="bField(${i},'e',this.value)"></td>
+  <td><input type="number" value="${r.q}" min="0" max="100" oninput="bField(${i},'q',this.value)"></td>
+  <td><input type="number" value="${r.m}" min="0" max="100" oninput="bField(${i},'m',this.value)"></td>
+  <td><input type="number" value="${r.c}" min="0" max="100" oninput="bField(${i},'c',this.value)"></td>
+  <td><input type="number" value="${r.f}" min="0" max="100" oninput="bField(${i},'f',this.value)"></td>
+  <td><input type="number" value="${r.u}" min="0" max="100" oninput="bField(${i},'u',this.value)"></td>
+  <td><b style="color:var(--neon)">${totR.toFixed(1)}</b></td>
+  <td>${passNow?`<span class="pill ok">${t('pass')}</span>`:`<span class="pill bad">${t('fail')}</span>`}</td>
+  <td>${need<=0?`<span class="pill ok">${t('secured')}</span>`:need>100?`<span class="pill bad">>100%</span>`:`<span class="pill warn">${need.toFixed(1)}%</span>`}</td>
+  <td><button class="btn danger" style="padding:4px 10px" onclick="delBologna(${i})">${t('del')}</button></td></tr>`;});
+ if($('#bOver')){$('#bOver').textContent=w?(tot/w).toFixed(1)+' / 100':'—';
+  $('#bEcts').textContent=w;$('#bCnt').textContent=p+' / '+S.bologna.length;}}
+
+/* ================= HUB: neon + calcs + GPA + checklist + ID + export ================= */
+function hubHTML(){return `<section id="hub"><div class="stitle">🧰 <span>${t('hub')}</span></div>
+ <div class="ssub">${t('neon_p')}</div>
+ <div class="neon-modes">${['studio','overdrive','pulse'].map(m=>`<button class="nmode ${S.neon===m?'on':''}" onclick="setNeon('${m}')"><div class="dot" style="background:${m==='studio'?'#22d3ee':m==='overdrive'?'#a78bfa':'#f472b6'};box-shadow:0 0 ${m==='studio'?'6':m==='overdrive'?'14':'10'}px ${m==='studio'?'#22d3ee':m==='overdrive'?'#a78bfa':'#f472b6'}"></div>${t(m)}</button>`).join('')}</div>
+
+ <div class="stitle" style="margin-top:26px">🧮 <span>${t('calc_t').replace('🧮 ','')}</span></div>
+ <div class="ssub">${t('calc_p')}</div>
+ <div class="panel"><div class="calc-tabs">
+   <button class="cat on" onclick="showCalc(0)">⚡ ${t('ohm')}</button>
+   <button class="cat" onclick="showCalc(1)">🔢 ${t('base')}</button>
+   <button class="cat" onclick="showCalc(2)">📡 ${t('power')}</button>
+   <button class="cat" onclick="showCalc(3)">📏 ${t('length')}</button>
+   <button class="cat" onclick="showCalc(4)">📊 ${t('gpa')}</button>
+   <button class="cat" onclick="showCalc(5)">✅ ${t('checklist')}</button></div>
+ <div class="calcs">
+  <div class="calc on"><h4>⚡ ${t('ohm')}</h4>
+   <div class="row2"><div><label>${t('v')}</label><input type="number" id="oV" oninput="ohm()"></div>
+   <div><label>${t('i')}</label><input type="number" id="oI" oninput="ohm()"></div></div>
+   <div><label>${t('r')}</label><input type="number" id="oR" oninput="ohm()">
+   <div class="res" id="ohmOut">V = I × R</div>
+   <hr style="border-color:var(--line);margin:12px 0">
+   <div class="row2"><div><label>${t('vin')}</label><input type="number" id="dVin" value="12" oninput="ohm()"></div>
+   <div><label>${t('vout')}</label><input type="number" id="dR1" value="1000" oninput="ohm()"></div></div>
+   <div class="row2"><div><label>${t('r2')}</label><input type="number" id="dR2" value="1000" oninput="ohm()"></div><div></div></div>
+   <div class="res" id="divOut">Vout = Vin × R2/(R1+R2)</div></div>
+  <div class="calc"><h4>🔢 ${t('base')}</h4>
+   <label>${t('dec')}</label><input type="text" id="nDec" oninput="fromBase('d')" placeholder="255">
+   <label>${t('bin')}</label><input type="text" id="nBin" oninput="fromBase('b')" placeholder="11111111">
+   <label>${t('oct')}</label><input type="text" id="nOct" oninput="fromBase('o')" placeholder="377">
+   <label>${t('hex')}</label><input type="text" id="nHex" oninput="fromBase('h')" placeholder="FF"></div>
+  <div class="calc"><h4>📡 ${t('power')}</h4>
+   <div class="row2"><div><label>${t('dbm')}</label><input type="number" id="pDbm" value="0" oninput="dbmW()"></div>
+   <div><label>${t('watt')}</label><input type="number" id="pW" oninput="wDbm()"></div></div>
+   <div class="res" id="powOut"></div>
+   <div class="ssub" style="margin-top:10px">0 dBm = 1 mW &nbsp;•&nbsp; 30 dBm = 1 W</div></div>
+  <div class="calc"><h4>📏 ${t('length')}</h4>
+   <label>${t('m')}</label><input type="number" id="lM" value="1" oninput="lenF('m')">
+   <div class="row2"><div><label>${t('km')}</label><input type="number" id="lKm" oninput="lenF('km')"></div>
+   <div><label>${t('cm')}</label><input type="number" id="lCm" oninput="lenF('cm')"></div></div>
+   <div class="row2"><div><label>${t('mm')}</label><input type="number" id="lMm" oninput="lenF('mm')"></div>
+   <div><label>${t('mi')}</label><input type="number" id="lMi" oninput="lenF('mi')"></div></div>
+   <label>${t('ft')}</label><input type="number" id="lFt" oninput="lenF('ft')"></div>
+  <div class="calc" style="grid-column:1/-1"><h4>📊 ${t('gpa')}</h4>
+   <table><thead><tr><th>${t('course_g')}</th><th>${t('grade')}</th><th>${t('cred')}</th><th></th></tr></thead>
+   <tbody id="gBody"></tbody></table>
+   <button class="btn ghost" style="margin-top:10px" onclick="addG()">${t('add_row')}</button>
+   <div class="res" id="gOut"></div></div>
+  <div class="calc" style="grid-column:1/-1"><h4>✅ ${t('checklist')} <span class="pill ok" id="ckPill">0%</span></h4>
+   <div id="ckList"></div><div class="progress" style="height:10px;background:var(--line);border-radius:10px;overflow:hidden;margin-top:10px"><div id="ckBar" style="height:100%;width:0;background:linear-gradient(90deg,var(--neon),var(--neon2));transition:.4s"></div></div></div>
+ </div></div>
+
+ <div class="stitle" style="margin-top:26px">🪪 <span>${t('id_t').replace('🪪 ','')}</span></div>
+ <div class="ssub">${t('id_p')}</div>
+ <div class="idwrap"><div class="panel">
+  <label>${t('full_name')}</label><input type="text" id="idName" value="${S.id.name}" oninput="idF('name',this.value)">
+  <div class="row2"><div><label>${t('student_id')}</label><input type="text" id="idSid" value="${S.id.sid}" oninput="idF('sid',this.value)"></div>
+  <div><label>${t('valid')}</label><input type="date" id="idValid" value="${S.id.valid}" oninput="idF('valid',this.value)"></div></div>
+  <label>${t('university')}</label><input type="text" id="idUni" value="${S.id.uni}" oninput="idF('uni',this.value)">
+  <label>${t('division')}</label><select id="idDiv" onchange="idF('div',this.value)">
+   <option value="bsc" ${S.id.div==='bsc'?'selected':''}>${t('st_bsc')}</option>
+   <option value="msc" ${S.id.div==='msc'?'selected':''}>${t('st_msc')}</option>
+   <option value="phd" ${S.id.div==='phd'?'selected':''}>${t('st_phd')}</option></select>
+  <button class="btn" style="margin-top:14px" onclick="dlID()">${t('download_id')}</button></div>
+ <div class="idcard" id="idCard">
+  <div class="uni">⚡ ENGICORE UNIVERSITY</div>
+  <div style="overflow:hidden;margin-top:14px"><div class="photo" id="idPhoto">?</div>
+   <div class="nm" id="cName">—</div>
+   <div class="info" id="cInfo">—</div></div>
+  <div class="codes"><div id="qrbox"></div><div><svg id="barcode"></svg>
+   <div class="info" id="cMeta" style="margin-top:4px"></div></div></div>
+ </div></div>
+
+ <div class="stitle" style="margin-top:26px">💾 <span>${t('export_t').replace('💾 ','')}</span></div>
+ <div class="ssub">${t('export_p')}</div>
+ <div class="panel" style="display:flex;gap:12px;flex-wrap:wrap;align-items:center">
+  <button class="btn" onclick="exportJSON()">${t('export')}</button>
+  <label class="btn ghost" style="cursor:pointer">${t('import_l')}<input type="file" accept=".json" style="display:none" onchange="importJSON(event)"></label>
+  <span style="color:var(--mut);font-size:.8rem" id="lastSave"></span></div>
+</section><div class="foot">${t('footer')}</div>`;}
+
+function setNeon(m){S.neon=m;save();document.body.className='mode-'+m;
+ document.querySelectorAll('.nmode').forEach(b=>b.classList.toggle('on',b.textContent.trim()===t(m)));}
+function showCalc(i){document.querySelectorAll('.calc').forEach((c,j)=>c.classList.toggle('on',i===j));
+ document.querySelectorAll('.calc-tabs .cat').forEach((c,j)=>c.classList.toggle('on',i===j));}
+
+/* ---- calculators logic ---- */
+function ohm(){const V=parseFloat($('#oV').value),I=parseFloat($('#oI').value),R=parseFloat($('#oR').value);
+ let out=[];if(!isNaN(V)&&!isNaN(I))out.push('R = '+(V/I).toFixed(3)+' Ω');if(!isNaN(V)&&!isNaN(R))out.push('I = '+(V/R).toFixed(3)+' A');if(!isNaN(I)&&!isNaN(R))out.push('V = '+(I*R).toFixed(3)+' V');
+ $('#ohmOut').innerHTML=out.length?out.join(' &nbsp;•&nbsp; '):'V = I × R';
+ const vin=parseFloat($('#dVin').value)||0,r1=parseFloat($('#dR1').value)||0,r2=parseFloat($('#dR2').value)||0;
+ $('#divOut').textContent='Vout = '+(r1+r2? vin*r2/(r1+r2):0).toFixed(3)+' V';}
+function fromBase(f){const map={d:['nDec',10],b:['nBin',2],o:['nOct',8],h:['nHex',16]};
+ const v=$('#'+map[f][0]).value.trim();const n=parseInt(v,map[f][1]);
+ const ids=['nDec','nBin','nOct','nHex'];if(isNaN(n)){return;}
+ const bs=[10,2,8,16];ids.forEach((id,i)=>{if(id!==map[f][0])$('#'+id).value=n.toString(bs[i]).toUpperCase();});}
+function dbmW(){const d=parseFloat($('#pDbm').value);if(isNaN(d))return;
+ const w=Math.pow(10,(d-30)/10);$('#pW').value=w.toExponential(4);
+ $('#powOut').innerHTML=`${d} dBm = <b>${w.toExponential(3)} W</b> = ${(w*1000).toPrecision(4)} mW`;}
+function wDbm(){const w=parseFloat($('#pW').value);if(isNaN(w)||w<=0)return;
+ const d=10*Math.log10(w)+30;$('#pDbm').value=d.toFixed(2);
+ $('#powOut').innerHTML=`<b>${d.toFixed(2)} dBm</b> = ${w.toExponential(3)} W`;}
+const LF={m:1,km:.001,cm:100,mm:1000,mi:.000621371,ft:3.28084};
+function lenF(f){const v=parseFloat($('#l'+f[0].toUpperCase()+f.slice(1)).value);if(isNaN(v))return;
+ Object.keys(LF).forEach(k=>{const el=$('#l'+k[0].toUpperCase()+k.slice(1));if(k!==f)el.value=(v*LF[f]/LF[k]).toPrecision(6).replace(/\.?0+$/,'');});}
+
+/* ---- GPA ---- */
+function addG(){S.gpa.push({n:'',g:0,c:3});save();updateGPA(true);}
+function delG(i){S.gpa.splice(i,1);save();updateGPA(true);}
+function gField(i,f,v){S.gpa[i][f]=f==='n'?v:(parseFloat(v)||0);save();updateGPA();}
+function updateGPA(rebuild){const tb=$('#gBody');if(!tb)return;
+ if(rebuild||tb.children.length!==S.gpa.length){tb.innerHTML='';S.gpa.forEach((r,i)=>{
+  tb.innerHTML+=`<tr><td><input class="wide" value="${r.n}" placeholder="CE-101" oninput="gField(${i},'n',this.value)"></td>
+  <td><input type="number" value="${r.g}" min="0" max="100" oninput="gField(${i},'g',this.value)"></td>
+  <td><input type="number" value="${r.c}" min="1" oninput="gField(${i},'c',this.value)"></td>
+  <td><button class="btn danger" style="padding:4px 10px" onclick="delG(${i})">${t('del')}</button></td></tr>`;});}
+ let gp=0,ch=0;S.gpa.forEach(r=>{const p=r.g>=90?4:r.g>=80?3:r.g>=70?2:r.g>=60?1:0;gp+=p*(r.c||0);ch+=(r.c||0);});
+ $('#gOut').innerHTML=ch?`${t('gpa_res')}: <b style="font-size:1.3rem;color:var(--neon)">${(gp/ch).toFixed(2)}</b> / 4.00 — ${ch} ${t('cred')}`:t('gpa_res');}
+
+/* ---- checklist ---- */
+const CKKEYS=['ck1','ck2','ck3','ck4','ck5','ck6','ck7','ck8'];
+function renderChecks(){const el=$('#ckList');if(!el)return;el.innerHTML='';
+ CKKEYS.forEach((k,i)=>{const on=S.checklist.includes(i);
+  el.innerHTML+=`<div class="check ${on?'done':''}" onclick="toggleCk(${i})"><input type="checkbox" ${on?'checked':''} onclick="event.preventDefault();toggleCk(${i})"><span>${t(k)}</span></div>`;});
+ const p=Math.round(S.checklist.length/CKKEYS.length*100);
+ $('#ckBar').style.width=p+'%';$('#ckPill').textContent=p+'% '+t('ready');}
+function toggleCk(i){const x=S.checklist.indexOf(i);x>=0?S.checklist.splice(x,1):S.checklist.push(i);save();renderChecks();}
+
+/* ---- ID card ---- */
+function idF(f,v){S.id[f]=v;save();renderID();}
+function renderID(){if(!$('#idCard'))return;
+ const n=S.id.name||'—';$('#cName').textContent=n;
+ $('#idPhoto').textContent=(S.id.name||'?').trim().charAt(0).toUpperCase()||'?';
+ $('#cInfo').innerHTML=`ID: <b style="color:#fff">${S.id.sid||'—'}</b> • ${S.id.uni||'—'}`;
+ $('#cMeta').textContent=`${t(S.id.div==='bsc'?'st_bsc':S.id.div==='msc'?'st_msc':'st_phd')}${S.id.valid?' • '+t('valid')+': '+S.id.valid:''}`;
+ const q=$('#qrbox');q.innerHTML='';
+ new QRCode(q,{text:JSON.stringify({name:S.id.name,sid:S.id.sid,uni:S.id.uni,div:S.id.div}),width:82,height:82});
+ try{JsBarcode('#barcode',S.id.sid||'ENGICORE-0000',{format:'CODE128',displayValue:true,height:44,width:1.6,fontSize:12,margin:0});}catch(e){}}
+function dlID(){html2canvas($('#idCard'),{scale:2}).then(c=>{const a=document.createElement('a');
+ a.download='engicore-id.png';a.href=c.toDataURL('image/png');a.click();toast('PNG ✓');});}
+
+/* ---- export / import ---- */
+function exportJSON(){const blob=new Blob([JSON.stringify({app:'EngiCore',exportedAt:new Date().toISOString(),...S},null,2)],{type:'application/json'});
+ const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='engicore-state.json';a.click();
+ $('#lastSave').textContent=new Date().toLocaleString();toast(t('saved'));}
+function importJSON(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();
+ r.onload=()=>{try{S=Object.assign({},DEF,JSON.parse(r.result));save();buildApp();renderID();toast(t('imported'));}catch(x){toast('✕ JSON');}};r.readAsText(f);}
+
+/* ================= COMMAND PALETTE ================= */
+const ACTIONS=[
+ {k:'palette',run:()=>togglePalette(true),label:{en:'Command Palette',ar:'لوحة الأوامر',ku:'Rûpela Fermanan'}},
+ {k:'home',run:()=>go('top')},{k:'bsc',run:()=>go('bsc')},{k:'msc',run:()=>go('msc')},{k:'phd',run:()=>go('phd')},
+ {k:'bologna',run:()=>go('bologna')},{k:'add_course',run:()=>{go('bologna');addBologna();}},
+ {k:'ohm',run:()=>{go('hub');showCalc(0);}},{k:'base',run:()=>{go('hub');showCalc(1);}},
+ {k:'power',run:()=>{go('hub');showCalc(2);}},{k:'length',run:()=>{go('hub');showCalc(3);}},
+ {k:'gpa',run:()=>{go('hub');showCalc(4);}},{k:'checklist',run:()=>{go('hub');showCalc(5);}},
+ {k:'studio',run:()=>setNeon('studio')},{k:'overdrive',run:()=>setNeon('overdrive')},{k:'pulse',run:()=>setNeon('pulse')},
+ {k:'download_id',run:()=>{renderID();dlID();}},{k:'export',run:exportJSON}];
+function go(id){const el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth'});}
+let pSel=0;
+function togglePalette(on){$('#palette').classList.toggle('on',on);if(on){$('#pinput').value='';pSel=0;renderPalette();setTimeout(()=>$('#pinput').focus(),50);}else pSel=0;}
+function renderPalette(){const q=$('#pinput').value.toLowerCase();const l=S.lang;const pl=$('#plist');
+ const items=ACTIONS.map(a=>({lbl:a.label?a.label[l]||a.label.en:t(a.k),run:a.run}))
+  .filter(a=>!q||a.lbl.toLowerCase().includes(q));
+ pl.innerHTML=items.slice(0,9).map((a,i)=>`<div class="pitem ${i===pSel?'sel':''}" onclick="(${''});runP(${i})" data-i="${i}"><span>${a.lbl}</span><small>${t('act')} ↵</small></div>`).join('')||`<div class="pitem"><span>—</span></div>`;
+ pl.querySelectorAll('.pitem').forEach(el=>el.onclick=()=>runP(+el.dataset.i));}
+function runP(i){const q=$('#pinput').value.toLowerCase();
+ const items=ACTIONS.map(a=>({lbl:a.label?a.label[S.lang]||a.label.en:t(a.k),run:a.run})).filter(a=>!q||a.lbl.toLowerCase().includes(q));
+ if(items[i]){togglePalette(false);items[i].run();}}
+document.addEventListener('keydown',e=>{
+ if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();togglePalette(!$('#palette').classList.contains('on'));}
+ if(e.key==='Escape')togglePalette(false);
+ if($('#palette').classList.contains('on')){
+  if(e.key==='ArrowDown'){e.preventDefault();pSel=Math.min(pSel+1,8);renderPalette();}
+  if(e.key==='ArrowUp'){e.preventDefault();pSel=Math.max(pSel-1,0);renderPalette();}
+  if(e.key==='Enter'){e.preventDefault();runP(pSel);}}});
+
+function toast(m){const el=$('#toast');el.textContent=m;el.style.display='block';
+ clearTimeout(el._t);el._t=setTimeout(()=>el.style.display='none',2200);}
+
+/* ================= INIT ================= */
+buildNav();buildApp();renderID();ohm();dbmW();lenF('m');
 </script>
 </body>
 </html>
