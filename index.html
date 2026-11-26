@@ -1,85 +1,251 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#5145e5"><meta name="description" content="بوابة الطالب الجامعي: ملفات المواد وأدوات الدراسة وتنظيم المهام ومصادر التعلم.">
-<title>بوابة الطالب الجامعي</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>منصة هندسة الحاسوب | CE Hub</title>
 <style>
-:root{--bg:#f5f7fc;--surface:#fff;--text:#172033;--muted:#68758b;--line:#e5eaf3;--primary:#5145e5;--primary2:#8265ed;--cyan:#159acb;--shadow:0 12px 35px #1c2b4b0d;--radius:20px}
-[data-theme=dark]{--bg:#0c1322;--surface:#141f32;--text:#edf2fc;--muted:#a3b0c5;--line:#263650;--shadow:0 12px 35px #0005}
-*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:90px}body{margin:0;background:var(--bg);color:var(--text);font-family:Cairo,system-ui,sans-serif;line-height:1.8;transition:background .25s,color .25s}a{color:inherit}.container{width:min(1120px,92%);margin:auto}button,input,select,textarea{font:inherit}button,a{-webkit-tap-highlight-color:transparent}.site-header{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--surface) 90%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}.nav{height:70px;display:flex;align-items:center;justify-content:space-between;gap:14px}.brand{text-decoration:none;font-weight:800;display:flex;align-items:center;gap:10px;white-space:nowrap}.brand-mark{display:grid;place-items:center;width:40px;height:40px;border-radius:13px;color:white;background:linear-gradient(135deg,var(--primary),var(--primary2))}.nav-links{display:flex;align-items:center;gap:4px;list-style:none;margin:0;padding:0}.nav-links a{display:block;text-decoration:none;color:var(--muted);padding:8px 10px;border-radius:10px;font-size:.86rem;font-weight:700}.nav-links a:hover,.nav-links a.active{color:var(--primary);background:#5145e512}.nav-actions{display:flex;gap:8px}.icon-btn,.menu-btn{width:42px;height:42px;border:1px solid var(--line);border-radius:12px;background:var(--surface);color:var(--text);cursor:pointer}.menu-btn{display:none}.hero{padding:82px 0 65px;text-align:center;position:relative;overflow:hidden}.hero:before{content:"";position:absolute;width:600px;height:350px;top:-180px;left:50%;transform:translateX(-50%);background:radial-gradient(ellipse,#7568f333,transparent 70%);pointer-events:none}.eyebrow{display:inline-block;padding:5px 14px;border:1px solid #5145e533;background:#5145e50d;border-radius:30px;color:var(--primary);font-size:.85rem;font-weight:700}.hero h1{font-size:clamp(2rem,5vw,3.35rem);line-height:1.35;margin:18px auto 12px;max-width:850px;font-weight:800}.gradient{background:linear-gradient(120deg,var(--primary),var(--primary2));color:transparent;background-clip:text}.hero p{max-width:700px;margin:0 auto 25px;color:var(--muted);font-size:1.04rem}.actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}.btn{border:0;border-radius:12px;padding:11px 19px;display:inline-flex;align-items:center;justify-content:center;gap:7px;text-decoration:none;font-weight:800;cursor:pointer;transition:transform .2s,box-shadow .2s,background .2s}.btn:hover{transform:translateY(-2px)}.primary{color:white;background:linear-gradient(120deg,var(--primary),var(--primary2));box-shadow:0 8px 20px #5145e533}.secondary{background:var(--surface);border:1px solid var(--line);color:var(--text)}.stats{display:flex;justify-content:center;gap:36px;flex-wrap:wrap;margin-top:38px}.stats b{display:block;color:var(--primary);font-size:1.5rem}.stats span{font-size:.83rem;color:var(--muted)}section{padding:62px 0}.section-head{text-align:center;margin-bottom:30px}.section-head h2{font-size:clamp(1.5rem,3vw,2.15rem);margin:0 0 5px;font-weight:800}.section-head p{margin:0;color:var(--muted)}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:17px}.card,.panel,.tool{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);min-width:0;transition:transform .25s,border-color .25s}.card:hover,.tool:hover{transform:translateY(-4px);border-color:#5145e566}.card-icon{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;background:#5145e514;font-size:1.4rem;margin-bottom:12px}.card h3,.tool h3{font-size:1.05rem;margin:0 0 6px}.card p{margin:0;color:var(--muted);font-size:.91rem}.tabs{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:22px}.tab{border:1px solid var(--line);background:var(--surface);color:var(--muted);border-radius:12px;padding:9px 18px;font-weight:800;cursor:pointer}.tab.active{background:var(--primary);border-color:var(--primary);color:#fff}.course-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.course{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;background:var(--surface);border:1px solid var(--line);border-radius:15px}.course strong{display:block;font-size:.94rem}.course small{color:var(--muted)}.course-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}.hours{font-size:.76rem;color:var(--primary);background:#5145e512;padding:4px 9px;border-radius:20px;white-space:nowrap}.pdf-link{font-size:.82rem;color:var(--primary);font-weight:800;text-decoration:none;white-space:nowrap}.pdf-link:hover{text-decoration:underline}.hint{margin-top:15px;padding:12px 15px;border:1px dashed #5145e555;border-radius:12px;color:var(--muted);font-size:.85rem}.tools-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.tool h3{margin-bottom:12px}.display{font-size:2.5rem;font-weight:800;text-align:center;color:var(--primary);font-variant-numeric:tabular-nums;margin:4px 0 12px}.tool-controls{display:flex;gap:8px}.tool-controls .btn{flex:1}.field{width:100%;min-width:0;padding:11px 12px;border:1px solid var(--line);border-radius:11px;background:var(--bg);color:var(--text);outline:none;margin-bottom:9px}.field:focus{border-color:var(--primary);box-shadow:0 0 0 3px #5145e51c}.two{display:grid;grid-template-columns:1fr 1fr;gap:8px}.result-text{padding:10px;background:var(--bg);border-radius:10px;color:var(--primary);font-weight:800;text-align:center;margin-top:5px}.gpa-rows{display:grid;gap:8px}.gpa-row{display:grid;grid-template-columns:minmax(0,1fr) 90px 105px 38px;gap:7px}.gpa-row .field{margin:0}.remove{border:1px solid var(--line);border-radius:10px;background:var(--bg);color:#e05252;cursor:pointer}.gpa-summary{display:flex;justify-content:space-around;gap:10px;flex-wrap:wrap;margin-top:18px;padding-top:16px;border-top:1px dashed var(--line);text-align:center}.gpa-summary b{display:block;color:var(--primary);font-size:1.35rem}.task-form{display:flex;gap:8px}.task-form .field{margin:0}.task-list{list-style:none;padding:0;margin:14px 0 0;display:grid;gap:8px}.task-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:12px}.task-item span{flex:1;overflow-wrap:anywhere}.task-item.done span{text-decoration:line-through;color:var(--muted)}.task-item button{border:0;background:none;cursor:pointer}.links-grid .card{display:flex;gap:12px;align-items:flex-start}.links-grid .card-icon{flex-shrink:0;margin:0}.links-grid a{color:var(--primary);font-weight:800;text-decoration:none}.links-grid a:hover{text-decoration:underline}.schedule-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:16px;background:var(--surface)}table{border-collapse:collapse;width:100%;min-width:560px}th,td{text-align:right;padding:13px 16px;border-bottom:1px solid var(--line)}th{background:#5145e510}tr:last-child td{border:0}.footer{padding:28px 0;border-top:1px solid var(--line);text-align:center;color:var(--muted);font-size:.88rem}.footer a{color:var(--primary)}.empty{color:var(--muted);text-align:center;padding:12px}
-/* دخول العناصر تدريجياً */
-.reveal{opacity:0;transform:translateY(18px);transition:opacity .65s ease,transform .65s ease}.reveal.visible{opacity:1;transform:none}.hero h1{animation:rise .75s both}.hero p{animation:rise .85s .08s both}.hero .actions{animation:rise .9s .15s both}@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
-@media(max-width:950px){.nav-links{position:absolute;display:none;top:70px;right:0;left:0;padding:12px 4%;background:var(--surface);border-bottom:1px solid var(--line);box-shadow:var(--shadow);flex-direction:column;align-items:stretch}.nav-links.open{display:flex}.nav-links a{padding:11px 13px}.menu-btn{display:block}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:650px){.container{width:min(100% - 28px,540px)}.nav{height:62px}.nav-links{top:62px}.brand{font-size:.92rem}.hero{padding:58px 0 45px}.hero h1{font-size:2rem}.hero p{font-size:.94rem}.stats{gap:16px 26px}.stats>div{min-width:100px}section{padding:44px 0}.grid,.tools-grid,.course-list{grid-template-columns:1fr}.card,.panel,.tool{padding:18px}.course{align-items:flex-start}.course-actions{flex-direction:column;align-items:flex-end;gap:5px}.gpa-row{grid-template-columns:minmax(0,1fr) 70px 88px 34px;gap:5px}.gpa-row .field{padding:9px 7px;font-size:.82rem}.task-form{flex-direction:column}.task-form .btn{width:100%}.tool-controls{flex-wrap:wrap}.tool-controls .btn{min-width:100px}.section-head{margin-bottom:22px}}
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.reveal{opacity:1;transform:none}}
+:root{--bg:#0f172a;--card:#1e293b;--acc:#38bdf8;--acc2:#a78bfa;--txt:#e2e8f0}
+*{box-sizing:border-box;margin:0;padding:0;font-family:Tahoma,Segoe UI,sans-serif}
+body{background:var(--bg);color:var(--txt);line-height:1.7}
+nav{position:sticky;top:0;background:#020617ee;display:flex;flex-wrap:wrap;gap:6px;padding:12px;justify-content:center;z-index:10}
+nav a{color:var(--txt);text-decoration:none;padding:6px 12px;border-radius:8px}
+nav a:hover{background:var(--acc);color:#000}
+header{text-align:center;padding:60px 20px;background:linear-gradient(135deg,#0ea5e9,#7c3aed)}
+header h1{font-size:2.4rem}
+section{max-width:1100px;margin:auto;padding:50px 20px}
+h2{color:var(--acc);margin-bottom:20px;border-right:4px solid var(--acc2);padding-right:10px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.card{background:var(--card);padding:18px;border-radius:14px;transition:.2s}
+.card:hover{transform:translateY(-4px);box-shadow:0 8px 20px #0006}
+.card h3{color:var(--acc2);margin-bottom:8px}
+.card a,.btn{display:inline-block;margin-top:10px;background:var(--acc);color:#000;padding:6px 14px;border-radius:8px;text-decoration:none;border:0;cursor:pointer;font-weight:bold}
+input,select{width:100%;padding:8px;margin:5px 0;border-radius:8px;border:0;background:#334155;color:#fff}
+#timer{font-size:2.5rem;text-align:center}
+#board{display:grid;grid-template-columns:repeat(8,1fr);width:min(90vw,440px);aspect-ratio:1;margin:auto;direction:ltr;border:4px solid var(--acc2)}
+.sq{display:flex;align-items:center;justify-content:center;font-size:min(8vw,38px);cursor:pointer;user-select:none}
+.l{background:#eeeed2;color:#000}.d{background:#769656;color:#000}
+.sel{background:#f6f669!important}.hint{box-shadow:inset 0 0 0 4px #38bdf8}
+.social{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.social a{padding:10px 18px;border-radius:30px;color:#fff;text-decoration:none;font-weight:bold}
+footer{text-align:center;padding:30px;background:#020617}
 </style>
 </head>
 <body>
-<header class="site-header"><div class="container nav">
-<a class="brand" href="#top"><span class="brand-mark">🎓</span><span>بوابة الطالب</span></a>
-<ul class="nav-links" id="navLinks"><li><a href="#services">الخدمات</a></li><li><a href="#curriculum">المواد وPDF</a></li><li><a href="#tools">الأدوات</a></li><li><a href="#tasks">المهام</a></li><li><a href="#schedule">الجدول</a></li><li><a href="#resources">مواقع مفيدة</a></li></ul>
-<div class="nav-actions"><button class="icon-btn" id="themeBtn" aria-label="تبديل المظهر">🌙</button><button class="menu-btn" id="menuBtn" aria-label="فتح القائمة">☰</button></div>
-</div></header>
-<main id="top">
-<section class="hero"><div class="container"><span class="eyebrow">مساحتك الدراسية الذكية</span><h1>كل أدواتك الجامعية في <span class="gradient">مكان واحد</span></h1><p>نظّم وقتك، تابع موادك، افتح ملازم PDF، احسب معدلك، واصل إلى مصادر تعلم موثوقة من هاتفك أو حاسوبك.</p><div class="actions"><a class="btn primary" href="#curriculum">📚 تصفح المواد</a><a class="btn secondary" href="#tools">ابدأ باستخدام الأدوات</a></div><div class="stats"><div><b>4</b><span>مراحل دراسية تجريبية</span></div><div><b>24/7</b><span>وصول من أي جهاز</span></div><div><b>6+</b><span>أدوات ومصادر</span></div></div></div></section>
-<section id="services"><div class="container"><div class="section-head"><h2>خدمات الطالب</h2><p>واجهة بسيطة وسريعة للاستخدام اليومي</p></div><div class="grid">
-<article class="card reveal"><div class="card-icon">📄</div><h3>ملفات المواد PDF</h3><p>روابط مباشرة للمحاضرات والملازم والملخصات لكل مادة.</p></article><article class="card reveal"><div class="card-icon">⏱️</div><h3>إدارة التركيز</h3><p>مؤقت بومودورو لموازنة وقت الدراسة والاستراحة.</p></article><article class="card reveal"><div class="card-icon">📊</div><h3>حاسبة المعدل</h3><p>احسب المعدل اعتماداً على الساعات والتقديرات.</p></article><article class="card reveal"><div class="card-icon">✅</div><h3>قائمة المهام</h3><p>أضف الواجبات وتابع إنجازها، مع حفظها على جهازك.</p></article><article class="card reveal"><div class="card-icon">🧠</div><h3>أدوات المذاكرة</h3><p>بطاقات مراجعة، عداد كلمات، ومحول وحدات.</p></article><article class="card reveal"><div class="card-icon">🌐</div><h3>مصادر موثوقة</h3><p>منصات تعليمية ومراجع وأدوات برمجية مفيدة.</p></article>
-</div></div></section>
-<section id="curriculum"><div class="container"><div class="section-head"><h2>المواد والملفات الدراسية</h2><p>اختر المرحلة ثم افتح ملف المادة أو حمّله</p></div><div class="tabs" id="stageTabs"></div><div class="course-list" id="courseList"></div><div class="hint">📌 أضف ملفات PDF الفعلية داخل مجلد <b>pdf</b> بجانب ملف الموقع، ثم عدّل أسماء الملفات في مصفوفة <b>CURRICULUM</b> أسفل الكود. الروابط الحالية أمثلة تحتاج إلى استبدالها بملفاتك.</div></div></section>
-<section id="tools"><div class="container"><div class="section-head"><h2>أدوات الطالب الحديثة</h2><p>أدوات عملية تعمل مباشرة داخل المتصفح</p></div><div class="tools-grid">
-<div class="tool reveal"><h3>⏳ مؤقت بومودورو</h3><div class="display" id="timer">25:00</div><div class="tool-controls"><button class="btn primary" id="timerToggle">ابدأ</button><button class="btn secondary" id="timerReset">إعادة ضبط</button></div><p class="empty" id="timerMode">جلسة تركيز — 25 دقيقة</p></div>
-<div class="tool reveal"><h3>📈 حاسبة المعدل التراكمي</h3><div class="gpa-rows" id="gpaRows"></div><div class="tool-controls" style="margin-top:10px"><button class="btn secondary" id="addCourse">＋ إضافة مادة</button></div><div class="gpa-summary"><div><span>المعدل</span><b id="gpa">0.00</b></div><div><span>الساعات</span><b id="hours">0</b></div><div><span>النقاط</span><b id="points">0.00</b></div></div></div>
-<div class="tool reveal"><h3>🧮 محول الوحدات</h3><select class="field" id="unitType"><option value="length">الطول</option><option value="weight">الوزن</option><option value="temp">الحرارة</option></select><div class="two"><input class="field" type="number" id="unitValue" value="1" aria-label="القيمة"><input class="field" type="number" id="unitResult" readonly aria-label="النتيجة"></div><div class="two"><select class="field" id="unitFrom"></select><select class="field" id="unitTo"></select></div></div>
-<div class="tool reveal"><h3>📝 عدّاد الكلمات والحروف</h3><textarea class="field" id="wordText" rows="5" placeholder="الصق ملخصك أو اكتب نصاً هنا..."></textarea><div class="two"><div class="result-text">الكلمات: <span id="wordCount">0</span></div><div class="result-text">الحروف: <span id="charCount">0</span></div></div></div>
-<div class="tool reveal"><h3>🗂️ بطاقات المراجعة</h3><input class="field" id="flashQuestion" placeholder="اكتب السؤال أو المصطلح"><textarea class="field" id="flashAnswer" rows="2" placeholder="اكتب الإجابة أو التعريف"></textarea><button class="btn primary" id="saveFlash">حفظ البطاقة</button><div class="result-text" id="flashCard" style="margin-top:12px">لا توجد بطاقة بعد</div><div class="tool-controls" style="margin-top:8px"><button class="btn secondary" id="showAnswer">إظهار الإجابة</button><button class="btn secondary" id="nextFlash">التالي</button></div><p class="empty" id="flashCount">0 بطاقة محفوظة</p></div>
-<div class="tool reveal"><h3>🎯 تحويل النسبة إلى تقدير</h3><input class="field" id="percent" type="number" min="0" max="100" placeholder="النسبة من 100"><div class="result-text" id="gradeResult">أدخل النسبة لعرض التقدير</div><p class="empty">سُلّم التقديرات تجريبي؛ عدّله وفق نظام جامعتك.</p></div>
-</div></div></section>
-<section id="tasks"><div class="container"><div class="section-head"><h2>قائمة المهام</h2><p>مهامك تحفظ محلياً في المتصفح على هذا الجهاز</p></div><div class="panel" style="max-width:760px;margin:auto"><form class="task-form" id="taskForm"><input class="field" id="taskInput" maxlength="140" placeholder="مثال: مراجعة محاضرة قواعد البيانات" required><button class="btn primary">إضافة مهمة</button></form><ul class="task-list" id="taskList"></ul></div></div></section>
-<section id="schedule"><div class="container"><div class="section-head"><h2>نموذج الجدول الدراسي</h2><p>استبدل البيانات الافتراضية بجدولك الفعلي</p></div><div class="schedule-wrap"><table><thead><tr><th>اليوم</th><th>المادة</th><th>الوقت</th><th>القاعة</th></tr></thead><tbody><tr><td>الأحد</td><td>مقدمة في البرمجة</td><td>08:30 – 10:00</td><td>مختبر 1</td></tr><tr><td>الاثنين</td><td>رياضيات متقطعة</td><td>10:00 – 11:30</td><td>قاعة A2</td></tr><tr><td>الثلاثاء</td><td>قواعد البيانات</td><td>09:00 – 10:30</td><td>مختبر 3</td></tr><tr><td>الأربعاء</td><td>شبكات الحاسوب</td><td>11:00 – 12:30</td><td>قاعة B1</td></tr></tbody></table></div></div></section>
-<section id="resources"><div class="container"><div class="section-head"><h2>مواقع مفيدة للطلاب</h2><p>روابط مختارة للتعلم والبحث والبرمجة والإنتاجية</p></div><div class="grid links-grid">
-<article class="card reveal"><div class="card-icon">🎓</div><div><h3>Coursera</h3><p>دورات جامعية ومهنية من جامعات ومؤسسات عالمية.</p><a href="https://www.coursera.org/" target="_blank" rel="noopener">زيارة الموقع ↗</a></div></article>
-<article class="card reveal"><div class="card-icon">📚</div><div><h3>Google Scholar</h3><p>البحث عن الأبحاث العلمية والمقالات الأكاديمية.</p><a href="https://scholar.google.com/" target="_blank" rel="noopener">زيارة الموقع ↗</a></div></article>
-<article class="card reveal"><div class="card-icon">💻</div><div><h3>freeCodeCamp</h3><p>تعلم البرمجة وتطوير الويب من خلال تطبيقات عملية.</p><a href="https://www.freecodecamp.org/" target="_blank" rel="noopener">زيارة الموقع ↗</a></div></article>
-<article class="card reveal"><div class="card-icon">🧑‍💻</div><div><h3>GitHub</h3><p>حفظ المشاريع البرمجية وبناء معرض أعمالك.</p><a href="https://github.com/" target="_blank" rel="noopener">زيارة الموقع ↗</a></div></article>
-<article class="card reveal"><div class="card-icon">🧮</div><div><h3>WolframAlpha</h3><p>مساعدة في المسائل الرياضية والحسابات العلمية.</p><a href="https://www.wolframalpha.com/" target="_blank" rel="noopener">زيارة الموقع ↗</a></div></article>
-<article class="card reveal"><div class="card-icon">🗒️</div><div><h3>Notion</h3><p>تنظيم الملاحظات والخطط والمشاريع الدراسية.</p><a href="https://www.notion.so/" target="_blank" rel="noopener">زيارة الموقع ↗</a></div></article>
-<article class="card reveal"><div class="card-icon">🔬</div><div><h3>DOAJ</h3><p>الوصول إلى مجلات علمية مفتوحة الوصول.</p><a href="https://doaj.org/" target="_blank" rel="noopener">زيارة الموقع ↗</a></div></article>
-<article class="card reveal"><div class="card-icon">🧠</div><div><h3>Anki</h3><p>بطاقات التكرار المتباعد لترسيخ المعلومات.</p><a href="https://apps.ankiweb.net/" target="_blank" rel="noopener">زيارة الموقع ↗</a></div></article>
-<article class="card reveal"><div class="card-icon">✍️</div><div><h3>Zotero</h3><p>إدارة المراجع والاستشهادات للأبحاث والتقارير.</p><a href="https://www.zotero.org/" target="_blank" rel="noopener">زيارة الموقع ↗</a></div></article>
-</div></div></section>
-</main><footer class="footer"><div class="container">© <span id="year"></span> بوابة الطالب الجامعي — عدّل المحتوى ليتناسب مع جامعتك وتخصصك.</div></footer>
-<script>
-// عدّل أسماء المواد وأسماء ملفات PDF وفق ملفاتك الفعلية داخل مجلد pdf.
-const CURRICULUM={
-'السنة الأولى':[{name:'مقدمة في البرمجة',code:'CS101',hours:3,pdf:'pdf/cs101.pdf'},{name:'مقدمة في الحاسوب',code:'CS100',hours:2,pdf:'pdf/cs100.pdf'},{name:'رياضيات 1',code:'MATH101',hours:3,pdf:'pdf/math101.pdf'},{name:'لغة إنجليزية',code:'ENG101',hours:2,pdf:'pdf/eng101.pdf'}],
-'السنة الثانية':[{name:'هياكل البيانات',code:'CS201',hours:3,pdf:'pdf/cs201.pdf'},{name:'البرمجة الكائنية',code:'CS202',hours:3,pdf:'pdf/cs202.pdf'},{name:'قواعد البيانات',code:'CS204',hours:3,pdf:'pdf/cs204.pdf'},{name:'شبكات الحاسوب',code:'CS205',hours:3,pdf:'pdf/cs205.pdf'}],
-'السنة الثالثة':[{name:'نظم التشغيل',code:'CS302',hours:3,pdf:'pdf/cs302.pdf'},{name:'هندسة البرمجيات',code:'CS303',hours:3,pdf:'pdf/cs303.pdf'},{name:'الذكاء الاصطناعي',code:'CS304',hours:3,pdf:'pdf/cs304.pdf'},{name:'أمن المعلومات',code:'CS305',hours:3,pdf:'pdf/cs305.pdf'}],
-'السنة الرابعة':[{name:'تعلم الآلة',code:'CS401',hours:3,pdf:'pdf/cs401.pdf'},{name:'الحوسبة السحابية',code:'CS402',hours:3,pdf:'pdf/cs402.pdf'},{name:'مشروع التخرج',code:'CS405',hours:3,pdf:'pdf/cs405.pdf'},{name:'تدريب ميداني',code:'CS406',hours:3,pdf:'pdf/cs406.pdf'}]};
-const $=s=>document.querySelector(s);
-// القائمة والمظهر
-$('#menuBtn').addEventListener('click',()=>$('#navLinks').classList.toggle('open'));document.querySelectorAll('.nav-links a').forEach(a=>a.addEventListener('click',()=>$('#navLinks').classList.remove('open')));
-const savedTheme=localStorage.getItem('student_theme');if(savedTheme)document.documentElement.dataset.theme=savedTheme;$('#themeBtn').textContent=document.documentElement.dataset.theme==='dark'?'☀️':'🌙';$('#themeBtn').addEventListener('click',()=>{const dark=document.documentElement.dataset.theme!=='dark';document.documentElement.dataset.theme=dark?'dark':'light';localStorage.setItem('student_theme',dark?'dark':'light');$('#themeBtn').textContent=dark?'☀️':'🌙'});
-// ظهور العناصر عند التمرير
-if('IntersectionObserver'in window){const io=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target)}}),{threshold:.12});document.querySelectorAll('.reveal').forEach(el=>io.observe(el))}else document.querySelectorAll('.reveal').forEach(el=>el.classList.add('visible'));
-// تبويبات المواد
-const tabs=$('#stageTabs'),list=$('#courseList');function showStage(stage){tabs.querySelectorAll('button').forEach(b=>b.classList.toggle('active',b.dataset.stage===stage));list.innerHTML=CURRICULUM[stage].map(c=>`<article class="course"><div><strong>${c.name}</strong><small>${c.code}</small></div><div class="course-actions"><span class="hours">${c.hours} ساعات</span><a class="pdf-link" href="${c.pdf}" target="_blank" rel="noopener">فتح PDF ↗</a></div></article>`).join('')}Object.keys(CURRICULUM).forEach((s,i)=>{const b=document.createElement('button');b.className='tab'+(!i?' active':'');b.textContent=s;b.dataset.stage=s;b.addEventListener('click',()=>showStage(s));tabs.append(b)});showStage(Object.keys(CURRICULUM)[0]);
-// بومودورو
-let seconds=1500,interval=null,running=false,mode='focus';function drawTimer(){ $('#timer').textContent=String(Math.floor(seconds/60)).padStart(2,'0')+':'+String(seconds%60).padStart(2,'0') }$('#timerToggle').addEventListener('click',()=>{if(running){clearInterval(interval);running=false;$('#timerToggle').textContent='استئناف';return}running=true;$('#timerToggle').textContent='إيقاف مؤقت';interval=setInterval(()=>{seconds--;drawTimer();if(seconds<=0){clearInterval(interval);running=false;if(mode==='focus'){mode='break';seconds=300;$('#timerMode').textContent='استراحة — 5 دقائق';alert('أحسنت! انتهت جلسة التركيز. خذ استراحة قصيرة.')}else{mode='focus';seconds=1500;$('#timerMode').textContent='جلسة تركيز — 25 دقيقة';alert('انتهت الاستراحة. حان وقت التركيز!')}$('#timerToggle').textContent='ابدأ';drawTimer()}},1000)});$('#timerReset').addEventListener('click',()=>{clearInterval(interval);running=false;mode='focus';seconds=1500;$('#timerMode').textContent='جلسة تركيز — 25 دقيقة';$('#timerToggle').textContent='ابدأ';drawTimer()});
-// حاسبة المعدل
-const grades=[['A',4],['A-',3.7],['B+',3.3],['B',3],['B-',2.7],['C+',2.3],['C',2],['C-',1.7],['D+',1.3],['D',1],['F',0]];function addGpaRow(){const row=document.createElement('div');row.className='gpa-row';row.innerHTML=`<input class="field" placeholder="اسم المادة" aria-label="اسم المادة"><input class="field credit" type="number" min="0" max="12" value="3" aria-label="الساعات"><select class="field grade" aria-label="التقدير">${grades.map(g=>`<option value="${g[1]}">${g[0]}</option>`).join('')}</select><button class="remove" type="button" aria-label="حذف المادة">×</button>`;row.querySelectorAll('input,select').forEach(el=>el.addEventListener('input',calcGpa));row.querySelector('.remove').addEventListener('click',()=>{row.remove();calcGpa()});$('#gpaRows').append(row);calcGpa()}function calcGpa(){let h=0,p=0;document.querySelectorAll('.gpa-row').forEach(r=>{const c=Math.max(0,Number(r.querySelector('.credit').value)||0),g=Number(r.querySelector('.grade').value);h+=c;p+=c*g});$('#gpa').textContent=h?(p/h).toFixed(2):'0.00';$('#hours').textContent=h;$('#points').textContent=p.toFixed(2)}$('#addCourse').addEventListener('click',addGpaRow);addGpaRow();addGpaRow();
-// محول الوحدات
-const unitSets={length:{m:'متر',km:'كيلومتر',cm:'سنتيمتر',mm:'مليمتر',mi:'ميل'},weight:{kg:'كيلوغرام',g:'غرام',mg:'مليغرام',lb:'باوند'},temp:{C:'مئوية',F:'فهرنهايت',K:'كلفن'}};const factors={length:{m:1,km:1000,cm:.01,mm:.001,mi:1609.344},weight:{kg:1,g:.001,mg:.000001,lb:.453592}};function populateUnits(){const type=$('#unitType').value,opts=Object.entries(unitSets[type]).map(([k,v])=>`<option value="${k}">${v}</option>`).join('');$('#unitFrom').innerHTML=opts;$('#unitTo').innerHTML=opts;$('#unitTo').selectedIndex=1;convert()}function convert(){const type=$('#unitType').value,v=Number($('#unitValue').value)||0,f=$('#unitFrom').value,t=$('#unitTo').value;let out;if(type==='temp'){let c=f==='C'?v:f==='F'?(v-32)*5/9:v-273.15;out=t==='C'?c:t==='F'?c*9/5+32:c+273.15}else out=v*factors[type][f]/factors[type][t];$('#unitResult').value=Number(out.toFixed(5))}$('#unitType').addEventListener('change',populateUnits);['#unitValue','#unitFrom','#unitTo'].forEach(s=>$(s).addEventListener('input',convert));populateUnits();
-// عداد الكلمات
-$('#wordText').addEventListener('input',e=>{const v=e.target.value.trim();$('#wordCount').textContent=v?v.split(/\s+/).length:0;$('#charCount').textContent=e.target.value.length});
-// بطاقات المراجعة تحفظ محلياً
-let flashcards=JSON.parse(localStorage.getItem('student_flashcards')||'[]'),flashIndex=0,answerShown=false;function renderFlash(){if(!flashcards.length){$('#flashCard').textContent='لا توجد بطاقة بعد';$('#flashCount').textContent='0 بطاقة محفوظة';return}const f=flashcards[flashIndex];$('#flashCard').textContent=answerShown?f.answer:f.question;$('#flashCount').textContent=`البطاقة ${flashIndex+1} من ${flashcards.length}` }$('#saveFlash').addEventListener('click',()=>{const q=$('#flashQuestion').value.trim(),a=$('#flashAnswer').value.trim();if(!q||!a){alert('اكتب السؤال والإجابة أولاً');return}flashcards.push({question:q,answer:a});localStorage.setItem('student_flashcards',JSON.stringify(flashcards));$('#flashQuestion').value='';$('#flashAnswer').value='';flashIndex=flashcards.length-1;answerShown=false;renderFlash()});$('#showAnswer').addEventListener('click',()=>{if(!flashcards.length)return;answerShown=!answerShown;renderFlash()});$('#nextFlash').addEventListener('click',()=>{if(!flashcards.length)return;flashIndex=(flashIndex+1)%flashcards.length;answerShown=false;renderFlash()});renderFlash();
-// تحويل النسبة إلى تقدير
-$('#percent').addEventListener('input',e=>{const n=Number(e.target.value);if(e.target.value===''||n<0||n>100){$('#gradeResult').textContent='أدخل نسبة بين 0 و100';return}const g=n>=90?'ممتاز':n>=80?'جيد جداً':n>=70?'جيد':n>=60?'متوسط':'راسب';$('#gradeResult').textContent=`${g} — ${n}%`});
-// المهام
-let tasks=JSON.parse(localStorage.getItem('student_tasks')||'[]');function saveTasks(){localStorage.setItem('student_tasks',JSON.stringify(tasks))}function renderTasks(){const ul=$('#taskList');ul.innerHTML='';if(!tasks.length){ul.innerHTML='<li class="empty">لا توجد مهام حالياً. أضف مهمتك الأولى.</li>';return}tasks.forEach(t=>{const li=document.createElement('li');li.className='task-item'+(t.done?' done':'');const cb=document.createElement('input');cb.type='checkbox';cb.checked=t.done;cb.addEventListener('change',()=>{t.done=cb.checked;saveTasks();renderTasks()});const span=document.createElement('span');span.textContent=t.text;const del=document.createElement('button');del.textContent='🗑️';del.setAttribute('aria-label','حذف المهمة');del.addEventListener('click',()=>{tasks=tasks.filter(x=>x.id!==t.id);saveTasks();renderTasks()});li.append(cb,span,del);ul.append(li)})}$('#taskForm').addEventListener('submit',e=>{e.preventDefault();const text=$('#taskInput').value.trim();if(!text)return;tasks.push({id:Date.now(),text,done:false});$('#taskInput').value='';saveTasks();renderTasks()});renderTasks();$('#year').textContent=new Date().getFullYear();
-</script>
-</body></html>
 
+<nav>
+  <a href="#tools">أدوات الدراسة</a><a href="#courses">الكورسات</a>
+  <a href="#certs">الشهادات</a><a href="#awards">الجوائز</a>
+  <a href="#games">ألعاب الذكاء</a><a href="#master">المنح والماستر</a>
+  <a href="#social">تواصل معنا</a>
+</nav>
+
+<header>
+  <h1>💻 منصة طلاب هندسة الحاسوب</h1>
+  <p>ادرس، تدرّب، احصل على شهادات، ونافس عالمياً</p>
+</header>
+
+<!-- أدوات الدراسة -->
+<section id="tools">
+  <h2>🛠️ أدوات الدراسة</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>⏱️ مؤقت بومودورو</h3>
+      <div id="timer">25:00</div>
+      <button class="btn" onclick="startT()">ابدأ</button>
+      <button class="btn" onclick="resetT()">إعادة</button>
+    </div>
+    <div class="card">
+      <h3>🔢 محوّل الأنظمة العددية</h3>
+      <input id="num" placeholder="اكتب رقماً عشرياً" oninput="conv()">
+      <p id="convOut">Binary: - <br>Hex: - <br>Octal: -</p>
+    </div>
+    <div class="card">
+      <h3>🎓 حاسبة المعدل</h3>
+      <input id="grades" placeholder="الدرجات: 90,85,70">
+      <input id="units" placeholder="الوحدات: 3,2,4">
+      <button class="btn" onclick="gpa()">احسب</button>
+      <p id="gpaOut"></p>
+    </div>
+    <div class="card">
+      <h3>⚡ بوابات منطقية</h3>
+      <select id="gate"><option>AND</option><option>OR</option><option>XOR</option><option>NAND</option><option>NOR</option></select>
+      <select id="a"><option>0</option><option>1</option></select>
+      <select id="b"><option>0</option><option>1</option></select>
+      <button class="btn" onclick="logic()">النتيجة</button>
+      <p id="logicOut"></p>
+    </div>
+  </div>
+</section>
+
+<!-- الكورسات -->
+<section id="courses">
+  <h2>📚 الكورسات</h2>
+  <div class="grid">
+    <div class="card"><h3>CS50 – Harvard</h3><p>أساسيات علوم الحاسوب والبرمجة.</p><a href="[cs50.harvard.edu](https://cs50.harvard.edu/x/)" target="_blank">ابدأ</a></div>
+    <div class="card"><h3>Nand2Tetris</h3><p>بناء حاسوب من البوابات المنطقية إلى نظام التشغيل.</p><a href="[nand2tetris.org](https://www.nand2tetris.org/)" target="_blank">ابدأ</a></div>
+    <div class="card"><h3>MIT OpenCourseWare</h3><p>مواد هندسة الحاسوب والكهرباء من MIT.</p><a href="[ocw.mit.edu](https://ocw.mit.edu/)" target="_blank">ابدأ</a></div>
+    <div class="card"><h3>Cisco Networking Academy</h3><p>الشبكات والأمن السيبراني.</p><a href="[netacad.com](https://www.netacad.com/)" target="_blank">ابدأ</a></div>
+    <div class="card"><h3>freeCodeCamp</h3><p>تطوير الويب والخوارزميات.</p><a href="[freecodecamp.org](https://www.freecodecamp.org/)" target="_blank">ابدأ</a></div>
+    <div class="card"><h3>إدراك</h3><p>كورسات عربية مجانية.</p><a href="[edraak.org](https://www.edraak.org/)" target="_blank">ابدأ</a></div>
+  </div>
+</section>
+
+<!-- الشهادات -->
+<section id="certs">
+  <h2>📜 شهادات حقيقية</h2>
+  <div class="grid">
+    <div class="card"><h3>CS50 Certificate</h3><p>شهادة مجانية من Harvard عبر edX.</p><a href="[cs50.harvard.edu](https://cs50.harvard.edu/x/)" target="_blank">التفاصيل</a></div>
+    <div class="card"><h3>Cisco CCNA</h3><p>شهادة احترافية في الشبكات.</p><a href="[netacad.com](https://www.netacad.com/)" target="_blank">التفاصيل</a></div>
+    <div class="card"><h3>Google Career Certificates</h3><p>دعم تقني، تحليل بيانات، أمن سيبراني.</p><a href="[grow.google](https://grow.google/certificates/)" target="_blank">التفاصيل</a></div>
+    <div class="card"><h3>freeCodeCamp</h3><p>شهادات مجانية بعد إنجاز المشاريع.</p><a href="[freecodecamp.org](https://www.freecodecamp.org/learn)" target="_blank">التفاصيل</a></div>
+    <div class="card"><h3>Microsoft Learn</h3><p>Azure وشهادات سحابية.</p><a href="[learn.microsoft.com](https://learn.microsoft.com/credentials/)" target="_blank">التفاصيل</a></div>
+    <div class="card"><h3>AWS Certifications</h3><p>شهادات الحوسبة السحابية.</p><a href="[aws.amazon.com](https://aws.amazon.com/certification/)" target="_blank">التفاصيل</a></div>
+  </div>
+</section>
+
+<!-- الجوائز -->
+<section id="awards">
+  <h2>🏆 مسابقات وجوائز حقيقية</h2>
+  <div class="grid">
+    <div class="card"><h3>ICPC</h3><p>أكبر مسابقة برمجة جامعية في العالم.</p><a href="[icpc.global](https://icpc.global/)" target="_blank">سجّل</a></div>
+    <div class="card"><h3>Huawei ICT Competition</h3><p>مسابقة عالمية في الشبكات والسحابة والذكاء الاصطناعي.</p><a href="[e.huawei.com](https://e.huawei.com/en/talent/ict-academy/)" target="_blank">سجّل</a></div>
+    <div class="card"><h3>Codeforces</h3><p>مسابقات أسبوعية وتصنيف عالمي.</p><a href="[codeforces.com](https://codeforces.com/)" target="_blank">شارك</a></div>
+    <div class="card"><h3>Kaggle</h3><p>مسابقات ذكاء اصطناعي بجوائز مالية.</p><a href="[kaggle.com](https://www.kaggle.com/competitions)" target="_blank">شارك</a></div>
+    <div class="card"><h3>Google Summer of Code</h3><p>مساهمة بالمصادر المفتوحة مع مكافأة مالية.</p><a href="[summerofcode.withgoogle.com](https://summerofcode.withgoogle.com/)" target="_blank">التفاصيل</a></div>
+    <div class="card"><h3>MLH Hackathons</h3><p>هاكاثونات عالمية بجوائز.</p><a href="[mlh.io](https://mlh.io/)" target="_blank">التفاصيل</a></div>
+  </div>
+</section>
+
+<!-- ألعاب الذكاء -->
+<section id="games">
+  <h2>♟️ ألعاب الذكاء – شطرنج ضد الحاسوب</h2>
+  <p style="text-align:center">أنت تلعب بالأبيض. اضغط على قطعة ثم على المربع المطلوب.</p>
+  <div id="board"></div>
+  <p id="status" style="text-align:center;margin-top:10px"></p>
+  <div style="text-align:center"><button class="btn" onclick="newGame()">لعبة جديدة</button></div>
+</section>
+
+<!-- المنح والماستر -->
+<section id="master">
+  <h2>🎓 المنح ودراسة الماستر</h2>
+  <div class="grid">
+    <div class="card"><h3>🇬🇧 Chevening</h3><p>ماستر لمدة سنة في بريطانيا، ممولة بالكامل.</p><a href="[chevening.org](https://www.chevening.org/)" target="_blank">قدّم</a></div>
+    <div class="card"><h3>🇺🇸 Fulbright</h3><p>ماستر في الولايات المتحدة.</p><a href="[foreign.fulbrightonline.org](https://foreign.fulbrightonline.org/)" target="_blank">قدّم</a></div>
+    <div class="card"><h3>🇩🇪 DAAD</h3><p>منح ألمانية للماستر والدكتوراه.</p><a href="[daad.de](https://www.daad.de/en/)" target="_blank">قدّم</a></div>
+    <div class="card"><h3>🇪🇺 Erasmus Mundus</h3><p>ماستر مشترك في عدة دول أوروبية.</p><a href="[eacea.ec.europa.eu](https://www.eacea.ec.europa.eu/scholarships/erasmus-mundus-catalogue_en)" target="_blank">قدّم</a></div>
+    <div class="card"><h3>🇹🇷 Türkiye Burslari</h3><p>منح الحكومة التركية.</p><a href="[turkiyeburslari.gov.tr](https://www.turkiyeburslari.gov.tr/)" target="_blank">قدّم</a></div>
+    <div class="card"><h3>🇭🇺 Stipendium Hungaricum</h3><p>منح هنغارية بتمويل كامل.</p><a href="[stipendiumhungaricum.hu](https://stipendiumhungaricum.hu/)" target="_blank">قدّم</a></div>
+    <div class="card"><h3>🇯🇵 MEXT</h3><p>منح الحكومة اليابانية.</p><a href="[studyinjapan.go.jp](https://www.studyinjapan.go.jp/en/)" target="_blank">قدّم</a></div>
+    <div class="card"><h3>🇰🇷 GKS</h3><p>منح الحكومة الكورية.</p><a href="[studyinkorea.go.kr](https://www.studyinkorea.go.kr/)" target="_blank">قدّم</a></div>
+  </div>
+  <div class="card" style="margin-top:20px">
+    <h3>📝 خطوات التقديم على الماستر</h3>
+    <p>1. اختر التخصص (ذكاء اصطناعي، شبكات، أمن سيبراني، أنظمة مدمجة).<br>
+    2. جهّز شهادة لغة (IELTS أو TOEFL).<br>
+    3. اكتب السيرة الذاتية ورسالة الدافع (Motivation Letter).<br>
+    4. اطلب رسائل توصية من أساتذتك.<br>
+    5. قدّم قبل الموعد النهائي بفترة كافية.</p>
+  </div>
+</section>
+
+<!-- التواصل الاجتماعي -->
+<section id="social">
+  <h2>🌐 تابعنا</h2>
+  <div class="social">
+    <a href="[facebook.com](https://facebook.com/)" target="_blank" style="background:#1877f2">Facebook</a>
+    <a href="[instagram.com](https://instagram.com/)" target="_blank" style="background:#e1306c">Instagram</a>
+    <a href="[t.me](https://t.me/)" target="_blank" style="background:#229ed9">Telegram</a>
+    <a href="[youtube.com](https://youtube.com/)" target="_blank" style="background:#ff0000">YouTube</a>
+    <a href="[x.com](https://x.com/)" target="_blank" style="background:#000">X</a>
+    <a href="[linkedin.com](https://linkedin.com/)" target="_blank" style="background:#0a66c2">LinkedIn</a>
+    <a href="[tiktok.com](https://tiktok.com/)" target="_blank" style="background:#111">TikTok</a>
+    <a href="[discord.com](https://discord.com/)" target="_blank" style="background:#5865f2">Discord</a>
+    <a href="[wa.me](https://wa.me/)" target="_blank" style="background:#25d366">WhatsApp</a>
+  </div>
+</section>
+
+<footer>© 2026 منصة طلاب هندسة الحاسوب – جميع الحقوق محفوظة</footer>
+
+<script>
+// ===== بومودورو =====
+let t=1500,iv=null;
+function show(){timer.textContent=String(Math.floor(t/60)).padStart(2,'0')+':'+String(t%60).padStart(2,'0')}
+function startT(){if(iv)return;iv=setInterval(()=>{if(t>0){t--;show()}else{clearInterval(iv);iv=null;alert('انتهى الوقت! خذ استراحة ☕')}},1000)}
+function resetT(){clearInterval(iv);iv=null;t=1500;show()}
+
+// ===== محوّل الأنظمة =====
+function conv(){const n=parseInt(num.value);convOut.innerHTML=isNaN(n)?'Binary: - <br>Hex: - <br>Octal: -':
+`Binary: ${n.toString(2)}<br>Hex: ${n.toString(16).toUpperCase()}<br>Octal: ${n.toString(8)}`}
+
+// ===== المعدل =====
+function gpa(){const g=grades.value.split(',').map(Number),u=units.value.split(',').map(Number);
+if(g.length!==u.length||g.some(isNaN)||u.some(isNaN)){gpaOut.textContent='تأكد أن عدد الدرجات يساوي عدد الوحدات';return}
+let s=0,su=0;g.forEach((x,i)=>{s+=x*u[i];su+=u[i]});gpaOut.textContent='المعدل: '+(s/su).toFixed(2)}
+
+// ===== البوابات =====
+function logic(){const A=+a.value,B=+b.value,G=gate.value;
+const r={AND:A&B,OR:A|B,XOR:A^B,NAND:1-(A&B),NOR:1-(A|B)}[G];logicOut.textContent=`${G}(${A},${B}) = ${r}`}
+
+// ===== الشطرنج =====
+const P={K:'♔',Q:'♕',R:'♖',B:'♗',N:'♘',P:'♙',k:'♚',q:'♛',r:'♜',b:'♝',n:'♞',p:'♟'};
+const V={p:1,n:3,b:3,r:5,q:9,k:100};
+let B,sel=null,over=false;
+function newGame(){
+  B=["rnbqkbnr","pppppppp","........","........","........","........","PPPPPPPP","RNBQKBNR"].map(r=>r.split(''));
+  sel=null;over=false;status.textContent='دورك';draw();
+}
+const isW=p=>p!=='.'&&p===p.toUpperCase();
+const isB=p=>p!=='.'&&p===p.toLowerCase();
+function moves(r,c){
+  const p=B[r][c],w=isW(p),t=p.toLowerCase(),out=[];
+  const enemy=x=>w?isB(x):isW(x);
+  const add=(R,C)=>{if(R<0||R>7||C<0||C>7)return false;const x=B[R][C];
+    if(x==='.'){out.push([R,C]);return true}if(enemy(x))out.push([R,C]);return false};
+  const slide=d=>d.forEach(([dr,dc])=>{let R=r+dr,C=c+dc;while(add(R,C)){R+=dr;C+=dc}});
+  if(t==='p'){const d=w?-1:1,s=w?6:1;
+    if(B[r+d]&&B[r+d][c]==='.'){out.push([r+d,c]);if(r===s&&B[r+2*d][c]==='.')out.push([r+2*d,c])}
+    [-1,1].forEach(dc=>{const x=B[r+d]?.[c+dc];if(x&&enemy(x))out.push([r+d,c+dc])})}
+  if(t==='n')[[1,2],[2,1],[-1,2],[-2,1],[1,-2],[2,-1],[-1,-2],[-2,-1]].forEach(([a,b])=>add(r+a,c+b));
+  if(t==='k')[[1,0],[-1,0],[0,1],[0,-1],[1,1],[1,-1],[-1,1],[-1,-1]].forEach(([a,b])=>add(r+a,c+b));
+  if(t==='r'||t==='q')slide([[1,0],[-1,0],[0,1],[0,-1]]);
+  if(t==='b'||t==='q')slide([[1,1],[1,-1],[-1,1],[-1,-1]]);
+  return out;
+}
+function move(r,c,R,C){
+  const cap=B[R][C];B[R][C]=B[r][c];B[r][c]='.';
+  if(B[R][C]==='P'&&R===0)B[R][C]='Q';
+  if(B[R][C]==='p'&&R===7)B[R][C]='q';
+  if(cap==='k'){over=true;status.textContent='🎉 فزت!'}
+  if(cap==='K'){over=true;status.textContent='💀 الحاسوب فاز'}
+}
+function ai(){
+  let all=[];
+  for(let r=0;r<8;r++)for(let c=0;c<8;c++)if(isB(B[r][c]))
+    moves(r,c).forEach(([R,C])=>{const x=B[R][C];
+      all.push({r,c,R,C,s:(x==='.'?0:V[x.toLowerCase()]*10)-V[B[r][c]]*0.1+Math.random()})});
+  if(!all.length){over=true;status.textContent='تعادل';return}
+  all.sort((a,b)=>b.s-a.s);const m=all[0];move(m.r,m.c,m.R,m.C);
+  if(!over)status.textContent='دورك';draw();
+}
+function draw(){
+  board.innerHTML='';const h=sel?moves(...sel).map(x=>x.join()):[];
+  for(let r=0;r<8;r++)for(let c=0;c<8;c++){
+    const d=document.createElement('div');
+    d.className='sq '+((r+c)%2?'d':'l')+(sel&&sel[0]===r&&sel[1]===c?' sel':'')+(h.includes(r+','+c)?' hint':'');
+    d.textContent=B[r][c]==='.'?'':P[B[r][c]];
+    d.onclick=()=>click(r,c);board.appendChild(d);
+  }
+}
+function click(r,c){
+  if(over)return;
+  if(sel&&moves(...sel).some(([R,C])=>R===r&&C===c)){
+    move(sel[0],sel[1],r,c);sel=null;draw();
+    if(!over){status.textContent='الحاسوب يفكر...';setTimeout(ai,400)}return;
+  }
+  sel=isW(B[r][c])?[r,c]:null;draw();
+}
+newGame();
+</script>
+</body>
+</html>
